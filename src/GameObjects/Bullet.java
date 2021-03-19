@@ -53,7 +53,7 @@ public class Bullet extends GameObject {
 		
 		int []pointX = new int [4];
 		int []pointY = new int [4];
-		
+		// Draw-bullet branch
 		nx = distance * Math.cos(angleDirection);
 		ny = distance * Math.sin(angleDirection);
 		bulletPos.x = (float) nx;
