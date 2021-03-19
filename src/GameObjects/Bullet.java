@@ -3,9 +3,8 @@ package GameObjects;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 
 import Utils.PVector;
 import Utils.Toast;
@@ -34,7 +33,7 @@ public class Bullet extends GameObject {
 		super();
 		
 		originPos = new PVector(originX, originY); 
-		bulletPos = new PVector();
+		bulletPos = new PVector(originX, originY);
 		
 		setShape(new Rectangle(Gun.gunDimension.width, 0, Bullet.bulletWidth, Bullet.bulletHeight));
 		
@@ -50,34 +49,44 @@ public class Bullet extends GameObject {
 		
 		double nx = 0;
 		double ny = 0;
+		PVector p;
 		
 		int []pointX = new int [4];
 		int []pointY = new int [4];
 		// Draw-bullet branch
-		nx = distance * Math.cos(angleDirection);
-		ny = distance * Math.sin(angleDirection);
-		bulletPos.x = (float) nx;
-		bulletPos.y = (float) ny;
-		pointX[0] = (int)(originPos.x + nx);
-		pointY[0] = (int)(originPos.y + ny);
+		
+		bulletPos.x += bulletSpeed * Math.cos(angleDirection);
+		bulletPos.y += bulletSpeed * Math.sin(angleDirection);
+		
+		g2d.drawOval((int)bulletPos.x, (int)bulletPos.y, 10, 10);
+		
+		// 0, 0
+		pointX[0] = (int)(bulletPos.x);
+		pointY[0] = (int)(bulletPos.y);
 //		g2d.fillOval((int)(originPos.x + nx), (int)(originPos.y + ny), r, r);
 		
-		nx = (distance + bulletDimension.width) * Math.cos(angleDirection);
-		ny = (distance + bulletDimension.width) * Math.sin(angleDirection);
-		pointX[1] = (int)(originPos.x + nx);
-		pointY[1] = (int)(originPos.y + ny);
+		//20, 0
+		p = rotatePoint(bulletDimension.width, 0, angleDirection);
+		nx = bulletPos.x + p.x;
+		ny = bulletPos.y + p.y;
+		pointX[1] = (int)(nx);
+		pointY[1] = (int)(ny);
 //		g2d.fillOval((int)(originPos.x + nx), (int)(originPos.y + ny), r, r);
 		
-		nx = bulletPos.x + 0 * Math.cos(angleDirection) - bulletDimension.height * Math.sin(angleDirection);
-		ny = bulletPos.y + bulletDimension.height * Math.cos(angleDirection) + 0 * Math.sin(angleDirection);
-		pointX[3] = (int)(originPos.x + nx);
-		pointY[3] = (int)(originPos.y + ny);
+		// 20, 10
+		p = rotatePoint(bulletDimension.width, bulletDimension.height, angleDirection);
+		nx = bulletPos.x + p.x;
+		ny = bulletPos.y + p.y;
+		pointX[2] = (int)(nx);
+		pointY[2] = (int)(ny);
 //		g2d.fillOval((int)(originPos.x + nx), (int)(originPos.y + ny), r, r);
 		
-		nx = bulletPos.x + bulletDimension.width * Math.cos(angleDirection) - bulletDimension.height * Math.sin(angleDirection);
-		ny = bulletPos.y + bulletDimension.height * Math.cos(angleDirection) + bulletDimension.width * Math.sin(angleDirection);
-		pointX[2] = (int)(originPos.x + nx);
-		pointY[2] = (int)(originPos.y + ny);
+		// 0, 10
+		p = rotatePoint(0, bulletDimension.height, angleDirection);
+		nx = bulletPos.x + p.x;
+		ny = bulletPos.y + p.y;
+		pointX[3] = (int)(nx);
+		pointY[3] = (int)(ny);
 //		g2d.fillOval((int)(originPos.x + nx), (int)(originPos.y + ny), r, r);
 		
 		g2d.fillPolygon(pointX, pointY, 4);
@@ -86,6 +95,16 @@ public class Bullet extends GameObject {
 
 	}
 
+	public PVector rotatePoint(int x, int y, double angle) {
+		
+		float nx = (float) (x * Math.cos(angle) - y * Math.sin(angle));
+		float ny = (float) (y * Math.cos(angle) + x * Math.sin(angle));
+		
+		PVector p = new PVector(nx, ny);
+		
+		return p;
+	}
+	
 	public void update() {
 		
 		distance += bulletSpeed;
