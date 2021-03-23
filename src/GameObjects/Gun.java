@@ -28,8 +28,9 @@ public class Gun extends GameObject implements MouseListener{
 	
 	public Gun(PVector p) {
 		playerPos = p;
-		
 		angleDirection = 0;
+		
+		setShape(new HitBox(gunDimension, p, angleDirection));
 		
 	}
 	
@@ -73,14 +74,16 @@ public class Gun extends GameObject implements MouseListener{
 		
 //		Toast.setText("angleDirection (radians) = " + (angleDirection));
 		
-		AffineTransform old = g2d.getTransform();
-		g2d.translate(playerPos.x, playerPos.y);
-		g2d.rotate(angleDirection);
+		hitBox.draw(g);
 		
-		g2d.fill(new Rectangle((int)gunDimension.getWidth(), (int)gunDimension.getHeight()));
-		
-        g2d.setTransform(old);
-        g2d.translate(0, 0);
+//		AffineTransform old = g2d.getTransform();
+//		g2d.translate(playerPos.x, playerPos.y);
+//		g2d.rotate(angleDirection);
+//		
+//		g2d.fill(new Rectangle((int)gunDimension.getWidth(), (int)gunDimension.getHeight()));
+//		
+//        g2d.setTransform(old);
+//        g2d.translate(0, 0);
 		
         update();
         
@@ -91,6 +94,8 @@ public class Gun extends GameObject implements MouseListener{
 		SwingUtilities.convertPointFromScreen(mousePos = MouseInfo.getPointerInfo().getLocation(), Frame.game);
 		
 		angleDirection = (Math.atan2((mousePos.y - playerPos.y), (mousePos.x - playerPos.x)));
+		
+		hitBox.updateAngle(angleDirection);
 		
 	}
 	

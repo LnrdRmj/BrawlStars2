@@ -12,16 +12,14 @@ import Utils.Toast;
 public class Bullet extends GameObject {
 
 	public static Dimension bulletDimension = new Dimension(20, 10);
-	public int bulletSpeed = 5;
+	public int bulletSpeed = 10;
 
 	public static int bulletWidth;
 	public static int bulletHeight;
 
 	private double angleDirection;
-	private double distance;
 
 	private PVector bulletPos;
-	private PVector originPos;
 
 	public Bullet(int originX, int originY, int mouseX, int mouseY) {
 
@@ -32,14 +30,14 @@ public class Bullet extends GameObject {
 	public Bullet(int originX, int originY, double angleDirection) {
 		super();
 		
-		originPos = new PVector(originX, originY); 
+		//originPos = new PVector(originX, originY); 
 		bulletPos = new PVector(originX, originY);
 		
-		setShape(new Rectangle(Gun.gunDimension.width, 0, Bullet.bulletWidth, Bullet.bulletHeight));
+		//setShape(new Rectangle(Gun.gunDimension.width, 0, Bullet.bulletWidth, Bullet.bulletHeight));
+		setShape(new HitBox(bulletDimension, bulletPos, angleDirection));
 		
 		Toast.setText("Angle = " + Math.toDegrees(angleDirection));
 		this.angleDirection = angleDirection;
-		this.distance = 0;
 		
 	}
 
@@ -47,49 +45,7 @@ public class Bullet extends GameObject {
 		
 		Graphics2D g2d = (Graphics2D) g;
 		
-		double nx = 0;
-		double ny = 0;
-		PVector p;
-		
-		int []pointX = new int [4];
-		int []pointY = new int [4];
-		// Draw-bullet branch
-		
-		bulletPos.x += bulletSpeed * Math.cos(angleDirection);
-		bulletPos.y += bulletSpeed * Math.sin(angleDirection);
-		
-		g2d.drawOval((int)bulletPos.x, (int)bulletPos.y, 10, 10);
-		
-		// 0, 0
-		pointX[0] = (int)(bulletPos.x);
-		pointY[0] = (int)(bulletPos.y);
-//		g2d.fillOval((int)(originPos.x + nx), (int)(originPos.y + ny), r, r);
-		
-		//20, 0
-		p = rotatePoint(bulletDimension.width, 0, angleDirection);
-		nx = bulletPos.x + p.x;
-		ny = bulletPos.y + p.y;
-		pointX[1] = (int)(nx);
-		pointY[1] = (int)(ny);
-//		g2d.fillOval((int)(originPos.x + nx), (int)(originPos.y + ny), r, r);
-		
-		// 20, 10
-		p = rotatePoint(bulletDimension.width, bulletDimension.height, angleDirection);
-		nx = bulletPos.x + p.x;
-		ny = bulletPos.y + p.y;
-		pointX[2] = (int)(nx);
-		pointY[2] = (int)(ny);
-//		g2d.fillOval((int)(originPos.x + nx), (int)(originPos.y + ny), r, r);
-		
-		// 0, 10
-		p = rotatePoint(0, bulletDimension.height, angleDirection);
-		nx = bulletPos.x + p.x;
-		ny = bulletPos.y + p.y;
-		pointX[3] = (int)(nx);
-		pointY[3] = (int)(ny);
-//		g2d.fillOval((int)(originPos.x + nx), (int)(originPos.y + ny), r, r);
-		
-		g2d.fillPolygon(pointX, pointY, 4);
+		hitBox.draw(g2d);
 		
 		update();
 
@@ -107,8 +63,10 @@ public class Bullet extends GameObject {
 	
 	public void update() {
 		
-		distance += bulletSpeed;
-		setBounds((int) hitBox.getX() + bulletSpeed, (int) hitBox.getY(), bulletDimension.width, bulletDimension.height);
+		bulletPos.x += bulletSpeed * Math.cos(angleDirection);
+		bulletPos.y += bulletSpeed * Math.sin(angleDirection);
+		//distance += bulletSpeed;
+		//setBounds((int) hitBox.getX() + bulletSpeed, (int) hitBox.getY(), bulletDimension.width, bulletDimension.height);
 		
 	}
 
