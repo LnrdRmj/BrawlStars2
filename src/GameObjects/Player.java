@@ -1,9 +1,9 @@
 package GameObjects;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -17,6 +17,7 @@ public class Player extends GameObject implements KeyListener{
 	private PVector pos = new PVector(0, 0);
 	private int health = 100;
 	
+	private Dimension thick = new Dimension(25, 25);
 	private int thicc = 25;
 	
 	private final float MAX_VELOCITY = 5;
@@ -40,7 +41,7 @@ public class Player extends GameObject implements KeyListener{
 		this.velocity = new PVector(0, 0);
 		
 		// Sets the hitbox
-		super.setShape(new Rectangle((int)pos.x, (int)pos.y, thicc, thicc));
+		super.setShape(new HitBox(thick, pos, 0));
 		
 		forces = new Force [4];
 		
@@ -58,7 +59,7 @@ public class Player extends GameObject implements KeyListener{
 		
 		Graphics2D g2d = (Graphics2D)g;
 		
-		g2d.fill(((Rectangle)super.getShape()));
+		hitBox.draw(g);
 		
 		update();
 		
@@ -74,7 +75,7 @@ public class Player extends GameObject implements KeyListener{
 		
 		this.pos.add(velocity);
 		
-		((Rectangle)hitBox).setBounds((int)pos.x, (int)pos.y, thicc, thicc);
+		//((Rectangle)hitBox).setBounds((int)pos.x, (int)pos.y, thicc, thicc);
 		
 	}
 	

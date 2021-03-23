@@ -6,13 +6,13 @@ import java.awt.Shape;
 
 public abstract class GameObject {
 
-	protected Rectangle hitBox;
+	protected HitBox hitBox;
 	
-	public void setShape(Rectangle hitBox) {
+	public void setShape(HitBox hitBox) {
 		this.hitBox = hitBox;
 	}
 	
-	public Shape getShape() {
+	public HitBox getShape() {
 		return this.hitBox;
 	}
 	
