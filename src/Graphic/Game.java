@@ -1,17 +1,13 @@
 package Graphic;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.util.Vector;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import GameObjects.GameObject;
 import GameObjects.Player;
+import Utils.CollisionEngine;
 import Utils.Renderer;
 import Utils.Toast;
 
@@ -76,6 +72,13 @@ public class Game extends JPanel implements Runnable{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void addGameObject(GameObject toAdd) {
+		
+		Renderer.addGameObjectToRender(toAdd);
+		//CollisionEngine.addGameObject(toAdd);
+		
 	}
 	
 }

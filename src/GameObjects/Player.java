@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import Graphic.Game;
 import Utils.Force;
 import Utils.Friction;
 import Utils.PVector;
@@ -49,9 +50,6 @@ public class Player extends GameObject implements KeyListener{
 			forces[i] = new Force();
 		
 		gun = new Gun(pos);
-		
-		Renderer.addGameObjectToRender(this);
-		Renderer.addGameObjectToRender(gun);
 		
 	}
 	

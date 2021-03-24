@@ -27,6 +27,8 @@ public class Gun extends GameObject implements MouseListener{
 	Point mousePos;
 	
 	public Gun(PVector p) {
+		super();
+		
 		playerPos = p;
 		angleDirection = 0;
 		
@@ -36,7 +38,7 @@ public class Gun extends GameObject implements MouseListener{
 	
 	public void shoot(int mouseX, int mouseY) {
 		
-		Renderer.addGameObjectToRender(new Bullet((int)playerPos.x, (int)playerPos.y, angleDirection));
+		new Bullet((int)playerPos.x, (int)playerPos.y, angleDirection);
 		
 	}
 
