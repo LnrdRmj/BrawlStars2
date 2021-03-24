@@ -92,4 +92,15 @@ public class HitBox {
 		
 	}
 
+	public boolean collide(HitBox hb) {
+		
+		return false;
+		
+	}
+	
+	public void hit(HitBox hb) {
+		
+		
+		
+	}
 }

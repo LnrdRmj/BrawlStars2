@@ -21,8 +21,6 @@ public class Game extends JPanel implements Runnable{
 	private Thread mainThread;
 	
 	private Player gamer;
-
-	
 	
 	Game(){
 		
@@ -77,7 +75,7 @@ public class Game extends JPanel implements Runnable{
 	public static void addGameObject(GameObject toAdd) {
 		
 		Renderer.addGameObjectToRender(toAdd);
-		//CollisionEngine.addGameObject(toAdd);
+		CollisionEngine.addGameObject(toAdd);
 		
 	}
 	

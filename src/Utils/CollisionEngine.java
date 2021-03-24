@@ -4,22 +4,28 @@ import java.awt.Graphics;
 import java.util.Vector;
 
 import GameObjects.GameObject;
+import GameObjects.HitBox;
 
 public class CollisionEngine {
 
-	private static Vector<GameObject> gameObjects = new Vector<>();
+	private static Vector<GameObject> gameObjects= new Vector<>();
 	
-	public static void addGameObject(GameObject g) {
-		gameObjects.add(g);
+	public static void addGameObject(GameObject toAdd) {
+		gameObjects.add(toAdd);
 	}
 	
-	public static void calculateCollision(Graphics g) {
+	public static void calculateCollision() {
 		
-		for (GameObject obj :  gameObjects)
-			for (GameObject obj2 :  gameObjects)
-				if (obj != obj2 && obj.collide(obj2)) {
+		for (GameObject obj :  gameObjects) {
+			HitBox hb = obj.getHitBox();
+			
+			for (GameObject obj2 :  gameObjects) {
+				HitBox hb2 = obj2.getHitBox();
+				if (obj != obj2 && hb.collide(hb2)) {
 					obj.hit(obj2);
 				}
+			}
+		}
 		
 	}
 	

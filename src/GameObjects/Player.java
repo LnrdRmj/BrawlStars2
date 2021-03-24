@@ -207,5 +207,25 @@ public class Player extends GameObject implements KeyListener{
 	public Gun getGun() {
 		return gun;
 	}
+
+	@Override
+	public void hit(GameObject hit) {
+		
+		//TODO Gestire cosa fare quando vengono colpiti vari oggetti
+		
+		switch (hit.getClass().toString().substring(7)) {
+		case "Bullet":
+			
+			break;
+			
+		case "Enemy":
+			
+			break;
+
+		default:
+			break;
+		}
+		
+	}
 	
 }

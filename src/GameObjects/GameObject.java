@@ -34,14 +34,11 @@ public abstract class GameObject {
 		hitBox.setBounds(x, y, width, height);
 		
 	}
-
-	public boolean collide(GameObject obj2) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	public HitBox getHitBox() {
+		return hitBox;
 	}
-
-	public void hit(GameObject obj2) {
-		
-	}
+	
+	public abstract void hit(GameObject hit);
 	
 }

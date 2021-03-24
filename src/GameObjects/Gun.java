@@ -100,5 +100,12 @@ public class Gun extends GameObject implements MouseListener{
 		hitBox.updateAngle(angleDirection);
 		
 	}
+
+	@Override
+	public void hit(GameObject hit) {
+		
+		
+		
+	}
 	
 }

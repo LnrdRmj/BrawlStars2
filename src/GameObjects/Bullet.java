@@ -69,4 +69,22 @@ public class Bullet extends GameObject {
 		
 	}
 
+	@Override
+	public void hit(GameObject hit) {
+		
+		switch (hit.getClass().toString().substring(7)) {
+		case "Player":
+			
+			break;
+			
+		case "Enemy":
+			
+			break;
+
+		default:
+			break;
+		}
+		
+	}
+
 }
