@@ -10,6 +10,21 @@ public abstract class GameObject {
 	protected HitBox hitBox;
 	protected Color fillColor;
 	
+	public GameObject (HitBox hitBox) {
+		this();
+		
+		this.hitBox = hitBox;
+		
+	}
+	
+	public GameObject (Color fillColor) {
+		
+		this();
+		
+		this.fillColor = fillColor;
+		
+	}
+	
 	public GameObject() {
 		fillColor = Color.decode("#FFFFFF");
 		
@@ -23,6 +38,14 @@ public abstract class GameObject {
 	
 	public HitBox getShape() {
 		return this.hitBox;
+	}
+	
+	public void setFillColor(Color fillColor) {
+		this.fillColor = fillColor;
+	}
+	
+	public Color getFillColor() {
+		return fillColor;
 	}
 	
 	public abstract void draw(Graphics g);

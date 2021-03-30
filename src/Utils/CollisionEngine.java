@@ -1,6 +1,5 @@
 package Utils;
 
-import java.awt.Graphics;
 import java.util.Vector;
 
 import GameObjects.GameObject;

@@ -15,6 +15,10 @@ public class HitBox {
 	private int pointX[];
 	private int pointY[];
 	
+	public HitBox(Dimension dim, PVector origin) {
+		this(dim, origin, 0);
+	}
+	
 	public HitBox(Dimension dim, PVector origin, double angle) {
 		super();
 		this.angle = angle;
@@ -94,13 +98,27 @@ public class HitBox {
 
 	public boolean collide(HitBox hb) {
 		
+		int [] objX = hb.getPointsX();
+		int [] objY =  hb.getPointsY();
+		
+		PVector [] perpendicularVector = new PVector[4]; 
+		
+		for (int i = 0; i < objX.length; ++i) {
+			
+			
+			
+		}
+				
 		return false;
 		
 	}
 	
-	public void hit(HitBox hb) {
-		
-		
-		
+	public int[] getPointsX() {
+		return this.pointX;
 	}
+
+	public int[] getPointsY() {
+		return this.pointY;
+	}
+	
 }

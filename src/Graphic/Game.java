@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import GameObjects.Enemy;
 import GameObjects.GameObject;
 import GameObjects.Player;
 import Utils.CollisionEngine;
@@ -30,6 +31,7 @@ public class Game extends JPanel implements Runnable{
 		this.setBackground(Color.decode("#202020"));
 		
 		gamer = new Player();
+		new Enemy();
 		
 		mainThread = new Thread(this);
 		mainThread.start();

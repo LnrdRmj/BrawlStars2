@@ -1,5 +1,6 @@
 package GameObjects;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -29,6 +30,8 @@ public class Bullet extends GameObject {
 	public Bullet(int originX, int originY, double angleDirection) {
 		super();
 		
+		setFillColor(Color.decode("#E26D5C"));
+		
 		//originPos = new PVector(originX, originY); 
 		bulletPos = new PVector(originX, originY);
 		
@@ -44,6 +47,7 @@ public class Bullet extends GameObject {
 		
 		Graphics2D g2d = (Graphics2D) g;
 		
+		g.setColor(fillColor);
 		hitBox.draw(g2d);
 		
 		update();
