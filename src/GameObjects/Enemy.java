@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import Collision.HitBox;
 import Utils.PVector;
 
 public class Enemy extends GameObject {

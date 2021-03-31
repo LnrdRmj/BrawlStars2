@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import Collision.HitBox;
 import Graphic.Game;
 import Utils.PVector;
 import Utils.Toast;

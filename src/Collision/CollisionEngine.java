@@ -1,9 +1,8 @@
-package Utils;
+package Collision;
 
 import java.util.Vector;
 
 import GameObjects.GameObject;
-import GameObjects.HitBox;
 
 public class CollisionEngine {
 

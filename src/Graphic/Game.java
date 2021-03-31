@@ -5,10 +5,10 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import Collision.CollisionEngine;
 import GameObjects.Enemy;
 import GameObjects.GameObject;
 import GameObjects.Player;
-import Utils.CollisionEngine;
 import Utils.Renderer;
 import Utils.Toast;
 

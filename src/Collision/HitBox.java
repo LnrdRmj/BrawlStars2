@@ -1,4 +1,4 @@
-package GameObjects;
+package Collision;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

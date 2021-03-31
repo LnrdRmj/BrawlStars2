@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import Collision.HitBox;
 import Graphic.Game;
 import Utils.Force;
 import Utils.Friction;

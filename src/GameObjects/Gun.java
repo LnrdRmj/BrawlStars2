@@ -12,6 +12,7 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.SwingUtilities;
 
+import Collision.HitBox;
 import Graphic.Frame;
 import Utils.PVector;
 import Utils.Renderer;

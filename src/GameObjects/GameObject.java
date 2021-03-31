@@ -3,6 +3,7 @@ package GameObjects;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import Collision.HitBox;
 import Graphic.Game;
 
 public abstract class GameObject {
