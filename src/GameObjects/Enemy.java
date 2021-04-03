@@ -17,6 +17,7 @@ public class Enemy extends GameObject {
 		setFillColor(Color.decode("#7F95D1"));
 		pos = new PVector(400, 600);
 		
+		setName("Nemico");
 		
 	}
 	
@@ -36,7 +37,9 @@ public class Enemy extends GameObject {
 
 	@Override
 	public void hit(GameObject hit) {
-		// TODO Auto-generated method stub
+		
+		System.out.println("Passa");
+		setFillColor(Color.decode("#32a852"));
 
 	}
 

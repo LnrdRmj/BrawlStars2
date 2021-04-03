@@ -12,6 +12,8 @@ import Utils.CollisionEngine;
 import Utils.Renderer;
 import Utils.Toast;
 
+import Global.Global;
+
 public class Game extends JPanel implements Runnable{
 	
 	/**
@@ -48,7 +50,10 @@ public class Game extends JPanel implements Runnable{
 		
 		super.paint(g);
 		
+		Global.g = g;
+		
 		Renderer.render(g);
+		CollisionEngine.calculateCollision();
 		
 	}
 
