@@ -35,8 +35,6 @@ public class Player extends GameObject implements KeyListener{
 		
 		super();
 		
-		setName("Giocatore");
-		
 		pos = new PVector(0, 0);
 		health = 100;
 		thicc = 25;
@@ -56,6 +54,8 @@ public class Player extends GameObject implements KeyListener{
 	}
 	
 	public void draw(Graphics g) {
+		
+		Graphics2D g2d = (Graphics2D)g;
 		
 		hitBox.draw(g);
 		
@@ -82,7 +82,7 @@ public class Player extends GameObject implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		
 //		System.out.println(e.toString());
-		//System.out.println("Hai premuto " + e.getKeyChar());
+		System.out.println("Hai premuto " + e.getKeyChar());
 		
 		switch(e.getKeyChar()) {
 		case 'w':

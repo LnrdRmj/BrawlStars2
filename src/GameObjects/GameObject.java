@@ -9,7 +9,6 @@ public abstract class GameObject {
 
 	protected HitBox hitBox;
 	protected Color fillColor;
-	protected String name;
 	
 	public GameObject (HitBox hitBox) {
 		this();
@@ -49,14 +48,6 @@ public abstract class GameObject {
 		return fillColor;
 	}
 	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public abstract void draw(Graphics g);
 	
 	public abstract void update();

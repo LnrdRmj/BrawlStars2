@@ -31,7 +31,6 @@ public class Bullet extends GameObject {
 		super();
 		
 		setFillColor(Color.decode("#E26D5C"));
-		setName("Proiettile");
 		
 		//originPos = new PVector(originX, originY); 
 		bulletPos = new PVector(originX, originY);
@@ -76,8 +75,6 @@ public class Bullet extends GameObject {
 
 	@Override
 	public void hit(GameObject hit) {
-		
-		
 		
 		switch (hit.getClass().toString().substring(7)) {
 		case "Player":
