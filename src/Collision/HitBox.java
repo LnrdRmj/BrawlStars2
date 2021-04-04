@@ -3,8 +3,12 @@ package Collision;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Vector;
 
 import Utils.PVector;
+import Utils.PVectorUtil;
+
+import Global.Global;
 
 public class HitBox {
 
@@ -99,17 +103,78 @@ public class HitBox {
 	public boolean collide(HitBox hb) {
 		
 		int [] objX = hb.getPointsX();
-		int [] objY =  hb.getPointsY();
+		int [] objY = hb.getPointsY();
 		
-		PVector [] perpendicularVector = new PVector[4]; 
+		//PVector [] perpendicularVector = new PVector[pointX.length + objX.length]; 
 		
-		for (int i = 0; i < objX.length; ++i) {
+		Vector <PVector> perpendicularVector = new Vector <PVector>();
+		Vector <PVector> edges1 = new Vector <PVector>();
+		Vector <PVector> edges2 = new Vector <PVector>();
+		
+		for (int i = 0; i < pointX.length; ++i) {
 			
+			int currentVertex = i;
+			int nextVertex = (i + 1) % pointX.length;
 			
+			// Serve per creare il vettore tra due vertici consecutivi cioè lo spigolo spigolo			
+			PVector perpendicular = PVectorUtil.vectorBetween(new PVector(pointX[currentVertex], pointY[currentVertex]),new PVector(pointX[nextVertex], pointY[nextVertex]));
+			edges1.add(perpendicular);
+			
+			// Con questa funzione calcoliamo il vettore perpendicolare allo spigolo
+			perpendicular = PVectorUtil.perpendicularVector(perpendicular);
+			
+			perpendicularVector.add(perpendicular);
+			
+			//Global.g.drawLine((int)origin.x, (int) origin.y, (int)origin.x + (int) perpendicularVector[i].x * 10, (int)origin.y + (int) perpendicularVector[i].y * 10);
+		}
+		
+		for(int i = 0; i < objX.length; ++i) {
+			
+			int currentVertex = i;
+			int nextVertex = (i + 1) % pointX.length;
+			
+			// Serve per creare il vettore tra due vertici consecutivi o il coseddetto spigolo			
+			PVector perpendicular = PVectorUtil.vectorBetween(new PVector(objX[currentVertex], objY[currentVertex]),new PVector(objX[nextVertex], objY[nextVertex]));
+			edges2.add(perpendicular);
+			
+			// Con questa funzione calcoliamo il vettore perpendicolare allo spigolo
+			perpendicular = PVectorUtil.perpendicularVector(perpendicular);
+			
+			perpendicularVector.add(perpendicular);
 			
 		}
+		
+		for(PVector perp : perpendicularVector) {
+			
+			float max1 = -Integer.MAX_VALUE, max2 = -Integer.MAX_VALUE;
+			float min1 =  Integer.MAX_VALUE, min2 =  Integer.MAX_VALUE;
+			
+			for (PVector edge : edges1) {
 				
-		return false;
+				float res = PVectorUtil.dotProduct(perp, edge);
+				
+				// Per trovare il max min
+				if 		(max1 < res) max1 = res;
+				else if	(min1 > res) min1 = res;
+				
+			}
+			
+			for (PVector edge : edges2) {
+				
+				float res = PVectorUtil.dotProduct(perp, edge);
+				
+				// Per trovare il max min
+				if 		(max2 < res) max2 = res;
+				else if	(min2 > res) min2 = res;
+				
+			}
+			
+			// Se non c'è intersezione all'ora non c'è collisione tra gli oggetti
+			if (!(min1 < max2 && min2 < max1)) return false;
+			
+		}
+		
+		return true;
 		
 	}
 	
