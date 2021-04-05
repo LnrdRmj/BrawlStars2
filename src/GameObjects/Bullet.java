@@ -1,9 +1,13 @@
 package GameObjects;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import Collision.HitBox;
+import Graphic.Frame;
+import Graphic.Game;
 import Utils.PVector;
 import Utils.Toast;
 
@@ -28,6 +32,9 @@ public class Bullet extends GameObject {
 	public Bullet(int originX, int originY, double angleDirection) {
 		super();
 		
+		setFillColor(Color.decode("#E26D5C"));
+		setName("Proiettile");
+		
 		//originPos = new PVector(originX, originY); 
 		bulletPos = new PVector(originX, originY);
 		
@@ -43,6 +50,7 @@ public class Bullet extends GameObject {
 		
 		Graphics2D g2d = (Graphics2D) g;
 		
+		g.setColor(fillColor);
 		hitBox.draw(g2d);
 		
 		update();
@@ -63,8 +71,36 @@ public class Bullet extends GameObject {
 		
 		bulletPos.x += bulletSpeed * Math.cos(angleDirection);
 		bulletPos.y += bulletSpeed * Math.sin(angleDirection);
-		//distance += bulletSpeed;
-		//setBounds((int) hitBox.getX() + bulletSpeed, (int) hitBox.getY(), bulletDimension.width, bulletDimension.height);
+
+		// If the bullet goes off-screen delete it
+		if (bulletPos.x < - 100 || 
+			bulletPos.x > Frame.gameWidth + 100 ||
+			bulletPos.y < -100 ||
+			bulletPos.y > Frame.gameHeight) {
+			
+			Game.removeGameObject(this);
+			
+		}
+		
+	}
+
+	@Override
+	public void hit(GameObject hit) {
+		
+		
+		
+		switch (hit.getClass().toString().substring(7)) {
+		case "Player":
+			
+			break;
+			
+		case "Enemy":
+			
+			break;
+
+		default:
+			break;
+		}
 		
 	}
 

@@ -12,6 +12,7 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.SwingUtilities;
 
+import Collision.HitBox;
 import Graphic.Frame;
 import Utils.PVector;
 import Utils.Renderer;
@@ -27,6 +28,9 @@ public class Gun extends GameObject implements MouseListener{
 	Point mousePos;
 	
 	public Gun(PVector p) {
+		super();
+		
+		setName("Pistola");
 		playerPos = p;
 		angleDirection = 0;
 		
@@ -36,7 +40,7 @@ public class Gun extends GameObject implements MouseListener{
 	
 	public void shoot(int mouseX, int mouseY) {
 		
-		Renderer.addGameObjectToRender(new Bullet((int)playerPos.x, (int)playerPos.y, angleDirection));
+		new Bullet((int)playerPos.x, (int)playerPos.y, angleDirection);
 		
 	}
 
@@ -96,6 +100,13 @@ public class Gun extends GameObject implements MouseListener{
 		angleDirection = (Math.atan2((mousePos.y - playerPos.y), (mousePos.x - playerPos.x)));
 		
 		hitBox.updateAngle(angleDirection);
+		
+	}
+
+	@Override
+	public void hit(GameObject hit) {
+		
+		
 		
 	}
 	

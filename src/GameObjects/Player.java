@@ -7,6 +7,8 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import Collision.HitBox;
+import Graphic.Game;
 import Utils.Force;
 import Utils.Friction;
 import Utils.PVector;
@@ -34,6 +36,8 @@ public class Player extends GameObject implements KeyListener{
 		
 		super();
 		
+		setName("Giocatore");
+		
 		pos = new PVector(0, 0);
 		health = 100;
 		thicc = 25;
@@ -50,14 +54,9 @@ public class Player extends GameObject implements KeyListener{
 		
 		gun = new Gun(pos);
 		
-		Renderer.addGameObjectToRender(this);
-		Renderer.addGameObjectToRender(gun);
-		
 	}
 	
 	public void draw(Graphics g) {
-		
-		Graphics2D g2d = (Graphics2D)g;
 		
 		hitBox.draw(g);
 		
@@ -84,7 +83,7 @@ public class Player extends GameObject implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		
 //		System.out.println(e.toString());
-		System.out.println("Hai premuto " + e.getKeyChar());
+		//System.out.println("Hai premuto " + e.getKeyChar());
 		
 		switch(e.getKeyChar()) {
 		case 'w':
@@ -208,6 +207,26 @@ public class Player extends GameObject implements KeyListener{
 	
 	public Gun getGun() {
 		return gun;
+	}
+
+	@Override
+	public void hit(GameObject hit) {
+		
+		//TODO Gestire cosa fare quando vengono colpiti vari oggetti
+		
+		switch (hit.getClass().toString().substring(7)) {
+		case "Bullet":
+			
+			break;
+			
+		case "Enemy":
+			
+			break;
+
+		default:
+			break;
+		}
+		
 	}
 	
 }
