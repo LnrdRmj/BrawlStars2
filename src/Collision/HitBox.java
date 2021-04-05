@@ -31,6 +31,9 @@ public class HitBox {
 		
 		pointX = new int [4];
 		pointY = new int [4];
+		
+		update();
+		
 	}
 	
 	public void setBounds(int x, int y, int width, int height) {
@@ -46,16 +49,21 @@ public class HitBox {
 		
 		Graphics2D g2d = (Graphics2D)g;
 		
+		update();
+		
+		g2d.fillPolygon(pointX, pointY, 4);
+		
+	}
+	
+	private void update() {
+		
 		double nx = 0;
 		double ny = 0;
 		PVector p;
 		
-		//g2d.drawOval((int)origin.x, (int)origin.y, 10, 10);
-		
 		// 0, 0
 		pointX[0] = (int)(origin.x);
 		pointY[0] = (int)(origin.y);
-//		g2d.fillOval((int)(originPos.x + nx), (int)(originPos.y + ny), r, r);
 		
 		//20, 0
 		p = rotatePoint(dim.width, 0, angle);
@@ -63,7 +71,6 @@ public class HitBox {
 		ny = origin.y + p.y;
 		pointX[1] = (int)(nx);
 		pointY[1] = (int)(ny);
-//		g2d.fillOval((int)(originPos.x + nx), (int)(originPos.y + ny), r, r);
 		
 		// 20, 10
 		p = rotatePoint(dim.width, dim.height, angle);
@@ -71,17 +78,14 @@ public class HitBox {
 		ny = origin.y + p.y;
 		pointX[2] = (int)(nx);
 		pointY[2] = (int)(ny);
-//		g2d.fillOval((int)(originPos.x + nx), (int)(originPos.y + ny), r, r);
-		
+
 		// 0, 10
 		p = rotatePoint(0, dim.height, angle);
 		nx = origin.x + p.x;
 		ny = origin.y + p.y;
 		pointX[3] = (int)(nx);
 		pointY[3] = (int)(ny);
-		
-		g2d.fillPolygon(pointX, pointY, 4);
-		
+
 	}
 	
 	public PVector rotatePoint(int x, int y, double angle) {
@@ -105,8 +109,6 @@ public class HitBox {
 		int [] objX = hb.getPointsX();
 		int [] objY = hb.getPointsY();
 		
-		//PVector [] perpendicularVector = new PVector[pointX.length + objX.length]; 
-		
 		Vector <PVector> perpendicularVector = new Vector <PVector>();
 		Vector <PVector> edges1 = new Vector <PVector>();
 		Vector <PVector> edges2 = new Vector <PVector>();
@@ -116,61 +118,71 @@ public class HitBox {
 			int currentVertex = i;
 			int nextVertex = (i + 1) % pointX.length;
 			
+			PVector vertex1 = new PVector(pointX[currentVertex], pointY[currentVertex]);
+			PVector vertex2 = new PVector(pointX[nextVertex], pointY[nextVertex]);
+			
 			// Serve per creare il vettore tra due vertici consecutivi cioè lo spigolo spigolo			
-			PVector perpendicular = PVectorUtil.vectorBetween(new PVector(pointX[currentVertex], pointY[currentVertex]),new PVector(pointX[nextVertex], pointY[nextVertex]));
-			edges1.add(perpendicular);
+			PVector vectorBetween = PVectorUtil.vectorBetween(vertex1, vertex2);
+			edges1.add(vectorBetween);
 			
 			// Con questa funzione calcoliamo il vettore perpendicolare allo spigolo
-			perpendicular = PVectorUtil.perpendicularVector(perpendicular);
-			
+			PVector perpendicular = PVectorUtil.perpendicularVector(vectorBetween);
 			perpendicularVector.add(perpendicular);
 			
-			//Global.g.drawLine((int)origin.x, (int) origin.y, (int)origin.x + (int) perpendicularVector[i].x * 10, (int)origin.y + (int) perpendicularVector[i].y * 10);
 		}
-		
+
 		for(int i = 0; i < objX.length; ++i) {
 			
 			int currentVertex = i;
-			int nextVertex = (i + 1) % pointX.length;
+			int nextVertex = (i + 1) % objX.length;
+			
+			PVector vertex1 = new PVector(objX[currentVertex], objY[currentVertex]);
+			PVector vertex2 = new PVector(objX[nextVertex], objY[nextVertex]);
 			
 			// Serve per creare il vettore tra due vertici consecutivi o il coseddetto spigolo			
-			PVector perpendicular = PVectorUtil.vectorBetween(new PVector(objX[currentVertex], objY[currentVertex]),new PVector(objX[nextVertex], objY[nextVertex]));
-			edges2.add(perpendicular);
+			PVector vectorBetween = PVectorUtil.vectorBetween(vertex1, vertex2);
+			edges2.add(vectorBetween);
 			
 			// Con questa funzione calcoliamo il vettore perpendicolare allo spigolo
-			perpendicular = PVectorUtil.perpendicularVector(perpendicular);
+			PVector perpendicular = PVectorUtil.perpendicularVector(vectorBetween);
 			
 			perpendicularVector.add(perpendicular);
 			
 		}
+		
+		PVector vertex = new PVector();
 		
 		for(PVector perp : perpendicularVector) {
 			
 			float max1 = -Integer.MAX_VALUE, max2 = -Integer.MAX_VALUE;
 			float min1 =  Integer.MAX_VALUE, min2 =  Integer.MAX_VALUE;
 			
-			for (PVector edge : edges1) {
-				
-				float res = PVectorUtil.dotProduct(perp, edge);
-				
+			for (int i = 0; i < pointX.length; ++i) {
+				vertex.x = pointX[i];
+				vertex.y = pointY[i];
+
+				float res = PVectorUtil.dotProduct(perp, vertex);
+
 				// Per trovare il max min
 				if 		(max1 < res) max1 = res;
-				else if	(min1 > res) min1 = res;
+				if		(min1 > res) min1 = res;
 				
 			}
 			
-			for (PVector edge : edges2) {
+			for (int i = 0; i < objX.length; ++i) {
+				vertex.x = objX[i];
+				vertex.y = objY[i];
 				
-				float res = PVectorUtil.dotProduct(perp, edge);
-				
+				float res = PVectorUtil.dotProduct(perp, vertex);
+
 				// Per trovare il max min
 				if 		(max2 < res) max2 = res;
-				else if	(min2 > res) min2 = res;
+				if		(min2 > res) min2 = res;
 				
 			}
 			
 			// Se non c'è intersezione all'ora non c'è collisione tra gli oggetti
-			if (!(min1 < max2 && min2 < max1)) return false;
+			if (!((min1 < max2 && min1 > min2) || (min2 < max1 && min2 > min1))) return false;
 			
 		}
 		

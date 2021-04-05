@@ -10,11 +10,13 @@ public class PVectorUtil {
 	
 	public static PVector perpendicularVector(PVector p1) {
 		
-		float tmp = p1.x;
-		p1.x = -p1.y;
-		p1.y = tmp;
+		PVector p2 = new PVector(p1.x, p1.y);
 		
-		return p1;
+		float tmp = p2.x;
+		p2.x = -p2.y;
+		p2.y = tmp;
+		
+		return p2;
 		
 	}
 

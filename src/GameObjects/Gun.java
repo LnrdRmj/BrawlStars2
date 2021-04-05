@@ -30,6 +30,7 @@ public class Gun extends GameObject implements MouseListener{
 	public Gun(PVector p) {
 		super();
 		
+		setName("Pistola");
 		playerPos = p;
 		angleDirection = 0;
 		

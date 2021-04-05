@@ -14,7 +14,6 @@ public abstract class GameObject {
 	
 	public GameObject (HitBox hitBox) {
 		this();
-		
 		this.hitBox = hitBox;
 		
 	}
@@ -22,17 +21,22 @@ public abstract class GameObject {
 	public GameObject (Color fillColor) {
 		
 		this();
-		
 		this.fillColor = fillColor;
 		
 	}
 	
 	public GameObject() {
-		fillColor = Color.decode("#FFFFFF");
 		
+		fillColor = Color.decode("#FFFFFF");
 		Game.addGameObject(this);
 		
 	}
+	
+	public abstract void hit(GameObject hit);
+
+	public abstract void draw(Graphics g);
+	
+	public abstract void update();
 	
 	public void setShape(HitBox hitBox) {
 		this.hitBox = hitBox;
@@ -57,10 +61,6 @@ public abstract class GameObject {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public abstract void draw(Graphics g);
-	
-	public abstract void update();
 	
 	public void setBounds(int x, int y, int width, int height) {
 		
@@ -71,7 +71,5 @@ public abstract class GameObject {
 	public HitBox getHitBox() {
 		return hitBox;
 	}
-	
-	public abstract void hit(GameObject hit);
 	
 }

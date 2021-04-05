@@ -9,11 +9,14 @@ public class Frame extends JFrame{
 	
 	public static JPanel game = new Game();
 	
+	public final static int gameWidth  = 1200;
+	public final static int gameHeight = 800;
+	
 	public Frame() {
 		
 		super();
 		
-		this.setBounds(new Rectangle(1200, 800));
+		this.setBounds(new Rectangle(gameWidth, gameHeight));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		this.add(game);

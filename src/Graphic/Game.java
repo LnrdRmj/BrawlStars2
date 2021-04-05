@@ -43,6 +43,8 @@ public class Game extends JPanel implements Runnable {
 		this.addKeyListener(gamer);
 		this.addMouseListener(gamer.getGun());
 
+		
+		
 	}
 
 	@Override
@@ -84,6 +86,13 @@ public class Game extends JPanel implements Runnable {
 		Renderer.addGameObjectToRender(toAdd);
 		CollisionEngine.addGameObject(toAdd);
 
+	}
+	
+	public static void removeGameObject(GameObject toRemove) {
+		
+		Renderer.removeGameObjectToRender(toRemove);
+		CollisionEngine.removeGameObject(toRemove);
+		
 	}
 
 }

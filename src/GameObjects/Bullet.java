@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import Collision.HitBox;
+import Graphic.Frame;
 import Graphic.Game;
 import Utils.PVector;
 import Utils.Toast;
@@ -70,8 +71,16 @@ public class Bullet extends GameObject {
 		
 		bulletPos.x += bulletSpeed * Math.cos(angleDirection);
 		bulletPos.y += bulletSpeed * Math.sin(angleDirection);
-		//distance += bulletSpeed;
-		//setBounds((int) hitBox.getX() + bulletSpeed, (int) hitBox.getY(), bulletDimension.width, bulletDimension.height);
+
+		// If the bullet goes off-screen delete it
+		if (bulletPos.x < - 100 || 
+			bulletPos.x > Frame.gameWidth + 100 ||
+			bulletPos.y < -100 ||
+			bulletPos.y > Frame.gameHeight) {
+			
+			Game.removeGameObject(this);
+			
+		}
 		
 	}
 

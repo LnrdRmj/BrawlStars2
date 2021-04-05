@@ -6,7 +6,8 @@ import GameObjects.GameObject;
 
 public class CollisionEngine {
 
-	private static Vector<GameObject> gameObjects= new Vector<>();
+	private static Vector<GameObject> gameObjects = new Vector<>();
+	private static Vector<GameObject> toRemove 	  = new Vector<>();
 	
 	public static void addGameObject(GameObject toAdd) {
 		gameObjects.add(toAdd);
@@ -27,6 +28,14 @@ public class CollisionEngine {
 				}
 			}
 		}
+		
+		gameObjects.removeAll(toRemove);
+		
+	}
+
+	public static void removeGameObject(GameObject go) {
+		
+		toRemove.add(go);
 		
 	}
 	
