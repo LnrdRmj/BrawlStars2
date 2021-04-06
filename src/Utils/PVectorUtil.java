@@ -24,4 +24,14 @@ public class PVectorUtil {
 		return p1.x * p2.x + p1.y * p2.y;
 	}
 	
+	public static PVector rotatePoint(int x, int y, double angle) {
+		
+		float nx = (float) (x * Math.cos(angle) - y * Math.sin(angle));
+		float ny = (float) (y * Math.cos(angle) + x * Math.sin(angle));
+		
+		PVector p = new PVector(nx, ny);
+		
+		return p;
+	}
+	
 }

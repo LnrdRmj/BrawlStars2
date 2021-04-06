@@ -8,8 +8,6 @@ import java.util.Vector;
 import Utils.PVector;
 import Utils.PVectorUtil;
 
-import Global.Global;
-
 public class HitBox {
 
 	private Dimension dim;
@@ -66,21 +64,21 @@ public class HitBox {
 		pointY[0] = (int)(origin.y);
 		
 		//20, 0
-		p = rotatePoint(dim.width, 0, angle);
+		p = PVectorUtil.rotatePoint(dim.width, 0, angle);
 		nx = origin.x + p.x;
 		ny = origin.y + p.y;
 		pointX[1] = (int)(nx);
 		pointY[1] = (int)(ny);
 		
 		// 20, 10
-		p = rotatePoint(dim.width, dim.height, angle);
+		p = PVectorUtil.rotatePoint(dim.width, dim.height, angle);
 		nx = origin.x + p.x;
 		ny = origin.y + p.y;
 		pointX[2] = (int)(nx);
 		pointY[2] = (int)(ny);
 
 		// 0, 10
-		p = rotatePoint(0, dim.height, angle);
+		p = PVectorUtil.rotatePoint(0, dim.height, angle);
 		nx = origin.x + p.x;
 		ny = origin.y + p.y;
 		pointX[3] = (int)(nx);
@@ -88,16 +86,6 @@ public class HitBox {
 
 	}
 	
-	public PVector rotatePoint(int x, int y, double angle) {
-		
-		float nx = (float) (x * Math.cos(angle) - y * Math.sin(angle));
-		float ny = (float) (y * Math.cos(angle) + x * Math.sin(angle));
-		
-		PVector p = new PVector(nx, ny);
-		
-		return p;
-	}
-
 	public void updateAngle(double angleDirection) {
 		
 		angle = angleDirection;
