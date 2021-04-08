@@ -32,7 +32,6 @@ public class Game extends JPanel implements Runnable {
 		this.add(Toast.toast);
 		this.setBackground(Color.decode("#202020"));
 
-		gamer = new Player();
 		new Enemy();
 
 		mainThread = new Thread(this);
@@ -40,10 +39,6 @@ public class Game extends JPanel implements Runnable {
 
 		// Con questo il keylistener funziona
 		this.setFocusable(true);
-		this.addKeyListener(gamer);
-		this.addMouseListener(gamer.getGun());
-
-		
 		
 	}
 
@@ -95,4 +90,14 @@ public class Game extends JPanel implements Runnable {
 		
 	}
 
+	public void setPlayer(Player player) {
+		
+		this.gamer = player;
+		this.addKeyListener(gamer);
+		this.addMouseListener(gamer.getGun());
+		
+	}
+	
+	
+	
 }

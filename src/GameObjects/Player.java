@@ -7,6 +7,8 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import Animation.Animator;
+import Graphic.Frame;
 import Collision.HitBox;
 import Graphic.Game;
 import Utils.Force;
@@ -41,6 +43,8 @@ public class Player extends GameObject implements KeyListener{
 		pos = new PVector(0, 0);
 		health = 100;
 		thicc = 25;
+		
+		new Animator(pos, Frame.game, "Sprites\\17.png");
 		
 		this.velocity = new PVector(0, 0);
 		

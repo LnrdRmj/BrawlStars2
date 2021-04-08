@@ -1,4 +1,4 @@
-package AnimationTest;
+package Animation;
 
 import java.awt.Rectangle;
 

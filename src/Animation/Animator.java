@@ -1,6 +1,5 @@
-package AnimationTest;
+package Animation;
 
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -78,7 +77,6 @@ public class Animator {
 		int height = rStep;
 		
 		panel.getGraphics().drawImage(framesImage.getSubimage(x, y, width, height), (int)pos.x, (int)pos.y, null);
-		System.out.println("Disegnato");
 		
 	}
 	
