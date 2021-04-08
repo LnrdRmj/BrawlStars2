@@ -26,7 +26,6 @@ public class Enemy extends GameObject {
 	public void draw(Graphics g) {
 		
 		g.setColor(fillColor);
-		//g.fillRect((int)pos.x, (int)pos.y, 50, 50);
 		hitBox.draw(g);
 	}
 
