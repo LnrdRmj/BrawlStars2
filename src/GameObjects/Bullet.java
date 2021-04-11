@@ -35,10 +35,8 @@ public class Bullet extends GameObject {
 		setFillColor(Color.decode("#E26D5C"));
 		setName("Proiettile");
 		
-		//originPos = new PVector(originX, originY); 
 		bulletPos = new PVector(originX, originY);
 		
-		//setShape(new Rectangle(Gun.gunDimension.width, 0, Bullet.bulletWidth, Bullet.bulletHeight));
 		setShape(new HitBox(bulletDimension, bulletPos, angleDirection));
 		
 		Toast.setText("Angle = " + Math.toDegrees(angleDirection));
@@ -86,8 +84,6 @@ public class Bullet extends GameObject {
 
 	@Override
 	public void hit(GameObject hit) {
-		
-		
 		
 		switch (hit.getClass().toString().substring(7)) {
 		case "Player":

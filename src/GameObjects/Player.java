@@ -2,19 +2,15 @@ package GameObjects;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import Animation.Animator;
-import Graphic.Frame;
 import Collision.HitBox;
-import Graphic.Game;
+import Graphic.Canvas;
+import Graphic.Frame;
 import Utils.Force;
 import Utils.Friction;
 import Utils.PVector;
-import Utils.Renderer;
 
 public class Player extends GameObject implements KeyListener{
 
@@ -34,17 +30,19 @@ public class Player extends GameObject implements KeyListener{
 	
 	private Gun gun;
 	
-	public Player(){
+	public Player(Canvas canvas){
 		
 		super();
 		
 		setName("Giocatore");
 		
+		canvas.addKeyListener(this);
+		
 		pos = new PVector(0, 0);
 		health = 100;
 		thicc = 25;
 		
-		new Animator(pos, Frame.game, "Sprites\\17.png");
+		//new Animator(pos, Frame.game, "Sprites/17.png");
 		
 		this.velocity = new PVector(0, 0);
 		
@@ -57,6 +55,7 @@ public class Player extends GameObject implements KeyListener{
 			forces[i] = new Force();
 		
 		gun = new Gun(pos);
+		canvas.addMouseListener(gun);
 		
 	}
 	
@@ -87,7 +86,7 @@ public class Player extends GameObject implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		
 //		System.out.println(e.toString());
-		//System.out.println("Hai premuto " + e.getKeyChar());
+//		System.out.println("Hai premuto " + e.getKeyChar());
 		
 		switch(e.getKeyChar()) {
 		case 'w':
