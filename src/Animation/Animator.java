@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 
 import Utils.PVector;
 
+import Global.Global;
+
 public class Animator {
 
 	private final int AVANTI = 0;
@@ -77,7 +79,8 @@ public class Animator {
 		int height = rStep;
 		
 		panel.getGraphics().drawImage(framesImage.getSubimage(x, y, width, height), (int)pos.x, (int)pos.y, null);
-		
+//		Global.g.drawImage(framesImage.getSubimage(x, y, width, height), (int)pos.x, (int)pos.y, null);
+
 	}
 	
 	private BufferedImage getImage(String path) {

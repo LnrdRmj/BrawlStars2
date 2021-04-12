@@ -78,7 +78,6 @@ public class Gun extends GameObject implements MouseListener{
 		// Left-click
 		case 1:
 			timer.cancel();
- 			System.out.println("Purge");
 			break;
 
 		default:

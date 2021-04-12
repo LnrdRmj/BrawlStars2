@@ -12,8 +12,6 @@ import GameObjects.Player;
 import Utils.Renderer;
 import Utils.Toast;
 
-import Global.Global;
-
 public class Game extends JPanel implements Runnable {
 
 	/**
@@ -32,8 +30,6 @@ public class Game extends JPanel implements Runnable {
 		this.add(Toast.toast);
 		this.setBackground(Color.decode("#202020"));
 
-		new Enemy();
-
 		mainThread = new Thread(this);
 		mainThread.start();
 
@@ -41,16 +37,13 @@ public class Game extends JPanel implements Runnable {
 		this.setFocusable(true);
 		
 	}
-
+	
 	@Override
 	public void paint(Graphics g) {
 
 		super.paint(g);
 
-		Global.g = g;
-
 		Renderer.render(g);
-		CollisionEngine.calculateCollision();
 
 	}
 
@@ -59,8 +52,10 @@ public class Game extends JPanel implements Runnable {
 
 		while (true) {
 
-			repaint();
-
+			//repaint();
+			
+			CollisionEngine.calculateCollision();
+			
 			// 60 Frames BABYYYY
 			wait(16);
 
@@ -97,7 +92,5 @@ public class Game extends JPanel implements Runnable {
 		this.addMouseListener(gamer.getGun());
 		
 	}
-	
-	
 	
 }
