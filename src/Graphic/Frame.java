@@ -3,10 +3,6 @@ package Graphic;
 import java.awt.Rectangle;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import GameObjects.Enemy;
-import GameObjects.Player;
 
 public class Frame extends JFrame{
 	
