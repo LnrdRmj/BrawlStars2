@@ -1,7 +1,5 @@
 package Graphic;
 
-import java.awt.Color;
-import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
@@ -10,9 +8,8 @@ import GameObjects.Enemy;
 import GameObjects.GameObject;
 import GameObjects.Player;
 import Utils.Renderer;
-import Utils.Toast;
 
-public class Game extends JPanel implements Runnable {
+public class Game implements Runnable {
 
 	/**
 	 * 
@@ -20,42 +17,29 @@ public class Game extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 
 	private Thread mainThread;
-
-	private Player gamer;
+	private Player player;
+	private Canvas canvas;
 
 	Game() {
 
 		super();
 
-		this.add(Toast.toast);
-		this.setBackground(Color.decode("#202020"));
+		canvas = new Canvas();
+		
+		player = new Player(canvas);
+		
+		new Enemy();
 
 		mainThread = new Thread(this);
 		mainThread.start();
-
-		// Con questo il keylistener funziona
-		this.setFocusable(true);
 		
 	}
-	
-	@Override
-	public void paint(Graphics g) {
-
-		super.paint(g);
-
-		Renderer.render(g);
-
-	}
-
-	@Override
 	public void run() {
 
 		while (true) {
 
-			//repaint();
-			
-			CollisionEngine.calculateCollision();
-			
+			canvas.repaint();
+
 			// 60 Frames BABYYYY
 			wait(16);
 
@@ -87,10 +71,14 @@ public class Game extends JPanel implements Runnable {
 
 	public void setPlayer(Player player) {
 		
-		this.gamer = player;
-		this.addKeyListener(gamer);
-		this.addMouseListener(gamer.getGun());
+		this.player = player;
+		canvas.addKeyListener(this.player);
+		canvas.addMouseListener(this.player.getGun());
 		
+	}
+
+	public JPanel getCanvas() {
+		return canvas;
 	}
 	
 }

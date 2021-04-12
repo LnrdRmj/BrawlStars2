@@ -28,11 +28,9 @@ public class Frame extends JFrame{
 		
 		this.setBounds(new Rectangle(gameWidth, gameHeight));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+		this.add(game.getCanvas());
 		
-		Game.addGameObject(new Player());
-		Game.addGameObject(new Enemy());
-		this.add(game);
-
 	}
 	
 }
