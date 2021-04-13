@@ -50,10 +50,8 @@ public class Enemy extends GameObject {
 	public void hit(GameObject hit) {
 		
 		if (hit instanceof Bullet){
-			System.out.println("Proiettile");
+			changeRandomPos();
 		}
-		
-		changeRandomPos();
 		
 	}
 

@@ -19,13 +19,13 @@ public class Gun extends GameObject implements MouseListener{
 	
 	public static Dimension gunDimension = new Dimension(100, 5);
 	
-	private int fireRate = 10;
+	private int fireRate = 100;
 	
 	Timer timer;
 	ShootTask shootTask;
 
-	private PVector playerPos;
-	private Double angleDirection;
+	protected PVector playerPos;
+	protected Double angleDirection;
 	
 	Point mousePos;
 	

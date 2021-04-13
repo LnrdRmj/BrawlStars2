@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 
 import Collision.CollisionEngine;
 import GameObjects.Enemy;
+import GameObjects.FPSCounter;
 import GameObjects.GameObject;
 import GameObjects.Player;
 import Utils.Renderer;
@@ -35,15 +36,25 @@ public class Game implements Runnable {
 		mainThread.start();
 		
 	}
+	
 	public void run() {
 
 		while (true) {
+			
+			double start = System.currentTimeMillis();
 
 			canvas.repaint();
 
 			// 60 Frames BABYYYY
 			wait(16);
+			// some time passes
+			
+			double end = System.currentTimeMillis();
+			double elapsedTime = end - start;
 
+			System.out.println(elapsedTime);
+//			FPSCounter.setText(1 / (elapsedTime / 1000));
+			
 		}
 
 	}

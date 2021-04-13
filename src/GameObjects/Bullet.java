@@ -14,7 +14,7 @@ import Utils.Toast;
 public class Bullet extends GameObject {
 
 	public static Dimension bulletDimension = new Dimension(20, 10);
-	public int bulletSpeed = 50;
+	public int bulletSpeed = 10;
 
 	public static int bulletWidth;
 	public static int bulletHeight;
@@ -30,6 +30,7 @@ public class Bullet extends GameObject {
 	}
 
 	public Bullet(int originX, int originY, double angleDirection) {
+		
 		super();
 		
 		setFillColor(Color.decode("#E26D5C"));
@@ -39,7 +40,6 @@ public class Bullet extends GameObject {
 		
 		setShape(new HitBox(bulletDimension, bulletPos, angleDirection));
 		
-		Toast.setText("Angle = " + Math.toDegrees(angleDirection));
 		this.angleDirection = angleDirection;
 		
 	}

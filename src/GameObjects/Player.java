@@ -38,9 +38,9 @@ public class Player extends GameObject implements KeyListener{
 		
 		canvas.addKeyListener(this);
 		
-		pos = new PVector(0, 0);
-		health = 100;
 		thicc = 25;
+		pos = new PVector(Frame.gameWidth / 2 - thicc / 2, Frame.gameHeight / 2 - thicc / 2);
+		health = 100;
 		
 		//new Animator(pos, Frame.game, "Sprites/17.png");
 		
@@ -84,7 +84,7 @@ public class Player extends GameObject implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		
 //		System.out.println(e.toString());
-		System.out.println("Hai premuto " + e.getKeyChar());
+//		System.out.println("Hai premuto " + e.getKeyChar());
 		
 		switch(e.getKeyChar()) {
 		case 'w':
