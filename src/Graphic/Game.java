@@ -22,11 +22,12 @@ public class Game implements Runnable {
 
 	Game() {
 
-		super();
-
 		canvas = new Canvas();
 		
 		player = new Player(canvas);
+		
+		System.out.println(canvas.isFocusable());
+		System.out.println(canvas.getKeyListeners().length);
 		
 		new Enemy();
 

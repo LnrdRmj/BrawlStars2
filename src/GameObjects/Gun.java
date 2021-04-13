@@ -19,13 +19,13 @@ public class Gun extends GameObject implements MouseListener{
 	
 	public static Dimension gunDimension = new Dimension(100, 5);
 	
-	private int fireRate = 100;
+	private int fireRate = 10;
 	
 	Timer timer;
 	ShootTask shootTask;
 
 	private PVector playerPos;
-	private double angleDirection;
+	private Double angleDirection;
 	
 	Point mousePos;
 	
@@ -34,7 +34,7 @@ public class Gun extends GameObject implements MouseListener{
 		
 		setName("Pistola");
 		playerPos = p;
-		angleDirection = 0;
+		angleDirection = 0d;
 		
 		setShape(new HitBox(gunDimension, p, angleDirection));
 		
@@ -70,7 +70,7 @@ public class Gun extends GameObject implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		
 	}
-
+	
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		
@@ -110,8 +110,7 @@ public class Gun extends GameObject implements MouseListener{
 		SwingUtilities.convertPointFromScreen(mousePos = MouseInfo.getPointerInfo().getLocation(), Frame.game.getCanvas());
 		
 		angleDirection = (Math.atan2((mousePos.y - playerPos.y), (mousePos.x - playerPos.x)));
-		
-		hitBox.updateAngle(angleDirection);
+		hitBox.setAngle(angleDirection);
 		
 	}
 

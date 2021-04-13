@@ -21,7 +21,7 @@ public class CollisionEngine {
 			for (GameObject obj2 :  gameObjects) {
 				HitBox hb2 = obj2.getHitBox();
 				
-				System.out.println(obj.getName() + " - " + obj2.getName());
+				//System.out.println(obj.getName() + " - " + obj2.getName());
 				
 				if (hb != null && hb2 != null && obj != obj2 && hb.collide(hb2)) {
 					

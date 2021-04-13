@@ -12,7 +12,7 @@ public class HitBox {
 
 	private Dimension dim;
 	private PVector origin;
-	private double angle;
+	private Double angle;
 	
 	private int pointX[];
 	private int pointY[];
@@ -86,7 +86,7 @@ public class HitBox {
 
 	}
 	
-	public void updateAngle(double angleDirection) {
+	public void setAngle(double angleDirection) {
 		
 		angle = angleDirection;
 		

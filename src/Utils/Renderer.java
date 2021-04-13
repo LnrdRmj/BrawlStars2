@@ -24,8 +24,6 @@ public class Renderer {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		g.setColor(Color.white);
-//		for (GameObject i : toRender)
-//			i.draw(g);
 		
 		for (Iterator<GameObject> iterator = toRender.iterator(); iterator.hasNext();) {
 		    GameObject go = iterator.next();

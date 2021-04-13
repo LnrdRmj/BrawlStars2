@@ -18,16 +18,19 @@ public class Canvas extends JPanel {
 
 	public Canvas() {
 		
-		this.add(Toast.toast);
-		this.setBackground(Color.decode("#202020"));
+		super();
 		
 		// Con questo il keylistener funziona
 		this.setFocusable(true);
+		this.requestFocusInWindow();
+		
+		this.add(Toast.toast);
+		this.setBackground(Color.decode("#202020"));
+		
 	}
 	
 	@Override
 	public void paint(Graphics g) {
-
 		super.paint(g);
 
 		Renderer.render(g);

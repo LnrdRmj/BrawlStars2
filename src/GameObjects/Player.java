@@ -47,7 +47,7 @@ public class Player extends GameObject implements KeyListener{
 		this.velocity = new PVector(0, 0);
 		
 		// Sets the hitbox
-		super.setShape(new HitBox(thick, pos, 0));
+		super.setShape(new HitBox(thick, pos, 0d));
 		
 		forces = new Force [4];
 		
@@ -77,8 +77,6 @@ public class Player extends GameObject implements KeyListener{
 		
 		this.pos.add(velocity);
 		
-		//((Rectangle)hitBox).setBounds((int)pos.x, (int)pos.y, thicc, thicc);
-		
 	}
 	
 	// KeyEvent handlers
@@ -86,7 +84,7 @@ public class Player extends GameObject implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		
 //		System.out.println(e.toString());
-//		System.out.println("Hai premuto " + e.getKeyChar());
+		System.out.println("Hai premuto " + e.getKeyChar());
 		
 		switch(e.getKeyChar()) {
 		case 'w':
@@ -215,19 +213,11 @@ public class Player extends GameObject implements KeyListener{
 	@Override
 	public void hit(GameObject hit) {
 		
-		//TODO Gestire cosa fare quando vengono colpiti vari oggetti
-		
-		switch (hit.getClass().toString().substring(7)) {
-		case "Bullet":
-			
-			break;
-			
-		case "Enemy":
-			
-			break;
-
-		default:
-			break;
+		if 		(hit instanceof Bullet) {
+			// Fai qualcosa
+		}
+		else if (hit instanceof Enemy) {
+			// Fai qualcos'altro
 		}
 		
 	}

@@ -20,13 +20,12 @@ public class Frame extends JFrame{
 		
 		super();
 		
-		this.setVisible(true);
-		
 		this.setBounds(new Rectangle(gameWidth, gameHeight));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
-		this.add(game.getCanvas());
 		
+		this.getContentPane().add(game.getCanvas());
+		
+		this.setVisible(true);
 	}
 	
 }

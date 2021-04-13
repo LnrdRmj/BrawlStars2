@@ -14,7 +14,7 @@ import Utils.Toast;
 public class Bullet extends GameObject {
 
 	public static Dimension bulletDimension = new Dimension(20, 10);
-	public int bulletSpeed = 10;
+	public int bulletSpeed = 50;
 
 	public static int bulletWidth;
 	public static int bulletHeight;
