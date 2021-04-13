@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import Animation.Animator;
 import Collision.HitBox;
 import Graphic.Canvas;
 import Graphic.Frame;
@@ -42,7 +43,7 @@ public class Player extends GameObject implements KeyListener{
 		pos = new PVector(Frame.gameWidth / 2 - thicc / 2, Frame.gameHeight / 2 - thicc / 2);
 		health = 100;
 		
-		//new Animator(pos, Frame.game, "Sprites/17.png");
+		new Animator(pos, canvas, "Sprites/17.png");
 		
 		this.velocity = new PVector(0, 0);
 		
