@@ -31,6 +31,8 @@ public class Player extends GameObject implements KeyListener{
 	
 	private Gun gun;
 	
+	private Animator animator;
+	
 	public Player(Canvas canvas){
 		
 		super();
@@ -43,7 +45,7 @@ public class Player extends GameObject implements KeyListener{
 		pos = new PVector(Frame.gameWidth / 2 - thicc / 2, Frame.gameHeight / 2 - thicc / 2);
 		health = 100;
 		
-		new Animator(pos, canvas, "Sprites/17.png");
+		animator = new Animator(pos, canvas, "Sprites/17.png");
 		
 		this.velocity = new PVector(0, 0);
 		
@@ -63,6 +65,8 @@ public class Player extends GameObject implements KeyListener{
 	public void draw(Graphics g) {
 		
 		hitBox.draw(g);
+		
+		animator.drawFrame(g);
 		
 		update();
 		

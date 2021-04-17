@@ -1,5 +1,6 @@
 package Animation;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -61,7 +62,6 @@ public class Animator {
 			public void run() {
 
 				currentFrameIndex++;
-				paint();
 
 			}
 
@@ -78,8 +78,15 @@ public class Animator {
 		int width = cStep;
 		int height = rStep;
 		
-		panel.getGraphics().drawImage(framesImage.getSubimage(x, y, width, height), (int)pos.x, (int)pos.y, null);
-//		Global.g.drawImage(framesImage.getSubimage(x, y, width, height), (int)pos.x, (int)pos.y, null);
+		try {
+			panel.getGraphics().drawImage(framesImage.getSubimage(x, y, width, height), (int)pos.x, (int)pos.y, null);
+		}
+		catch (NullPointerException e) {
+			
+			System.out.println(e);
+			
+		}
+			//		Global.g.drawImage(framesImage.getSubimage(x, y, width, height), (int)pos.x, (int)pos.y, null);
 
 	}
 	
@@ -93,11 +100,29 @@ public class Animator {
 			
 		} catch (IOException ex) {
 			
-			System.out.println("Qualcosa è andato storto");
+			System.out.println("Qualcosa ï¿½ andato storto");
 		
 		}
 
 		return framesImage;
+		
+	}
+
+	public void drawFrame(Graphics g) {
+		
+		int x = (currentFrameIndex % columns) * cStep;
+		int y = direction * rStep;
+		int width = cStep;
+		int height = rStep;
+		
+		try {
+			g.drawImage(framesImage.getSubimage(x, y, width, height), (int)pos.x, (int)pos.y, null);
+		}
+		catch (NullPointerException e) {
+			
+			System.out.println(e);
+			
+		}
 		
 	}
 

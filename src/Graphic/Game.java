@@ -27,9 +27,6 @@ public class Game implements Runnable {
 		
 		player = new Player(canvas);
 		
-		System.out.println(canvas.isFocusable());
-		System.out.println(canvas.getKeyListeners().length);
-		
 		new Enemy();
 
 		mainThread = new Thread(this);
@@ -52,7 +49,7 @@ public class Game implements Runnable {
 			double end = System.currentTimeMillis();
 			double elapsedTime = end - start;
 
-			System.out.println(elapsedTime);
+//			System.out.println(elapsedTime);
 //			FPSCounter.setText(1 / (elapsedTime / 1000));
 			
 		}
