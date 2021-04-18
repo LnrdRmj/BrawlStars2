@@ -19,7 +19,7 @@ public class Panel extends JPanel{
 
 		this.setBackground(Color.decode("#202020"));
 		
-		animator = new Animator(new PVector(25, 25), this, "Sprites\\17.png");
+		animator = new Animator(new PVector(25, 25), "Sprites\\17.png");
 		
 	}
 

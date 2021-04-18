@@ -8,9 +8,10 @@ public class CollisionEngine {
 
 	private static Vector<GameObject> gameObjects = new Vector<>();
 	private static Vector<GameObject> toRemove 	  = new Vector<>();
+	private static Vector<GameObject> toAdd 	  = new Vector<>();
 	
 	public static void addGameObject(GameObject toAdd) {
-		gameObjects.add(toAdd);
+		CollisionEngine.toAdd.add(toAdd);
 	}
 	
 	public static void calculateCollision() {
@@ -32,8 +33,15 @@ public class CollisionEngine {
 			}
 		}
 		
-		if (toRemove.size() > 0)
+		if (toRemove.size() > 0) {
 			gameObjects.removeAll(toRemove);
+			toRemove.clear();
+		}
+		
+		if (toAdd.size() > 0) {
+			gameObjects.addAll(toAdd);
+			toAdd.clear();
+		}
 		
 	}
 
