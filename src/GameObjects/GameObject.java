@@ -2,12 +2,18 @@ package GameObjects;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import Collision.HitBox;
 import Graphic.Game;
 
-public abstract class GameObject {
+public abstract class GameObject implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5705047180549861844L;
+	
 	protected HitBox hitBox;
 	protected Color fillColor;
 	protected String name;

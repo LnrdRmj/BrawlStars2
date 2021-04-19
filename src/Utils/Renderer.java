@@ -13,9 +13,10 @@ public class Renderer {
 
 	private static Vector<GameObject> toRender = new Vector<>();
 	private static Vector<GameObject> toRemove = new Vector<>();
+	private static Vector<GameObject> toAdd = new Vector<>();
 
 	public static void addGameObjectToRender(GameObject g) {
-		toRender.add(g);
+		toAdd.add(g);
 	}
 	
 	public static void render(Graphics g) {
@@ -30,8 +31,15 @@ public class Renderer {
 		    go.draw(g);
 		}
 		
-		toRender.removeAll(toRemove);
+		if (toRemove.size() > 0) {
+			toRender.removeAll(toRemove);
+			toRemove.clear();
+		}
 		
+		if (toAdd.size() > 0) {
+			toRender.addAll(toAdd);
+			toAdd.clear();
+		}
 	}
 
 	public static void removeGameObjectToRender(GameObject go) {
