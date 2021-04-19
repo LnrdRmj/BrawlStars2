@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 
 import Collision.CollisionEngine;
 import GameObjects.Enemy;
-import GameObjects.FPSCounter;
 import GameObjects.GameObject;
 import GameObjects.Player;
 import Utils.Renderer;
@@ -47,7 +46,6 @@ public class Game implements Runnable {
 
 			// 60 Frames BABYYYY
 			wait(16);
-			// some time passes
 			
 			double end = System.currentTimeMillis();
 			double elapsedTime = end - start;
@@ -78,14 +76,6 @@ public class Game implements Runnable {
 		
 		Renderer.removeGameObjectToRender(toRemove);
 		CollisionEngine.removeGameObject(toRemove);
-		
-	}
-
-	public void setPlayer(Player player) {
-		
-		this.player = player;
-		canvas.addKeyListener(this.player);
-		canvas.addMouseListener(this.player.getGun());
 		
 	}
 
