@@ -7,9 +7,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import Collision.CollisionEngine;
-import GameObjects.FPSCounter;
-import Utils.Renderer;
-import Utils.Toast;
 
 public class Canvas extends JPanel {
 

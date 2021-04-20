@@ -2,19 +2,11 @@ package Animation;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-
-import Utils.PVector;
-
-import Global.Global;
-
-import Graphic.Frame;
+import Collision.PVector;
+import Utils.ImageUtils;
 
 public class Animator{
 
@@ -50,7 +42,7 @@ public class Animator{
 
 		this.pos = pos;
 
-		framesImage = getImage(framesImagePath); // Sets framesImage
+		framesImage = ImageUtils.getImage(framesImagePath); // Sets framesImage
 		System.out.println(framesImage.getWidth() + "X" + framesImage.getHeight());
 
 		rStep = framesImage.getHeight() / rows;
@@ -141,25 +133,6 @@ public class Animator{
 			}
 
 		};
-
-		
-	}
-	
-	private BufferedImage getImage(String path) {
-		
-		BufferedImage framesImage = null;
-		
-		try {
-			
-			framesImage = ImageIO.read(new File(path));
-			
-		} catch (IOException ex) {
-			
-			System.out.println("Qualcosa � andato storto");
-			
-		}
-		
-		return framesImage;
 		
 	}
 	

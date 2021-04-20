@@ -8,11 +8,11 @@ import java.util.Vector;
 
 import Animation.Animator;
 import Collision.HitBox;
+import Collision.PVector;
 import Graphic.Canvas;
 import Graphic.Frame;
 import Utils.Force;
 import Utils.Friction;
-import Utils.PVector;
 import Utils.StringUtils;
 
 public class Player extends GameObject implements KeyListener{
@@ -59,7 +59,7 @@ public class Player extends GameObject implements KeyListener{
 		this.velocity = new PVector(0, 0);
 		
 		// Sets the hitbox
-		super.setShape(new HitBox(thick, pos, 0d));
+		setHitBox(new HitBox(thick, pos, 0d));
 		
 		forces = new Force [4];
 		

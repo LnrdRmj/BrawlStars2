@@ -1,6 +1,6 @@
 package GameObjects;
 
-import Utils.PVector;
+import Collision.PVector;
 
 public class OPGun extends Gun{
 

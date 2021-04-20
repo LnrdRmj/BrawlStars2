@@ -7,7 +7,6 @@ import Collision.CollisionEngine;
 import GameObjects.Enemy;
 import GameObjects.GameObject;
 import GameObjects.Player;
-import Utils.Renderer;
 
 public class Game implements Runnable {
 

@@ -12,8 +12,8 @@ import java.util.TimerTask;
 import javax.swing.SwingUtilities;
 
 import Collision.HitBox;
+import Collision.PVector;
 import Graphic.Frame;
-import Utils.PVector;
 
 public class Gun extends GameObject implements MouseListener{
 	
@@ -36,7 +36,7 @@ public class Gun extends GameObject implements MouseListener{
 		playerPos = p;
 		angleDirection = 0d;
 		
-		setShape(new HitBox(gunDimension, p, angleDirection));
+		setHitBox(new HitBox(gunDimension, p, angleDirection));
 		
 	}
 	

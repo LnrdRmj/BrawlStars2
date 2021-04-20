@@ -1,5 +1,7 @@
 package Utils;
 
+import Collision.PVector;
+
 public class PVectorUtil {
 
 	public static PVector vectorBetween(PVector p1, PVector p2) {

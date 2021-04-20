@@ -12,11 +12,11 @@ public class Frame extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JPanel panel;
+	private static Panel panel = new Panel();
 	
 	public static void main (String []args) {
 		
-		JFrame frame = new Frame();
+		new Frame();
 		
 	}
 	
@@ -24,14 +24,11 @@ public class Frame extends JFrame{
 		
 		super();
 		
-		panel = new Panel();
+		this.setVisible(true);
+		this.add(panel);
 		
 		this.setBounds(new Rectangle(400, 400));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		this.add(panel);
-		
-		this.setVisible(true);
 		
 	}
 	

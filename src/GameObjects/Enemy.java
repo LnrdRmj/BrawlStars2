@@ -5,8 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 import Collision.HitBox;
+import Collision.PVector;
 import Graphic.Frame;
-import Utils.PVector;
 import Utils.Random;
 
 public class Enemy extends GameObject {
@@ -20,7 +20,7 @@ public class Enemy extends GameObject {
 		
 		pos = new PVector(400, 600);
 		angle = Math.PI / 4;
-		setShape(new HitBox(new Dimension(50, 50), pos, angle));
+		setHitBox(new HitBox(new Dimension(50, 50), pos, angle));
 		
 		setFillColor(Color.decode("#7F95D1"));
 		
