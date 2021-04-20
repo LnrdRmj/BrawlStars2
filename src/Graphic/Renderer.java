@@ -29,6 +29,7 @@ public class Renderer {
 		for (Iterator<GameObject> iterator = toRender.iterator(); iterator.hasNext();) {
 		    GameObject go = iterator.next();
 		    go.draw(g);
+		    go.update();
 		}
 		
 		if (toRemove.size() > 0) {

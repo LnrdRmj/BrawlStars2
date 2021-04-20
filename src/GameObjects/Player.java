@@ -79,8 +79,6 @@ public class Player extends GameObject implements KeyListener{
 		
 		animator.drawFrame(g);
 		
-		update();
-		
 	}
 	
 	public void update() {

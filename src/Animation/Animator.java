@@ -43,7 +43,6 @@ public class Animator{
 		this.pos = pos;
 
 		framesImage = ImageUtils.getImage(framesImagePath); // Sets framesImage
-		System.out.println(framesImage.getWidth() + "X" + framesImage.getHeight());
 
 		rStep = framesImage.getHeight() / rows;
 		cStep = framesImage.getWidth() / columns;

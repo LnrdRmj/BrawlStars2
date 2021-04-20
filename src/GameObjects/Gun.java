@@ -101,8 +101,6 @@ public class Gun extends GameObject implements MouseListener{
 		
 		hitBox.draw(g);
 		
-        update();
-        
 	}
 	
 	public void update() {

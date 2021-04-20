@@ -34,8 +34,6 @@ public class Enemy extends GameObject {
 		g.setColor(fillColor);
 		hitBox.draw(g);
 		
-		update();
-		
 	}
 
 	@Override

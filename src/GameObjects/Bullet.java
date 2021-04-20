@@ -71,8 +71,6 @@ public class Bullet extends GameObject {
 		
 		g2d.setTransform(old);
 		
-		update();
-
 	}
 	
 	public void update() {
