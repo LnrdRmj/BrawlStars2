@@ -32,6 +32,18 @@ public class Bullet extends GameObject {
 
 	private PVector bulletPos;
 
+	public Bullet(PVector pos, double angleDirection) {
+		
+		this(pos.x, pos.y, angleDirection);
+		
+	}
+	
+	public Bullet (float originX, float originY, double angleDirection) {
+		
+		this((int)originX, (int)originY, angleDirection);
+		
+	}
+	
 	public Bullet(int originX, int originY, int mouseX, int mouseY) {
 
 		this(originX, originY, Math.atan2((mouseY - originY), (mouseX - originX)));

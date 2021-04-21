@@ -119,6 +119,18 @@ public class Animator{
 		
 	}
 
+	public int getWidthFrame() {
+		
+		return cStep;
+		
+	}
+
+	public int getHeightFrame() {
+		
+		return rStep;
+		
+	}
+	
 	private TimerTask getTask() {
 		
 		return new TimerTask() {

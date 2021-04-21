@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 import Collision.HitBox;
 import Collision.PVector;
 import Graphic.Frame;
+import Utils.PVectorUtil;
 
 public class Gun extends GameObject implements MouseListener{
 	
@@ -42,7 +43,9 @@ public class Gun extends GameObject implements MouseListener{
 	
 	public void shoot(int mouseX, int mouseY) {
 		
-		new Bullet((int)playerPos.x, (int)playerPos.y, angleDirection);
+		PVector p = PVectorUtil.rotatePoint(playerPos.x, playerPos.y, playerPos.x + gunDimension.width, playerPos.y, angleDirection);
+		
+		new Bullet(p.x, p.y, angleDirection);
 		
 	}
 
@@ -61,8 +64,6 @@ public class Gun extends GameObject implements MouseListener{
 		default:
 			break;
 		}
-		
-		//shoot(e.getX(), e.getY());
 		
 	}
 	
@@ -103,6 +104,7 @@ public class Gun extends GameObject implements MouseListener{
 		
 	}
 	
+	@Override
 	public void update() {
 		
 		SwingUtilities.convertPointFromScreen(mousePos = MouseInfo.getPointerInfo().getLocation(), Frame.game.getCanvas());

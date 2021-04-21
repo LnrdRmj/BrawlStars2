@@ -25,7 +25,7 @@ public class Player extends GameObject implements KeyListener{
 	private PVector pos = new PVector(0, 0);
 	private int health = 100;
 	
-	private Dimension thick = new Dimension(25, 25);
+	private Dimension thick;
 	private int thicc = 25;
 	
 	private final float MAX_VELOCITY = 5;
@@ -59,7 +59,7 @@ public class Player extends GameObject implements KeyListener{
 		this.velocity = new PVector(0, 0);
 		
 		// Sets the hitbox
-		setHitBox(new HitBox(thick, pos, 0d));
+		setHitBox(new HitBox(thick = new Dimension(animator.getWidthFrame(), animator.getHeightFrame()), pos));
 		
 		forces = new Force [4];
 		
@@ -74,8 +74,6 @@ public class Player extends GameObject implements KeyListener{
 	}
 	
 	public void draw(Graphics g) {
-		
-		hitBox.draw(g);
 		
 		animator.drawFrame(g);
 		

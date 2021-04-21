@@ -21,6 +21,10 @@ public class Toast{
 		toast.setText(text);
 	}
 	
+	public static void setText(Integer number) {
+		toast.setText(number.toString());
+	}
+	
 	public static void setText(Long number) {
 		toast.setText(number.toString());
 	}
