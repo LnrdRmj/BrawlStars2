@@ -11,6 +11,8 @@ import Collision.HitBox;
 import Collision.PVector;
 import Graphic.Frame;
 import Graphic.Game;
+import Miscellaneous.ParticleSystemRenderer;
+import Tests.ParticleSystemExplosion;
 import Utils.ImageUtils;
 
 public class Bullet extends GameObject {
@@ -107,17 +109,12 @@ public class Bullet extends GameObject {
 	@Override
 	public void hit(GameObject hit) {
 		
-		switch (hit.getClass().toString().substring(7)) {
-		case "Player":
+		System.out.println("Sheesh");
+		
+		if (hit instanceof Enemy) {
 			
-			break;
+			ParticleSystemRenderer.addParticleSystem(new ParticleSystemExplosion(bulletPos.x, bulletPos.y));
 			
-		case "Enemy":
-			
-			break;
-
-		default:
-			break;
 		}
 		
 	}

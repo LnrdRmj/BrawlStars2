@@ -7,6 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import Collision.CollisionEngine;
+import Miscellaneous.ParticleSystemRenderer;
 
 public class Canvas extends JPanel {
 
@@ -38,6 +39,7 @@ public class Canvas extends JPanel {
 		super.paint(g);
 
 		Renderer.render(g);
+		ParticleSystemRenderer.render(g);
 		CollisionEngine.calculateCollision();
 
 	}

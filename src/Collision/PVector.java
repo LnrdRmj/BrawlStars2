@@ -5,6 +5,11 @@ public class PVector {
 	public float x;
 	public float y;
 	
+	public PVector(double x, double y) {
+		this.x = (float) x;
+		this.y = (float) y;
+	}
+	
 	public PVector(float x, float y){
 		this.x = x;
 		this.y = y;
