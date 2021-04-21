@@ -12,8 +12,9 @@ import java.util.TimerTask;
 import javax.swing.SwingUtilities;
 
 import Collision.HitBox;
+import Collision.PVector;
 import Graphic.Frame;
-import Utils.PVector;
+import Utils.PVectorUtil;
 
 public class Gun extends GameObject implements MouseListener{
 	
@@ -24,8 +25,8 @@ public class Gun extends GameObject implements MouseListener{
 	Timer timer;
 	ShootTask shootTask;
 
-	private PVector playerPos;
-	private double angleDirection;
+	protected PVector playerPos;
+	protected Double angleDirection;
 	
 	Point mousePos;
 	
@@ -34,15 +35,17 @@ public class Gun extends GameObject implements MouseListener{
 		
 		setName("Pistola");
 		playerPos = p;
-		angleDirection = 0;
+		angleDirection = 0d;
 		
-		setShape(new HitBox(gunDimension, p, angleDirection));
+		setHitBox(new HitBox(gunDimension, p, angleDirection));
 		
 	}
 	
 	public void shoot(int mouseX, int mouseY) {
 		
-		new Bullet((int)playerPos.x, (int)playerPos.y, angleDirection);
+		PVector p = PVectorUtil.rotatePoint(playerPos.x, playerPos.y, playerPos.x + gunDimension.width, playerPos.y, angleDirection);
+		
+		new Bullet(p.x, p.y, angleDirection);
 		
 	}
 
@@ -62,15 +65,13 @@ public class Gun extends GameObject implements MouseListener{
 			break;
 		}
 		
-		//shoot(e.getX(), e.getY());
-		
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
 	}
-
+	
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		
@@ -78,7 +79,6 @@ public class Gun extends GameObject implements MouseListener{
 		// Left-click
 		case 1:
 			timer.cancel();
- 			System.out.println("Purge");
 			break;
 
 		default:
@@ -102,17 +102,15 @@ public class Gun extends GameObject implements MouseListener{
 		
 		hitBox.draw(g);
 		
-        update();
-        
 	}
 	
+	@Override
 	public void update() {
 		
-		SwingUtilities.convertPointFromScreen(mousePos = MouseInfo.getPointerInfo().getLocation(), Frame.game);
+		SwingUtilities.convertPointFromScreen(mousePos = MouseInfo.getPointerInfo().getLocation(), Frame.game.getCanvas());
 		
 		angleDirection = (Math.atan2((mousePos.y - playerPos.y), (mousePos.x - playerPos.x)));
-		
-		hitBox.updateAngle(angleDirection);
+		hitBox.setAngle(angleDirection);
 		
 	}
 

@@ -4,15 +4,24 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 import Collision.HitBox;
+import Collision.PVector;
 import Graphic.Frame;
 import Graphic.Game;
-import Utils.PVector;
-import Utils.Toast;
+import Utils.ImageUtils;
 
 public class Bullet extends GameObject {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1388429583603351070L;
+
+	private BufferedImage sprite;
+	
 	public static Dimension bulletDimension = new Dimension(20, 10);
 	public int bulletSpeed = 10;
 
@@ -23,6 +32,18 @@ public class Bullet extends GameObject {
 
 	private PVector bulletPos;
 
+	public Bullet(PVector pos, double angleDirection) {
+		
+		this(pos.x, pos.y, angleDirection);
+		
+	}
+	
+	public Bullet (float originX, float originY, double angleDirection) {
+		
+		this((int)originX, (int)originY, angleDirection);
+		
+	}
+	
 	public Bullet(int originX, int originY, int mouseX, int mouseY) {
 
 		this(originX, originY, Math.atan2((mouseY - originY), (mouseX - originX)));
@@ -30,18 +51,18 @@ public class Bullet extends GameObject {
 	}
 
 	public Bullet(int originX, int originY, double angleDirection) {
+		
 		super();
 		
 		setFillColor(Color.decode("#E26D5C"));
 		setName("Proiettile");
 		
-		//originPos = new PVector(originX, originY); 
+		sprite = ImageUtils.getImage("Sprites\\bullet.png");
+		
 		bulletPos = new PVector(originX, originY);
 		
-		//setShape(new Rectangle(Gun.gunDimension.width, 0, Bullet.bulletWidth, Bullet.bulletHeight));
-		setShape(new HitBox(bulletDimension, bulletPos, angleDirection));
+		setHitBox(new HitBox(bulletDimension, bulletPos, angleDirection));
 		
-		Toast.setText("Angle = " + Math.toDegrees(angleDirection));
 		this.angleDirection = angleDirection;
 		
 	}
@@ -50,21 +71,18 @@ public class Bullet extends GameObject {
 		
 		Graphics2D g2d = (Graphics2D) g;
 		
-		g.setColor(fillColor);
-		hitBox.draw(g2d);
+//		g.setColor(fillColor);
+//		hitBox.draw(g2d);
 		
-		update();
-
-	}
-
-	public PVector rotatePoint(int x, int y, double angle) {
+		AffineTransform old = g2d.getTransform();
 		
-		float nx = (float) (x * Math.cos(angle) - y * Math.sin(angle));
-		float ny = (float) (y * Math.cos(angle) + x * Math.sin(angle));
+		g2d.translate(bulletPos.x, bulletPos.y);
+		g2d.rotate(angleDirection);
 		
-		PVector p = new PVector(nx, ny);
+		g2d.drawImage(sprite, 0, 0, null);
 		
-		return p;
+		g2d.setTransform(old);
+		
 	}
 	
 	public void update() {
@@ -82,12 +100,12 @@ public class Bullet extends GameObject {
 			
 		}
 		
+		hitBox.update();
+		
 	}
 
 	@Override
 	public void hit(GameObject hit) {
-		
-		
 		
 		switch (hit.getClass().toString().substring(7)) {
 		case "Player":

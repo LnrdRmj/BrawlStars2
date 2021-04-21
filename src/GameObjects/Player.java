@@ -2,24 +2,30 @@ package GameObjects;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Vector;
 
+import Animation.Animator;
 import Collision.HitBox;
-import Graphic.Game;
+import Collision.PVector;
+import Graphic.Canvas;
+import Graphic.Frame;
 import Utils.Force;
 import Utils.Friction;
-import Utils.PVector;
-import Utils.Renderer;
+import Utils.StringUtils;
 
 public class Player extends GameObject implements KeyListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private PVector pos = new PVector(0, 0);
 	private int health = 100;
 	
-	private Dimension thick = new Dimension(25, 25);
+	private Dimension thick;
 	private int thicc = 25;
 	
 	private final float MAX_VELOCITY = 5;
@@ -32,20 +38,28 @@ public class Player extends GameObject implements KeyListener{
 	
 	private Gun gun;
 	
-	public Player(){
+	private Animator animator;
+	
+	private Vector<String> inputsPressed;
+	
+	public Player(Canvas canvas){
 		
 		super();
 		
 		setName("Giocatore");
 		
-		pos = new PVector(0, 0);
-		health = 100;
+		canvas.addKeyListener(this);
+		
 		thicc = 25;
+		pos = new PVector(Frame.gameWidth / 2 - thicc / 2, Frame.gameHeight / 2 - thicc / 2);
+		health = 100;
+		
+		animator = new Animator(pos, "Sprites/17.png");
 		
 		this.velocity = new PVector(0, 0);
 		
 		// Sets the hitbox
-		super.setShape(new HitBox(thick, pos, 0));
+		setHitBox(new HitBox(thick = new Dimension(animator.getWidthFrame(), animator.getHeightFrame()), pos));
 		
 		forces = new Force [4];
 		
@@ -53,14 +67,15 @@ public class Player extends GameObject implements KeyListener{
 			forces[i] = new Force();
 		
 		gun = new Gun(pos);
+		canvas.addMouseListener(gun);
+		
+		inputsPressed = new Vector<String>();
 		
 	}
 	
 	public void draw(Graphics g) {
 		
-		hitBox.draw(g);
-		
-		update();
+		animator.drawFrame(g);
 		
 	}
 	
@@ -74,8 +89,6 @@ public class Player extends GameObject implements KeyListener{
 		
 		this.pos.add(velocity);
 		
-		//((Rectangle)hitBox).setBounds((int)pos.x, (int)pos.y, thicc, thicc);
-		
 	}
 	
 	// KeyEvent handlers
@@ -83,7 +96,9 @@ public class Player extends GameObject implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		
 //		System.out.println(e.toString());
-		//System.out.println("Hai premuto " + e.getKeyChar());
+//		System.out.println("Hai premuto " + e.getKeyChar());
+		
+		char keyChar = e.getKeyChar();
 		
 		switch(e.getKeyChar()) {
 		case 'w':
@@ -91,6 +106,11 @@ public class Player extends GameObject implements KeyListener{
 			if (!w) {
 				forces[0] = new Force(new PVector(0, -MAX_VELOCITY), new PVector(0, -ACCELERATION));
 				w = true;
+				
+				animator.start(Animator.INDIETRO);
+				
+				inputsPressed.add(StringUtils.charToString(keyChar));
+				
 			}	
 			
 			break;
@@ -99,6 +119,11 @@ public class Player extends GameObject implements KeyListener{
 			if (!a) {
 				forces[1] = new Force(new PVector(-MAX_VELOCITY, 0), new PVector(-ACCELERATION, 0));
 				a = true;
+				
+				animator.start(Animator.SINISTRA);
+				
+				inputsPressed.add(StringUtils.charToString(keyChar));
+				
 			}
 			
 			break;
@@ -107,6 +132,11 @@ public class Player extends GameObject implements KeyListener{
 			if (!s) {
 				forces[2] = new Force(new PVector(0, MAX_VELOCITY), new PVector(0, ACCELERATION));
 				s = true;
+				
+				animator.start(Animator.AVANTI);
+				
+				inputsPressed.add(StringUtils.charToString(keyChar));
+				
 			}
 			
 			break;
@@ -115,6 +145,11 @@ public class Player extends GameObject implements KeyListener{
 			if (!d) {
 				forces[3] = new Force(new PVector(MAX_VELOCITY, 0), new PVector(ACCELERATION, 0));
 				d = true;
+				
+				animator.start(Animator.DESTRA);
+				
+				inputsPressed.add(StringUtils.charToString(keyChar));
+				
 			}
 			
 			break;
@@ -127,26 +162,68 @@ public class Player extends GameObject implements KeyListener{
 		
 //		System.out.println("Hai rilasciato " + e.getKeyChar());
 		
-		switch(e.getKeyChar()) {
+		char keyChar = e.getKeyChar();
+		
+		switch(keyChar) {
 		case 'w':
 			
 			forces[0] = new Force(new PVector(0, 0), Friction.calculateFriction(forces[0].getVector()), forces[0].getVector());
 			w = false;
+			
+			inputsPressed.remove(StringUtils.charToString(keyChar));
+			
+			if (inputsPressed.size() > 0)
+				// Se io smetto di premere un tasto ma in precedenza ne avevo già premuto un altro,
+				// allora devo riprendere l'animazione del pulsante precedente
+				animator.start(Animator.WASDtoDirection(inputsPressed.lastElement()));
+			else 
+				animator.stop();
+			
 			break;
 		case 'a':
 			
 			forces[1] = new Force(new PVector(0, 0), Friction.calculateFriction(forces[1].getVector()), forces[1].getVector());
 			a = false;
+			
+			inputsPressed.remove(StringUtils.charToString(keyChar));
+			
+			if (inputsPressed.size() > 0)
+				// Se io smetto di premere un tasto ma in precedenza ne avevo già premuto un altro,
+				// allora devo riprendere l'animazione del pulsante precedente
+				animator.start(Animator.WASDtoDirection(inputsPressed.lastElement()));
+			else 
+				animator.stop();
+			
 			break;
 		case 's':
 			
 			forces[2] = new Force(new PVector(0, 0), Friction.calculateFriction(forces[2].getVector()), forces[2].getVector());
 			s = false;
+			
+			inputsPressed.remove(StringUtils.charToString(keyChar));
+			
+			if (inputsPressed.size() > 0)
+				// Se io smetto di premere un tasto ma in precedenza ne avevo già premuto un altro,
+				// allora devo riprendere l'animazione del pulsante precedente
+				animator.start(Animator.WASDtoDirection(inputsPressed.lastElement()));
+			else 
+				animator.stop();
+			
 			break;
 		case 'd':
 			
 			forces[3] = new Force(new PVector(0, 0), Friction.calculateFriction(forces[3].getVector()), forces[3].getVector());
 			d = false;
+			
+			inputsPressed.remove(StringUtils.charToString(keyChar));
+			
+			if (inputsPressed.size() > 0)
+				// Se io smetto di premere un tasto ma in precedenza ne avevo già premuto un altro,
+				// allora devo riprendere l'animazione del pulsante precedente
+				animator.start(Animator.WASDtoDirection(inputsPressed.lastElement()));
+			else 
+				animator.stop();
+			
 			break;
 			
 		}
@@ -212,19 +289,11 @@ public class Player extends GameObject implements KeyListener{
 	@Override
 	public void hit(GameObject hit) {
 		
-		//TODO Gestire cosa fare quando vengono colpiti vari oggetti
-		
-		switch (hit.getClass().toString().substring(7)) {
-		case "Bullet":
-			
-			break;
-			
-		case "Enemy":
-			
-			break;
-
-		default:
-			break;
+		if 		(hit instanceof Bullet) {
+			// Fai qualcosa
+		}
+		else if (hit instanceof Enemy) {
+			// Fai qualcos'altro
 		}
 		
 	}

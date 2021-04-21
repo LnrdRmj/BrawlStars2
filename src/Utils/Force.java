@@ -1,5 +1,7 @@
 package Utils;
 
+import Collision.PVector;
+
 public class Force {
 
 	private PVector goalForce;

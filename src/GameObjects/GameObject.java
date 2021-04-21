@@ -2,15 +2,23 @@ package GameObjects;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 import Collision.HitBox;
 import Graphic.Game;
 
-public abstract class GameObject {
+public abstract class GameObject implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5705047180549861844L;
+	
 	protected HitBox hitBox;
 	protected Color fillColor;
 	protected String name;
+	protected BufferedImage sprite;
 	
 	public GameObject (HitBox hitBox) {
 		this();
@@ -38,11 +46,11 @@ public abstract class GameObject {
 	
 	public abstract void update();
 	
-	public void setShape(HitBox hitBox) {
+	public void setHitBox(HitBox hitBox) {
 		this.hitBox = hitBox;
 	}
 	
-	public HitBox getShape() {
+	public HitBox getHitBox() {
 		return this.hitBox;
 	}
 	
@@ -66,10 +74,6 @@ public abstract class GameObject {
 		
 		hitBox.setBounds(x, y, width, height);
 		
-	}
-	
-	public HitBox getHitBox() {
-		return hitBox;
 	}
 	
 }

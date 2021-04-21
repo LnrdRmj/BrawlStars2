@@ -1,9 +1,8 @@
-package Utils;
+package Graphic;
 
 import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 public class Toast{
@@ -13,7 +12,6 @@ public class Toast{
 	static {
 		
 		toast = new JLabel("Hey");
-		toast.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		toast.setFont(new Font("font1", Font.BOLD, 40));
 		toast.setForeground(Color.orange);
 		
@@ -21,6 +19,10 @@ public class Toast{
 	
 	public static void setText(String text) {
 		toast.setText(text);
+	}
+	
+	public static void setText(Integer number) {
+		toast.setText(number.toString());
 	}
 	
 	public static void setText(Long number) {

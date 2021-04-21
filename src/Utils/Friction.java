@@ -1,5 +1,7 @@
 package Utils;
 
+import Collision.PVector;
+
 public class Friction{
 	
 	public static PVector calculateFriction(PVector force) {

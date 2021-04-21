@@ -8,9 +8,10 @@ public class CollisionEngine {
 
 	private static Vector<GameObject> gameObjects = new Vector<>();
 	private static Vector<GameObject> toRemove 	  = new Vector<>();
+	private static Vector<GameObject> toAdd 	  = new Vector<>();
 	
 	public static void addGameObject(GameObject toAdd) {
-		gameObjects.add(toAdd);
+		CollisionEngine.toAdd.add(toAdd);
 	}
 	
 	public static void calculateCollision() {
@@ -20,7 +21,10 @@ public class CollisionEngine {
 			
 			for (GameObject obj2 :  gameObjects) {
 				HitBox hb2 = obj2.getHitBox();
-				if (obj != obj2 && hb.collide(hb2)) {
+				
+				//System.out.println(obj.getName() + " - " + obj2.getName());
+				
+				if (hb != null && hb2 != null && obj != obj2 && hb.collide(hb2)) {
 					
 					//System.out.println(obj.getName() + " ha colpito " + obj2.getName());
 					
@@ -29,7 +33,15 @@ public class CollisionEngine {
 			}
 		}
 		
-		gameObjects.removeAll(toRemove);
+		if (toRemove.size() > 0) {
+			gameObjects.removeAll(toRemove);
+			toRemove.clear();
+		}
+		
+		if (toAdd.size() > 0) {
+			gameObjects.addAll(toAdd);
+			toAdd.clear();
+		}
 		
 	}
 

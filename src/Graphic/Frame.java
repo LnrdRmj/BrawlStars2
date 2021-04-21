@@ -3,11 +3,15 @@ package Graphic;
 import java.awt.Rectangle;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Frame extends JFrame{
 	
-	public static JPanel game = new Game();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public static Game game = new Game();
 	
 	public final static int gameWidth  = 1200;
 	public final static int gameHeight = 800;
@@ -19,10 +23,9 @@ public class Frame extends JFrame{
 		this.setBounds(new Rectangle(gameWidth, gameHeight));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		this.add(game);
-
-		this.setVisible(true);
+		this.getContentPane().add(game.getCanvas());
 		
+		this.setVisible(true);
 	}
 	
 }

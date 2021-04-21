@@ -5,14 +5,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
-import Utils.PVector;
 import Utils.PVectorUtil;
 
 public class HitBox {
 
 	private Dimension dim;
 	private PVector origin;
-	private double angle;
+	private Double angle;
 	
 	private int pointX[];
 	private int pointY[];
@@ -53,7 +52,7 @@ public class HitBox {
 		
 	}
 	
-	private void update() {
+	public void update() {
 		
 		double nx = 0;
 		double ny = 0;
@@ -86,7 +85,7 @@ public class HitBox {
 
 	}
 	
-	public void updateAngle(double angleDirection) {
+	public void setAngle(double angleDirection) {
 		
 		angle = angleDirection;
 		

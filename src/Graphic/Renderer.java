@@ -1,4 +1,4 @@
-package Utils;
+package Graphic;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,9 +13,10 @@ public class Renderer {
 
 	private static Vector<GameObject> toRender = new Vector<>();
 	private static Vector<GameObject> toRemove = new Vector<>();
+	private static Vector<GameObject> toAdd = new Vector<>();
 
 	public static void addGameObjectToRender(GameObject g) {
-		toRender.add(g);
+		toAdd.add(g);
 	}
 	
 	public static void render(Graphics g) {
@@ -24,16 +25,22 @@ public class Renderer {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		g.setColor(Color.white);
-//		for (GameObject i : toRender)
-//			i.draw(g);
 		
 		for (Iterator<GameObject> iterator = toRender.iterator(); iterator.hasNext();) {
 		    GameObject go = iterator.next();
 		    go.draw(g);
+		    go.update();
 		}
 		
-		toRender.removeAll(toRemove);
+		if (toRemove.size() > 0) {
+			toRender.removeAll(toRemove);
+			toRemove.clear();
+		}
 		
+		if (toAdd.size() > 0) {
+			toRender.addAll(toAdd);
+			toAdd.clear();
+		}
 	}
 
 	public static void removeGameObjectToRender(GameObject go) {
