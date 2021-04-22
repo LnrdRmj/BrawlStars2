@@ -19,11 +19,10 @@ public class Enemy extends GameObject {
 		super();
 		
 		pos = new PVector(Random.random(Frame.gameWidth), Random.random(Frame.gameHeight));
-		angle = Math.PI / 4;
-//		angle = Math.toRadians(Random.random(361));
+		angle = 0d;
 		setHitBox(new HitBox(new Dimension(50, 50), pos, angle));
 		
-		setFillColor(new Color(Random.random(256), 0, Random.random(256)));
+		setFillColor(new Color(52, 235, Random.random(256)));
 		
 		setName("Nemico");
 		

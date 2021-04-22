@@ -33,7 +33,7 @@ public class Game implements Runnable, KeyListener{
 		
 		player = new Player(canvas);
 		
-		for (int i = 0; i < 50; ++i)
+		for (int i = 0; i < 5; ++i)
 			new Enemy();
 
 		mainThread = new Thread(this);
@@ -98,7 +98,7 @@ public class Game implements Runnable, KeyListener{
 	public void keyPressed(KeyEvent e) {
 		
 		switch (e.getKeyChar()) {
-		case '': // R: Non so perché ma dovrebbe essere una R maiuscola
+		case '': // R: Non so perchï¿½ ma dovrebbe essere una R maiuscola
 			
 			
 			if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) {

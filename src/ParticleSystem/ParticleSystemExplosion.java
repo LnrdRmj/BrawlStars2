@@ -15,7 +15,7 @@ public class ParticleSystemExplosion extends ParticleSystemInterface {
 		
 		super();
 		
-		numberParticles = 500;
+		numberParticles = 100;
 		particles = new Vector<Particle>(numberParticles);
 		
 		for(int i = 0; i < numberParticles; ++i) particles.add(new ParticleExplosion(x, y));

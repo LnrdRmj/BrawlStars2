@@ -24,8 +24,8 @@ public class Bullet extends GameObject {
 
 	private BufferedImage sprite;
 	
-	public static Dimension bulletDimension = new Dimension(20, 10);
-	public int bulletSpeed = 50;
+	public static Dimension bulletDimension = new Dimension(30, 8);
+	public int bulletSpeed = 30;
 
 	public static int bulletWidth;
 	public static int bulletHeight;
@@ -59,7 +59,7 @@ public class Bullet extends GameObject {
 		setFillColor(Color.decode("#E26D5C"));
 		setName("Proiettile");
 		
-		sprite = ImageUtils.getImage("Sprites\\bullet.png");
+		sprite = ImageUtils.getImage("Sprites/bullet.png");
 		
 		bulletPos = new PVector(originX, originY);
 		

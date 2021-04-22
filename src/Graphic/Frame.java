@@ -10,12 +10,12 @@ public class Frame extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public static Game game = new Game();
 	
 	public final static int gameWidth  = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public final static int gameHeight = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	
+	public static Game game = new Game();
+
 	public Frame() {
 		
 		super();

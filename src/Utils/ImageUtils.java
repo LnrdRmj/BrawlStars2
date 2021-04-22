@@ -18,7 +18,8 @@ public class ImageUtils {
 			
 		} catch (IOException ex) {
 			
-			System.out.println("Qualcosa è andato storto");
+			System.out.println(ex);
+			System.out.println("Qualcosa ï¿½ andato storto. Path: " + path);
 			
 		}
 		
