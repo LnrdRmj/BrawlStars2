@@ -112,6 +112,7 @@ public class Bullet extends GameObject {
 		if (hit instanceof Enemy) {
 			
 			ParticleSystemRenderer.addParticleSystem(new ParticleSystemExplosion(bulletPos.x, bulletPos.y));
+			Game.removeGameObject(this);
 			
 		}
 		
