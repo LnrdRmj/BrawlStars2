@@ -2,7 +2,7 @@ package Main;
 
 import Graphic.Frame;
 
-public class Main {
+public class Gioco {
 
 	public static void main(String[] args) {
 		

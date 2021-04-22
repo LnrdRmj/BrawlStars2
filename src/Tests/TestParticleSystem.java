@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 
-public class Frame extends JFrame{
+public class TestParticleSystem extends JFrame{
 
 	/**
 	 * 
@@ -16,11 +16,11 @@ public class Frame extends JFrame{
 	
 	public static void main (String []args) {
 
-		new Frame();
+		new TestParticleSystem();
 		
 	}
 	
-	public Frame() {
+	public TestParticleSystem() {
 		
 		super();
 

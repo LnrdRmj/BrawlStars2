@@ -16,7 +16,7 @@ public class Particle1 extends Particle{
 	
 	public Particle1() {
 		
-		pos = new PVector(Frame.width / 2, Frame.height / 2);
+		pos = new PVector(TestParticleSystem.width / 2, TestParticleSystem.height / 2);
 		
 		int range = 1;
 		

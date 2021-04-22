@@ -26,7 +26,7 @@ public class ParticleExplosion extends Particle{
 		
 		int colorValue = Random.random(30, 256);
 		
-		color = new Color(255, colorValue, colorValue);
+		color = new Color(204, colorValue, 18);
 		
 	}
 	
@@ -44,8 +44,8 @@ public class ParticleExplosion extends Particle{
 			this.pos.add(this.velocity);
 			
 		}
-		
-		ttl--;
+		r = ttl / 2 + 5;
+		--ttl;
 		
 	}
 

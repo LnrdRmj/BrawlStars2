@@ -6,6 +6,10 @@ import java.util.Vector;
 public class ParticleSystemExplosion extends ParticleSystemInterface {
 
 	private boolean isDead = false;
+	private int nDead;
+	
+	private float x;
+	private float y;
 	
 	public ParticleSystemExplosion (float x, float y) {
 		
@@ -14,11 +18,12 @@ public class ParticleSystemExplosion extends ParticleSystemInterface {
 		numberParticles = 50;
 		particles = new Vector<Particle>(numberParticles);
 		
-		for(int i = 0; i < numberParticles; ++i) {
-			
-			particles.add(new ParticleExplosion(x, y));
-
-		}
+		for(int i = 0; i < numberParticles; ++i) particles.add(new ParticleExplosion(x, y));
+		
+		nDead = 0;
+		
+		this.x = x;
+		this.y = y;
 		
 	}
 	
@@ -33,15 +38,27 @@ public class ParticleSystemExplosion extends ParticleSystemInterface {
 			p.update();
 			
 			if (p.isDead()) {
-
+				
 				isDead = true;
+				nDead++;
 
+			}
+			
+			if (nDead == numberParticles) {
+				reset();
+				nDead = 0;
 			}
 			
 		}
 		
 	}
 
+	public void reset() {
+		
+		for(int i = 0; i < numberParticles; ++i) particles.set(i, new ParticleExplosion(x, y));
+		
+	}
+	
 	public boolean isDead() {
 		
 		return isDead;
