@@ -1,4 +1,4 @@
-package Miscellaneous;
+package ParticleSystem;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -6,7 +6,7 @@ import java.awt.RenderingHints;
 import java.util.Iterator;
 import java.util.Vector;
 
-import Tests.ParticleSystemInterface;
+import ParticleSystem.ParticleSystemInterface;
 
 public class ParticleSystemRenderer {
 

@@ -7,6 +7,10 @@ import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
+import Graphic.Frame;
+import ParticleSystem.ParticleSystemExplosion;
+import ParticleSystem.ParticleSystemInterface;
+
 public class Panel extends JPanel implements Runnable{
 	
 	/**
@@ -20,7 +24,7 @@ public class Panel extends JPanel implements Runnable{
 		
 		this.setBackground(Color.decode("#202020"));
 		
-		sys = new ParticleSystemExplosion(TestParticleSystem.width / 2, TestParticleSystem.height / 2);
+		sys = new ParticleSystemExplosion(Frame.gameWidth / 2, Frame.gameHeight / 2);
 		
 		new Thread(this).start();
 		

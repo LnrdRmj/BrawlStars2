@@ -1,4 +1,4 @@
-package Tests;
+package ParticleSystem;
 
 import java.awt.Color;
 import java.awt.Graphics;

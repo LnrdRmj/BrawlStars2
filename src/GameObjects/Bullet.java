@@ -11,8 +11,8 @@ import Collision.HitBox;
 import Collision.PVector;
 import Graphic.Frame;
 import Graphic.Game;
-import Miscellaneous.ParticleSystemRenderer;
-import Tests.ParticleSystemExplosion;
+import ParticleSystem.ParticleSystemExplosion;
+import ParticleSystem.ParticleSystemRenderer;
 import Utils.ImageUtils;
 
 public class Bullet extends GameObject {

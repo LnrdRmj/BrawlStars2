@@ -1,4 +1,4 @@
-package Tests;
+package ParticleSystem;
 
 import java.awt.Graphics;
 import java.util.Vector;
