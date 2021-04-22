@@ -3,10 +3,12 @@ package GameObjects;
 import Collision.PVector;
 
 public class OPGun extends Gun{
-
+	
 	public OPGun(PVector p) {
 		
 		super(p);
+		
+		fireRate = 1000;
 		
 	}
 	

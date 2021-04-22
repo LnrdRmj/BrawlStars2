@@ -13,16 +13,17 @@ public class Enemy extends GameObject {
 
 	private PVector pos;
 	private Double  angle;
-	
+
 	public Enemy() {
 		
 		super();
 		
-		pos = new PVector(400, 600);
+		pos = new PVector(Random.random(Frame.gameWidth), Random.random(Frame.gameHeight));
 		angle = Math.PI / 4;
+//		angle = Math.toRadians(Random.random(361));
 		setHitBox(new HitBox(new Dimension(50, 50), pos, angle));
 		
-		setFillColor(Color.decode("#7F95D1"));
+		setFillColor(new Color(Random.random(256), 0, Random.random(256)));
 		
 		setName("Nemico");
 		
@@ -39,8 +40,8 @@ public class Enemy extends GameObject {
 	@Override
 	public void update() {
 
-		angle += 0.1;
-		hitBox.setAngle(angle);
+//		angle += 0.1;
+//		hitBox.setAngle(angle);
 
 	}
 

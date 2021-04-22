@@ -5,7 +5,7 @@ public class Random {
 	// Return double
 	public static double randomDouble(int left, int right) {
 		
-		return Math.floor( Math.random() * (right - left) + left);
+		return Math.random() * (right - left) + left;
 		
 	}
 	

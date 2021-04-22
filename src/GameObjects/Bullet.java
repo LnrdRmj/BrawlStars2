@@ -11,6 +11,8 @@ import Collision.HitBox;
 import Collision.PVector;
 import Graphic.Frame;
 import Graphic.Game;
+import ParticleSystem.ParticleSystemExplosion;
+import ParticleSystem.ParticleSystemRenderer;
 import Utils.ImageUtils;
 
 public class Bullet extends GameObject {
@@ -23,7 +25,7 @@ public class Bullet extends GameObject {
 	private BufferedImage sprite;
 	
 	public static Dimension bulletDimension = new Dimension(20, 10);
-	public int bulletSpeed = 10;
+	public int bulletSpeed = 50;
 
 	public static int bulletWidth;
 	public static int bulletHeight;
@@ -107,17 +109,10 @@ public class Bullet extends GameObject {
 	@Override
 	public void hit(GameObject hit) {
 		
-		switch (hit.getClass().toString().substring(7)) {
-		case "Player":
+		if (hit instanceof Enemy) {
 			
-			break;
+			ParticleSystemRenderer.addParticleSystem(new ParticleSystemExplosion(bulletPos.x, bulletPos.y));
 			
-		case "Enemy":
-			
-			break;
-
-		default:
-			break;
 		}
 		
 	}
