@@ -63,5 +63,11 @@ public class Particle1 extends Particle{
 		return ttl <= -1000;
 		
 	}
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

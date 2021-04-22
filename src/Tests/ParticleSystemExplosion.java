@@ -17,7 +17,7 @@ public class ParticleSystemExplosion extends ParticleSystemInterface {
 		for(int i = 0; i < numberParticles; ++i) {
 			
 			particles.add(new ParticleExplosion(x, y));
-			
+
 		}
 		
 	}

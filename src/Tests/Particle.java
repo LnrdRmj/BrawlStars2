@@ -19,5 +19,6 @@ public abstract class Particle {
 	
 	public abstract boolean isDead();
 	
+	public abstract void reset();
 	
 }

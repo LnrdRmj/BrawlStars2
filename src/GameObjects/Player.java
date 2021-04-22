@@ -11,7 +11,6 @@ import Collision.HitBox;
 import Collision.PVector;
 import Graphic.Canvas;
 import Graphic.Frame;
-import Utils.Force;
 import Utils.Friction;
 import Utils.StringUtils;
 
@@ -28,13 +27,13 @@ public class Player extends GameObject implements KeyListener{
 	private Dimension thick;
 	private int thicc = 25;
 	
-	private final float MAX_VELOCITY = 5;
-	private PVector velocity;
+	private final float MAX_VELOCITY = 10;
 	private final float ACCELERATION = 0.3f;
 	
 	private boolean w = false, a = false, s = false, d = false;
 	
-	private Force forces[];
+	private PVector velocity;
+	private PVector acc;
 	
 	private Gun gun;
 	
@@ -56,15 +55,11 @@ public class Player extends GameObject implements KeyListener{
 		
 		animator = new Animator(pos, "Sprites/17.png");
 		
-		this.velocity = new PVector(0, 0);
+		this.velocity = new PVector();
+		this.acc = new PVector();
 		
 		// Sets the hitbox
 		setHitBox(new HitBox(thick = new Dimension(animator.getWidthFrame(), animator.getHeightFrame()), pos));
-		
-		forces = new Force [4];
-		
-		for (int i = 0; i < forces.length; ++i)
-			forces[i] = new Force();
 		
 		gun = new Gun(pos);
 		canvas.addMouseListener(gun);
@@ -81,13 +76,16 @@ public class Player extends GameObject implements KeyListener{
 	
 	public void update() {
 		
-		this.velocity.reset();
-		
-		applyForcesToVelocity();
+		velocity.add(acc);
+
+		if 		(velocity.x >= MAX_VELOCITY) 	velocity.x =  MAX_VELOCITY;
+		else if (velocity.x <= -MAX_VELOCITY)	velocity.x = -MAX_VELOCITY;
+		if 		(velocity.y >= MAX_VELOCITY) 	velocity.y =  MAX_VELOCITY;
+		else if (velocity.y <= -MAX_VELOCITY)	velocity.y = -MAX_VELOCITY;
 		
 		applyFrictionTovelocity();
 		
-		this.pos.add(velocity);
+		pos.add(velocity);
 		
 	}
 	
@@ -104,7 +102,7 @@ public class Player extends GameObject implements KeyListener{
 		case 'w':
 			
 			if (!w) {
-				forces[0] = new Force(new PVector(0, -MAX_VELOCITY), new PVector(0, -ACCELERATION));
+				acc.add(0, -ACCELERATION);
 				w = true;
 				
 				animator.start(Animator.INDIETRO);
@@ -117,7 +115,7 @@ public class Player extends GameObject implements KeyListener{
 		case 'a':
 			
 			if (!a) {
-				forces[1] = new Force(new PVector(-MAX_VELOCITY, 0), new PVector(-ACCELERATION, 0));
+				acc.add(-ACCELERATION, 0);
 				a = true;
 				
 				animator.start(Animator.SINISTRA);
@@ -130,7 +128,8 @@ public class Player extends GameObject implements KeyListener{
 		case 's':
 			
 			if (!s) {
-				forces[2] = new Force(new PVector(0, MAX_VELOCITY), new PVector(0, ACCELERATION));
+				acc.add(0, ACCELERATION);
+				
 				s = true;
 				
 				animator.start(Animator.AVANTI);
@@ -143,7 +142,7 @@ public class Player extends GameObject implements KeyListener{
 		case 'd':
 			
 			if (!d) {
-				forces[3] = new Force(new PVector(MAX_VELOCITY, 0), new PVector(ACCELERATION, 0));
+				acc.add(ACCELERATION, 0);
 				d = true;
 				
 				animator.start(Animator.DESTRA);
@@ -167,7 +166,8 @@ public class Player extends GameObject implements KeyListener{
 		switch(keyChar) {
 		case 'w':
 			
-			forces[0] = new Force(new PVector(0, 0), Friction.calculateFriction(forces[0].getVector()), forces[0].getVector());
+			acc.add(0, ACCELERATION);
+			
 			w = false;
 			
 			inputsPressed.remove(StringUtils.charToString(keyChar));
@@ -182,7 +182,8 @@ public class Player extends GameObject implements KeyListener{
 			break;
 		case 'a':
 			
-			forces[1] = new Force(new PVector(0, 0), Friction.calculateFriction(forces[1].getVector()), forces[1].getVector());
+			acc.add(ACCELERATION, 0);
+			
 			a = false;
 			
 			inputsPressed.remove(StringUtils.charToString(keyChar));
@@ -197,7 +198,8 @@ public class Player extends GameObject implements KeyListener{
 			break;
 		case 's':
 			
-			forces[2] = new Force(new PVector(0, 0), Friction.calculateFriction(forces[2].getVector()), forces[2].getVector());
+			acc.add(0, -ACCELERATION);
+			
 			s = false;
 			
 			inputsPressed.remove(StringUtils.charToString(keyChar));
@@ -212,7 +214,8 @@ public class Player extends GameObject implements KeyListener{
 			break;
 		case 'd':
 			
-			forces[3] = new Force(new PVector(0, 0), Friction.calculateFriction(forces[3].getVector()), forces[3].getVector());
+			acc.add(-ACCELERATION, 0);
+			
 			d = false;
 			
 			inputsPressed.remove(StringUtils.charToString(keyChar));
@@ -233,13 +236,6 @@ public class Player extends GameObject implements KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
-	
-	public void applyForcesToVelocity() {
-		
-		for (int i = 0; i < forces.length; ++i)
-			this.velocity.add(forces[i].applyForce());
 		
 	}
 	

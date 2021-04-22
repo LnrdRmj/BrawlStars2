@@ -30,6 +30,12 @@ public class ParticleExplosion extends Particle{
 		
 	}
 	
+	public void reset() {
+		
+		
+		
+	}
+	
 	public void update() {
 		
 		if (ttl > 0) {

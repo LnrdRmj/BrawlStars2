@@ -11,8 +11,8 @@ public class Frame extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static int width = 1920;
-	public static int height = 1080;
+	public static int width = 800;
+	public static int height = 800;
 	
 	public static void main (String []args) {
 
