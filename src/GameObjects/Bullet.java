@@ -25,7 +25,7 @@ public class Bullet extends GameObject {
 	private BufferedImage sprite;
 	
 	public static Dimension bulletDimension = new Dimension(20, 10);
-	public int bulletSpeed = 10;
+	public int bulletSpeed = 50;
 
 	public static int bulletWidth;
 	public static int bulletHeight;
@@ -108,8 +108,6 @@ public class Bullet extends GameObject {
 
 	@Override
 	public void hit(GameObject hit) {
-		
-		System.out.println("Sheesh");
 		
 		if (hit instanceof Enemy) {
 			

@@ -1,6 +1,9 @@
 package Graphic;
 
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.JPanel;
 
 import Collision.CollisionEngine;
@@ -8,7 +11,7 @@ import GameObjects.Enemy;
 import GameObjects.GameObject;
 import GameObjects.Player;
 
-public class Game implements Runnable {
+public class Game implements Runnable, KeyListener{
 
 	/**
 	 * 
@@ -20,12 +23,18 @@ public class Game implements Runnable {
 	private Canvas canvas;
 
 	Game() {
-
+		startNewGame();
+	}
+	
+	private void startNewGame() {
+		
 		canvas = new Canvas();
+		canvas.addKeyListener(this);
 		
 		player = new Player(canvas);
 		
-		new Enemy();
+		for (int i = 0; i < 100; ++i)
+			new Enemy();
 
 		mainThread = new Thread(this);
 		mainThread.start();
@@ -77,6 +86,38 @@ public class Game implements Runnable {
 
 	public JPanel getCanvas() {
 		return canvas;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+		switch (e.getKeyChar()) {
+		case '': // R: Non so perché ma dovrebbe essere una R maiuscola
+			
+			
+			if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) {
+				
+				System.out.println("New game");
+//				startNewGame();
+				
+			}
+			
+			break;
+
+		}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
