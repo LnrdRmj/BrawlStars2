@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import Graphic.Frame;
 import ParticleSystem.ParticleSystemExplosion;
+import ParticleSystem.ParticleSystemBlackHole;
 import ParticleSystem.ParticleSystemInterface;
 
 public class Panel extends JPanel implements Runnable{
@@ -24,7 +25,7 @@ public class Panel extends JPanel implements Runnable{
 		
 		this.setBackground(Color.decode("#202020"));
 		
-		sys = new ParticleSystemImplosion(TestParticleSystem.width / 2, TestParticleSystem.width / 2);
+		sys = new ParticleSystemBlackHole(TestParticleSystem.width / 2, TestParticleSystem.width / 2);
 		
 		new Thread(this).start();
 		

@@ -11,8 +11,8 @@ import Collision.HitBox;
 import Collision.PVector;
 import Graphic.Frame;
 import Graphic.Game;
+import ParticleSystem.ParticleSystemBlackHole;
 import ParticleSystem.ParticleSystemRenderer;
-import Tests.ParticleSystemImplosion;
 import Utils.ImageUtils;
 
 public class Bullet extends GameObject {
@@ -111,7 +111,7 @@ public class Bullet extends GameObject {
 		
 		if (hit instanceof Enemy) {
 			
-			ParticleSystemRenderer.addParticleSystem(new ParticleSystemImplosion(bulletPos.x, bulletPos.y));
+			ParticleSystemRenderer.addParticleSystem(new ParticleSystemBlackHole(bulletPos.x, bulletPos.y));
 			Game.removeGameObject(this);
 			
 		}
