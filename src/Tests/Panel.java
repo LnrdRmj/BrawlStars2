@@ -24,7 +24,7 @@ public class Panel extends JPanel implements Runnable{
 		
 		this.setBackground(Color.decode("#202020"));
 		
-		sys = new ParticleSystemExplosion(Frame.gameWidth / 2, Frame.gameHeight / 2);
+		sys = new ParticleSystemImplosion(TestParticleSystem.width / 2, TestParticleSystem.width / 2);
 		
 		new Thread(this).start();
 		

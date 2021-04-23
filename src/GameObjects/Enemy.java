@@ -48,7 +48,7 @@ public class Enemy extends GameObject {
 	public void hit(GameObject hit) {
 		
 		if (hit instanceof Bullet){
-			changeRandomPos();
+//			changeRandomPos();
 		}
 		
 	}

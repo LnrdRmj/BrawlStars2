@@ -19,7 +19,7 @@ public class PVector {
 		this(0, 0);
 	}
 	
-	PVector(PVector copy){
+	public PVector(PVector copy){
 		this(copy.x, copy.y);
 	}
 	
