@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import Collision.HitBox;
 import Collision.PVector;
 import Graphic.Frame;
+import ParticleSystem.ParticleSystemBlackHole;
+import ParticleSystem.ParticleSystemRenderer;
 import Utils.Random;
 
 public class Enemy extends GameObject {
@@ -48,7 +50,8 @@ public class Enemy extends GameObject {
 	public void hit(GameObject hit) {
 		
 		if (hit instanceof Bullet){
-//			changeRandomPos();
+			ParticleSystemRenderer.addParticleSystem(new ParticleSystemBlackHole(pos.x, pos.y));
+			changeRandomPos();
 		}
 		
 	}

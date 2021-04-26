@@ -14,7 +14,7 @@ public class ParticleSystemBlackHole extends ParticleSystemInterface {
 	public ParticleSystemBlackHole(float x, float y) {
 	
 		super();
-		System.out.println(x);
+
 		numberParticles = 100;
 		particles = new Vector<Particle>(numberParticles);
 		

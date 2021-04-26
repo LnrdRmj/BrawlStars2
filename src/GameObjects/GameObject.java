@@ -2,11 +2,11 @@ package GameObjects;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 import Collision.HitBox;
 import Graphic.Game;
+import Graphic.Sprite;
 
 public abstract class GameObject implements Serializable{
 
@@ -18,7 +18,7 @@ public abstract class GameObject implements Serializable{
 	protected HitBox hitBox;
 	protected Color fillColor;
 	protected String name;
-	protected BufferedImage sprite;
+	protected Sprite sprite;
 	
 	public GameObject (HitBox hitBox) {
 		this();

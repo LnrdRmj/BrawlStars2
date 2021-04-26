@@ -53,7 +53,7 @@ public class Player extends GameObject implements KeyListener{
 		pos = new PVector(Frame.gameWidth / 2 - thicc / 2, Frame.gameHeight / 2 - thicc / 2);
 		health = 100;
 		
-		animator = new Animator(pos, "Sprites/17.png");
+		animator = new Animator(pos, "Sprites/character/17.png");
 		
 		this.velocity = new PVector();
 		this.acc = new PVector();
@@ -70,6 +70,7 @@ public class Player extends GameObject implements KeyListener{
 	
 	public void draw(Graphics g) {
 		
+		hitBox.draw(g);
 		animator.drawFrame(g);
 		
 	}

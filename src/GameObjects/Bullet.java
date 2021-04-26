@@ -12,6 +12,7 @@ import Collision.PVector;
 import Graphic.Frame;
 import Graphic.Game;
 import ParticleSystem.ParticleSystemBlackHole;
+import ParticleSystem.ParticleSystemExplosion;
 import ParticleSystem.ParticleSystemRenderer;
 import Utils.ImageUtils;
 
@@ -59,7 +60,7 @@ public class Bullet extends GameObject {
 		setFillColor(Color.decode("#E26D5C"));
 		setName("Proiettile");
 		
-		sprite = ImageUtils.getImage("Sprites/bullet.png");
+		sprite = ImageUtils.getImage("Sprites/weapons/bullets/bullet.png");
 		
 		bulletPos = new PVector(originX, originY);
 		
@@ -98,8 +99,8 @@ public class Bullet extends GameObject {
 			bulletPos.y < -100 ||
 			bulletPos.y > Frame.gameHeight) {
 			
-			Game.removeGameObject(this);
 			
+			Game.removeGameObject(this);
 		}
 		
 		hitBox.update();
@@ -111,7 +112,7 @@ public class Bullet extends GameObject {
 		
 		if (hit instanceof Enemy) {
 			
-			ParticleSystemRenderer.addParticleSystem(new ParticleSystemBlackHole(bulletPos.x, bulletPos.y));
+			ParticleSystemRenderer.addParticleSystem(new ParticleSystemExplosion(bulletPos.x, bulletPos.y));
 			Game.removeGameObject(this);
 			
 		}
