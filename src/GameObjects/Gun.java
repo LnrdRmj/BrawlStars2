@@ -24,7 +24,7 @@ import Utils.PVectorUtil;
 public class Gun extends GameObject implements MouseListener{
 	
 //	public static Dimension gunDimension = new Dimension(100, (int)(100 / 2.8));
-	public static int gunWidth = 100;
+	public static int gunWidth;
 	public static int gunHeight;
 	public static Dimension gunDimension;
 	
@@ -51,14 +51,14 @@ public class Gun extends GameObject implements MouseListener{
 		super();
 		
 		setName("Pistola");
-		sprite = new Sprite("Sprites/weapons/assaultrifle.png");
-		sprite.setWidthMaintainRatio(gunWidth);
+		sprite = new Sprite("Sprites/weapons/pistol3.png");
+		sprite.setWidthMaintainRatio(50);
 		
 		gunDimension = new Dimension(sprite.getWidth(), sprite.getHeight());
 		
 		playerPos = p;
 		angleDirection = 0d;
-		adjustedmentPosition = new PVector(10, 20);
+		adjustedmentPosition = new PVector(25, 40);
 		
 		setHitBox(new HitBox(gunDimension, p, angleDirection));
 		
@@ -68,7 +68,7 @@ public class Gun extends GameObject implements MouseListener{
 	
 	public void shoot(int mouseX, int mouseY) {
 		
-		PVector p = PVectorUtil.rotatePoint(playerPos.x, playerPos.y, playerPos.x + gunDimension.width, playerPos.y + gunDimension.height / 2, angleDirection);
+		PVector p = PVectorUtil.rotatePoint(playerPos.x + adjustedmentPosition.x, playerPos.y + adjustedmentPosition.y, playerPos.x + adjustedmentPosition.x + gunDimension.width, playerPos.y + adjustedmentPosition.y + gunDimension.height / 2, angleDirection);
 		
 		new Bullet(p.x, p.y, angleDirection);
 		
@@ -131,7 +131,8 @@ public class Gun extends GameObject implements MouseListener{
 		
 		AffineTransform old = g2d.getTransform();
 		
-		g2d.translate(playerPos.x, playerPos.y);
+		g2d.translate(playerPos.x + adjustedmentPosition.x, playerPos.y + adjustedmentPosition.y);
+//		g2d.translate(playerPos.x, playerPos.y);
 		g2d.rotate(angleDirection);
 		
 		sprite.draw(g2d);
@@ -157,7 +158,6 @@ public class Gun extends GameObject implements MouseListener{
 			}
 		}
 		
-//		Toast.setText(angleDirection);
 		hitBox.setAngle(angleDirection);
 		
 		// Verifico se è a destra e se prima lo sprite è flippato

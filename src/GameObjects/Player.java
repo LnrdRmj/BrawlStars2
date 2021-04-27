@@ -22,10 +22,11 @@ public class Player extends GameObject implements KeyListener{
 	private static final long serialVersionUID = 1L;
 	
 	private PVector pos = new PVector(0, 0);
+	private PVector gunPos;
 	private int health = 100;
 	
 	private Dimension thick;
-	private int thicc = 25;
+	private int height;
 	
 	private final float MAX_VELOCITY = 10;
 	private final float ACCELERATION = 0.3f;
@@ -49,19 +50,19 @@ public class Player extends GameObject implements KeyListener{
 		
 		canvas.addKeyListener(this);
 		
-		thicc = 25;
-		pos = new PVector(Frame.gameWidth / 2 - thicc / 2, Frame.gameHeight / 2 - thicc / 2);
+		height = 125;
+		pos = new PVector(Frame.gameWidth / 2 - height / 2, Frame.gameHeight / 2 - height / 2);
 		health = 100;
 		
 		animator = new Animator(pos, "Sprites/character/17.png");
+		animator.setHeightMaintainRatio(height);
+		setHitBox(new HitBox(thick = new Dimension(animator.getWidthFrame(), animator.getHeightFrame()), pos));
 		
 		this.velocity = new PVector();
 		this.acc = new PVector();
 		
-		// Sets the hitbox
-		setHitBox(new HitBox(thick = new Dimension(animator.getWidthFrame(), animator.getHeightFrame()), pos));
-		
-		gun = new Gun(pos);
+		gunPos = new PVector(pos.x + thick.getWidth() * .3, pos.y + thick.getHeight() * .3);
+		gun = new Gun(gunPos);
 		canvas.addMouseListener(gun);
 		
 		inputsPressed = new Vector<String>();
@@ -87,6 +88,7 @@ public class Player extends GameObject implements KeyListener{
 		applyFrictionTovelocity();
 		
 		pos.add(velocity);
+		gunPos.add(velocity);
 		
 	}
 	
@@ -272,11 +274,11 @@ public class Player extends GameObject implements KeyListener{
 	}
 
 	public int getThicc() {
-		return thicc;
+		return height;
 	}
 
 	public void setThicc(int thicc) {
-		this.thicc = thicc;
+		this.height = thicc;
 	}
 	
 	public Gun getGun() {

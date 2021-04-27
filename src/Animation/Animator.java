@@ -30,6 +30,10 @@ public class Animator{
 	private int columns = 4;
 	private int rStep;
 	private int cStep;
+	
+	private int frameHeight;
+	private int frameWidth;
+	private double ratio;
 
 	Timer t;
 	TimerTask animation;
@@ -44,9 +48,14 @@ public class Animator{
 
 		framesImage = ImageUtils.getImage(framesImagePath); // Sets framesImage
 
-		rStep = framesImage.getHeight() / rows;
 		cStep = framesImage.getWidth() / columns;
+		rStep = framesImage.getHeight() / rows;
 
+		frameWidth = cStep;
+		frameHeight = rStep;
+		
+		ratio = (float)frameWidth / frameHeight;
+		
 		currentFrameIndex = 0;
 		
 		t = new Timer();
@@ -61,16 +70,32 @@ public class Animator{
 		int height = rStep;
 		
 		try {
-			g.drawImage(framesImage.getSubimage(x, y, width, height), (int)pos.x, (int)pos.y, null);
+			g.drawImage(framesImage.getSubimage(x, y, width, height), (int)pos.x, (int)pos.y, frameWidth, frameHeight, null);
 		}
 		catch (NullPointerException e) {
-			
 			System.out.println(e);
-			
 		}
 		
 	}
 
+	public void setWidthMaintainRatio(int width) {
+		this.frameWidth = width;
+		this.frameHeight = (int)(width / ratio);
+	}
+	
+	public void setWidth(int width) {
+		this.frameWidth = width;
+	}
+
+	public void setHeightMaintainRatio(int height) {
+		this.frameHeight = height;
+		this.frameWidth = (int)(height * ratio);
+	}
+	
+	public void setHeight(int height) {
+		this.frameHeight = height;
+	}
+	
 	public boolean isRunning() {
 		return isRunning;
 	}
@@ -121,13 +146,13 @@ public class Animator{
 
 	public int getWidthFrame() {
 		
-		return cStep;
+		return frameWidth;
 		
 	}
 
 	public int getHeightFrame() {
 		
-		return rStep;
+		return frameHeight;
 		
 	}
 	
