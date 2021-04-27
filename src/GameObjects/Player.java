@@ -70,7 +70,7 @@ public class Player extends GameObject implements KeyListener{
 	
 	public void draw(Graphics g) {
 		
-		hitBox.draw(g);
+//		hitBox.draw(g);
 		animator.drawFrame(g);
 		
 	}

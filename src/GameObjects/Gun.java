@@ -8,6 +8,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,6 +18,7 @@ import Collision.HitBox;
 import Collision.PVector;
 import Graphic.Frame;
 import Graphic.Sprite;
+import Graphic.Toast;
 import Utils.PVectorUtil;
 
 public class Gun extends GameObject implements MouseListener{
@@ -37,13 +39,20 @@ public class Gun extends GameObject implements MouseListener{
 	
 	Point mousePos;
 	
+	/*
+	 * 0 - Da decidere ancora al primo loop
+	 * 1 - vuol dire che la pistola sta a destra e quindi non è flippata
+	 * 2 - lo sprite della pistola sta a sinistra e quindi è flippata
+	 * */
+	private int isFlipped;
+	
 	public Gun(PVector p) {
 		
 		super();
 		
 		setName("Pistola");
 		sprite = new Sprite("Sprites/weapons/assaultrifle.png");
-		sprite.setWidthMaintainRatio(gunWidth = 200);
+		sprite.setWidthMaintainRatio(gunWidth);
 		
 		gunDimension = new Dimension(sprite.getWidth(), sprite.getHeight());
 		
@@ -52,6 +61,8 @@ public class Gun extends GameObject implements MouseListener{
 		adjustedmentPosition = new PVector(10, 20);
 		
 		setHitBox(new HitBox(gunDimension, p, angleDirection));
+		
+		isFlipped = 0;
 		
 	}
 	
@@ -114,7 +125,7 @@ public class Gun extends GameObject implements MouseListener{
 	@Override
 	public void draw(Graphics g) {
 		
-		hitBox.draw(g);
+//		hitBox.draw(g);
 		
 		Graphics2D g2d = (Graphics2D) g;
 		
@@ -135,7 +146,31 @@ public class Gun extends GameObject implements MouseListener{
 		SwingUtilities.convertPointFromScreen(mousePos = MouseInfo.getPointerInfo().getLocation(), Frame.game.getCanvas());
 		
 		angleDirection = (Math.atan2((mousePos.y - playerPos.y), (mousePos.x - playerPos.x)));
+		
+		if (isFlipped == 0) {
+			if 		(Math.abs(angleDirection) > Math.PI / 2) {
+				isFlipped = 1;
+			}
+			else	{
+				isFlipped = 2;
+				sprite.flip();
+			}
+		}
+		
+//		Toast.setText(angleDirection);
 		hitBox.setAngle(angleDirection);
+		
+		// Verifico se è a destra e se prima lo sprite è flippato
+		if (Math.abs(angleDirection) <= Math.PI / 2 && isFlipped == 2) {
+			sprite.flip();
+			isFlipped = 1;
+		}
+		// Verifico se è a sinistra e se prima lo sprite non è flippato
+		else if (Math.abs(angleDirection) > Math.PI / 2 && isFlipped == 1) {
+			sprite.flip();
+			isFlipped = 2;
+		}
+	
 		
 	}
 
