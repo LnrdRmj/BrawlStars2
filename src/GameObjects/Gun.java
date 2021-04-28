@@ -51,7 +51,7 @@ public class Gun extends GameObject implements MouseListener{
 		super();
 		
 		setName("Pistola");
-		sprite = new Sprite("Sprites/weapons/pistol3.png");
+		sprite = new Sprite("Sprites/weapons/assaultrifle.png");
 		sprite.setWidthMaintainRatio(50);
 		
 		gunDimension = new Dimension(sprite.getWidth(), sprite.getHeight());
