@@ -1,9 +1,12 @@
-package ParticleSystem;
+package ParticleSystem.particleSystems;
 
 import java.awt.Graphics;
 import java.util.Vector;
 
-public class ParticleSystemExplosion extends ParticleSystemInterface {
+import ParticleSystem.Particles.BlackHoleParticle;
+import ParticleSystem.Particles.Particle;
+
+public class ParticleSystemBlackHole extends ParticleSystemInterface {
 
 	private boolean isDead = false;
 	private int nDead;
@@ -11,20 +14,20 @@ public class ParticleSystemExplosion extends ParticleSystemInterface {
 	private float x;
 	private float y;
 	
-	public ParticleSystemExplosion (float x, float y) {
-		
+	public ParticleSystemBlackHole(float x, float y) {
+	
 		super();
-		
+
 		numberParticles = 100;
 		particles = new Vector<Particle>(numberParticles);
 		
-		for(int i = 0; i < numberParticles; ++i) particles.add(new ParticleExplosion(x, y));
+		for(int i = 0; i < numberParticles; ++i) particles.add(new BlackHoleParticle(x, y));
 		
 		nDead = 0;
 		
 		this.x = x;
 		this.y = y;
-		
+	
 	}
 	
 	@Override
@@ -40,13 +43,15 @@ public class ParticleSystemExplosion extends ParticleSystemInterface {
 			if (p.isDead()) {
 				
 				isDead = true;
+				particles.remove(p);
 				nDead++;
 
 			}
 			
 			if (nDead == numberParticles) {
-				reset();
-				nDead = 0;
+				isDead = true;
+//				reset();
+//				nDead = 0;
 			}
 			
 		}
@@ -55,14 +60,13 @@ public class ParticleSystemExplosion extends ParticleSystemInterface {
 
 	public void reset() {
 		
-		for(int i = 0; i < numberParticles; ++i) particles.set(i, new ParticleExplosion(x, y));
+		for(int i = 0; i < numberParticles; ++i) particles.add(new BlackHoleParticle(x, y));
 		
 	}
 	
+	@Override
 	public boolean isDead() {
-		
-		return isDead;
-		
+		return false;
 	}
-	
+
 }

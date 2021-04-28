@@ -9,6 +9,9 @@ import java.util.Vector;
 import Animation.Animator;
 import Collision.HitBox;
 import Collision.PVector;
+import GameObjects.Bullets.Bullet;
+import GameObjects.Guns.Gun;
+import GameObjects.Guns.ShotGun;
 import Graphic.Canvas;
 import Graphic.Frame;
 import Utils.Friction;
@@ -62,7 +65,7 @@ public class Player extends GameObject implements KeyListener{
 		this.acc = new PVector();
 		
 		gunPos = new PVector(pos.x + thick.getWidth() * .3, pos.y + thick.getHeight() * .3);
-		gun = new Gun(gunPos);
+		gun = new ShotGun(gunPos);
 		canvas.addMouseListener(gun);
 		
 		inputsPressed = new Vector<String>();

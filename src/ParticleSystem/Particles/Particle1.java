@@ -1,4 +1,4 @@
-package ParticleSystem;
+package ParticleSystem.Particles;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import Collision.PVector;
 import Utils.Random;
 
-public class Particle2 extends Particle{
+public class Particle1 extends Particle{
 
 	private Color color;
 	
@@ -14,7 +14,7 @@ public class Particle2 extends Particle{
 
 	private float r = 10;
 	
-	public Particle2() {
+	public Particle1() {
 		
 		pos = new PVector();
 		
@@ -24,8 +24,10 @@ public class Particle2 extends Particle{
 		double y = Random.randomDouble(-range, range);
 		
 //		velocity = new PVector(Random.randomDouble(-1, 1), Random.randomDouble(-1, 1));
-		velocity = new PVector(x, y);
-		acc = new PVector(- x / 100, - y / 100);
+//		velocity = new PVector(x, y);
+		velocity = new PVector();
+		double angle = Math.toRadians(Random.randomDouble(361));
+		acc = new PVector(Math.cos(angle) / 100, Math.sin(angle) / 100);
 		
 		int colorValue = Random.random(30, 256);
 		

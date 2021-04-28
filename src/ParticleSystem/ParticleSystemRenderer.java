@@ -6,7 +6,7 @@ import java.awt.RenderingHints;
 import java.util.Iterator;
 import java.util.Vector;
 
-import ParticleSystem.ParticleSystemInterface;
+import ParticleSystem.particleSystems.ParticleSystemInterface;
 
 public class ParticleSystemRenderer {
 

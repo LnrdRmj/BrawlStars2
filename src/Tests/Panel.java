@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import ParticleSystem.ParticleSystemInterface;
+import ParticleSystem.particleSystems.ParticleSystemInterface;
 import Utils.ImageUtils;
 
 public class Panel extends JPanel implements Runnable{

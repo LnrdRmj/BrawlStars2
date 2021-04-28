@@ -1,4 +1,4 @@
-package ParticleSystem;
+package ParticleSystem.Particles;
 
 import java.awt.Color;
 import java.awt.Graphics;

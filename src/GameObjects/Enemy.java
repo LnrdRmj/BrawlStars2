@@ -6,9 +6,10 @@ import java.awt.Graphics;
 
 import Collision.HitBox;
 import Collision.PVector;
+import GameObjects.Bullets.Bullet;
 import Graphic.Frame;
-import ParticleSystem.ParticleSystemBlackHole;
 import ParticleSystem.ParticleSystemRenderer;
+import ParticleSystem.particleSystems.ParticleSystemBlackHole;
 import Utils.Random;
 
 public class Enemy extends GameObject {

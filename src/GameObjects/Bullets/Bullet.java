@@ -1,4 +1,4 @@
-package GameObjects;
+package GameObjects.Bullets;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,11 +9,12 @@ import java.awt.image.BufferedImage;
 
 import Collision.HitBox;
 import Collision.PVector;
+import GameObjects.Enemy;
+import GameObjects.GameObject;
 import Graphic.Frame;
 import Graphic.Game;
-import ParticleSystem.ParticleSystemBlackHole;
-import ParticleSystem.ParticleSystemExplosion;
 import ParticleSystem.ParticleSystemRenderer;
+import ParticleSystem.particleSystems.ParticleSystemExplosion;
 import Utils.ImageUtils;
 
 public class Bullet extends GameObject {
@@ -33,7 +34,7 @@ public class Bullet extends GameObject {
 
 	private double angleDirection;
 
-	private PVector bulletPos;
+	protected PVector bulletPos;
 
 	public Bullet(PVector pos, double angleDirection) {
 		

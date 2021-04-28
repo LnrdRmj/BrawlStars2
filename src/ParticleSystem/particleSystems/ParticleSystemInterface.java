@@ -1,7 +1,9 @@
-package ParticleSystem;
+package ParticleSystem.particleSystems;
 
 import java.awt.Graphics;
 import java.util.Vector;
+
+import ParticleSystem.Particles.Particle;
 
 public abstract class ParticleSystemInterface {
 

@@ -1,4 +1,4 @@
-package GameObjects;
+package GameObjects.Guns;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -8,7 +8,6 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,9 +15,10 @@ import javax.swing.SwingUtilities;
 
 import Collision.HitBox;
 import Collision.PVector;
+import GameObjects.GameObject;
+import GameObjects.Bullets.Bullet;
 import Graphic.Frame;
 import Graphic.Sprite;
-import Graphic.Toast;
 import Utils.PVectorUtil;
 
 public class Gun extends GameObject implements MouseListener{
