@@ -62,7 +62,7 @@ public class Player extends GameObject implements KeyListener{
 		this.acc = new PVector();
 		
 		gunPos = new PVector(pos.x + thick.getWidth() * .3, pos.y + thick.getHeight() * .3);
-		gun = new OPGun(gunPos);
+		gun = new Gun(gunPos);
 		canvas.addMouseListener(gun);
 		
 		inputsPressed = new Vector<String>();
