@@ -8,7 +8,6 @@ import ParticleSystem.Particles.Particle;
 
 public class ParticleSystemBlackHole extends ParticleSystemInterface {
 
-	private boolean isDead = false;
 	private int nDead;
 	
 	private float x;
@@ -62,11 +61,6 @@ public class ParticleSystemBlackHole extends ParticleSystemInterface {
 		
 		for(int i = 0; i < numberParticles; ++i) particles.add(new BlackHoleParticle(x, y));
 		
-	}
-	
-	@Override
-	public boolean isDead() {
-		return false;
 	}
 
 }

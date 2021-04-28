@@ -2,14 +2,14 @@ package Tests;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
+import Collision.PVector;
 import ParticleSystem.particleSystems.ParticleSystemInterface;
-import Utils.ImageUtils;
+import ParticleSystem.particleSystems.ParticleSystemTrail;
 
 public class Panel extends JPanel implements Runnable{
 	
@@ -24,9 +24,9 @@ public class Panel extends JPanel implements Runnable{
 		
 		this.setBackground(Color.decode("#202020"));
 		
-//		sys = new ParticleSystemBlackHole(TestParticleSystem.width / 2, TestParticleSystem.width / 2);
-//		
-//		new Thread(this).start();
+		sys = new ParticleSystemTrail(new PVector(TestParticleSystem.width / 2, TestParticleSystem.width / 2), Math.toRadians(0));
+		
+		new Thread(this).start();
 		
 	}
 
@@ -35,21 +35,14 @@ public class Panel extends JPanel implements Runnable{
 		
 		super.paintComponent(g);
 		
-//		((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON); 
-//		
-//		g.setColor(Color.WHITE);
-//		
-//		sys.draw(g);
+		((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON); 
 		
-		BufferedImage bufferedImage = ImageUtils.getImage("Sprites/weapons/assaultrifle.png");
+		g.setColor(Color.WHITE);
 		
-		AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
-	    tx.translate(0, -bufferedImage.getHeight(null));
-	    AffineTransformOp op = new AffineTransformOp(tx,
-	        AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-	    bufferedImage = op.filter(bufferedImage, null);
+		sys.draw(g);
 		
-		g.drawImage(bufferedImage, 0, 0, null);
+		if (sys.isDead())
+			sys = new ParticleSystemTrail(new PVector(TestParticleSystem.width / 2, TestParticleSystem.width / 2), Math.toRadians(180 - 27));
 		
 	}
 	

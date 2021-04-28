@@ -9,8 +9,20 @@ public abstract class ParticleSystemInterface {
 
 	protected Vector <Particle> particles;
 	protected int numberParticles;
+	protected boolean isDead;
 	
 	public abstract void draw(Graphics g);
-	public abstract boolean isDead();
+	
+	public void setDead(boolean dead) {
+		
+		isDead = dead;
+		
+	}
+	
+	public boolean isDead() {
+		
+		return isDead;
+		
+	}
 	
 }

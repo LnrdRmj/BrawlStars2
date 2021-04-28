@@ -4,6 +4,8 @@ import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 
+import Utils.NumberUtils;
+
 public class TestParticleSystem extends JFrame{
 
 	/**

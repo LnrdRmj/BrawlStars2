@@ -1,7 +1,7 @@
 package GameObjects.Guns;
 
 import Collision.PVector;
-import GameObjects.Bullets.PierceBullet;
+import GameObjects.Bullets.BulletWithTrail;
 import Utils.PVectorUtil;
 
 public class PierceGun extends Gun {
@@ -15,7 +15,7 @@ public class PierceGun extends Gun {
 		
 		PVector p = PVectorUtil.rotatePoint(playerPos.x + adjustedmentPosition.x, playerPos.y + adjustedmentPosition.y, playerPos.x + adjustedmentPosition.x + gunDimension.width, playerPos.y + adjustedmentPosition.y + gunDimension.height / 2, angleDirection);
 		
-		new PierceBullet(p.x, p.y, angleDirection);
+		new BulletWithTrail(p.x, p.y, angleDirection);
 		
 	}
 	

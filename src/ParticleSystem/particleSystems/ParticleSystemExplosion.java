@@ -8,7 +8,6 @@ import ParticleSystem.Particles.ParticleExplosion;
 
 public class ParticleSystemExplosion extends ParticleSystemInterface {
 
-	private boolean isDead = false;
 	private int nDead;
 	
 	private float x;
@@ -59,12 +58,6 @@ public class ParticleSystemExplosion extends ParticleSystemInterface {
 	public void reset() {
 		
 		for(int i = 0; i < numberParticles; ++i) particles.set(i, new ParticleExplosion(x, y));
-		
-	}
-	
-	public boolean isDead() {
-		
-		return isDead;
 		
 	}
 	

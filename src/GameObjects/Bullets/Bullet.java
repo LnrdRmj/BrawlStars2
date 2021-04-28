@@ -32,7 +32,7 @@ public class Bullet extends GameObject {
 	public static int bulletWidth;
 	public static int bulletHeight;
 
-	private double angleDirection;
+	protected double angleDirection;
 
 	protected PVector bulletPos;
 
@@ -101,10 +101,16 @@ public class Bullet extends GameObject {
 			bulletPos.y > Frame.gameHeight) {
 			
 			
-			Game.removeGameObject(this);
+			delete();
 		}
 		
 		hitBox.update();
+		
+	}
+	
+	public void delete () {
+		
+		Game.removeGameObject(this);
 		
 	}
 

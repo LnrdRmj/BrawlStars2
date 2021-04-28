@@ -1,17 +1,14 @@
 package GameObjects.Bullets;
 
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import Collision.PVector;
-import GameObjects.Guns.Gun;
+import ParticleSystem.ParticleSystemRenderer;
+import ParticleSystem.particleSystems.ParticleSystemTrail;
 
 public class BulletWithTrail extends Bullet{
 
-	Timer timer;
-	ShootTask shootTask;
+	private ParticleSystemTrail ps;
 	
 	public BulletWithTrail(PVector pos, double angleDirection) {
 		
@@ -34,29 +31,24 @@ public class BulletWithTrail extends Bullet{
 	public BulletWithTrail(int originX, int originY, double angleDirection) {
 		
 		super(originX, originY, angleDirection);
-
+		
+		 ps = new ParticleSystemTrail(bulletPos, angleDirection);
+		 
 	}
 	
 	public void draw(Graphics g) {
 		
 		super.draw(g);
 		
-		
+		ParticleSystemRenderer.addParticleSystem(ps);
 		
 	}
 	
-	class ShootTask extends TimerTask{
-
-		private MouseEvent e;
-
-		@Override
-		public void run() {
-			createTrail();
-		}
+	@Override
+	public void delete() {
 		
-		public void setMouseEvent(MouseEvent e) {
-			this.e = e;
-		}
+		super.delete();
+		ps.setDead(true);
 		
 	}
 	
