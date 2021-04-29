@@ -24,8 +24,6 @@ public class ParticleSystemRenderer {
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
-		Toast.setText(particleSystemToRender.size());
-		
 		for (Iterator<ParticleSystemInterface> iterator = particleSystemToRender.iterator(); iterator.hasNext();) {
 			ParticleSystemInterface ps = iterator.next();
 		    ps.draw(g);

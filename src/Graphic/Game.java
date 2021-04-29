@@ -33,7 +33,7 @@ public class Game implements Runnable, KeyListener{
 		
 		player = new Player(canvas);
 		
-		for (int i = 0; i < 20; ++i)
+		for (int i = 0; i < 0; ++i)
 			new Enemy();
 
 		mainThread = new Thread(this);
@@ -51,12 +51,6 @@ public class Game implements Runnable, KeyListener{
 
 			// 60 Frames BABYYYY
 			wait(16);
-			
-			double end = System.currentTimeMillis();
-			double elapsedTime = end - start;
-
-//			System.out.println(elapsedTime);
-//			FPSCounter.setText(1 / (elapsedTime / 1000));
 			
 		}
 

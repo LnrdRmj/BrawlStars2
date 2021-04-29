@@ -11,7 +11,8 @@ public class TrailParticle extends Particle {
 
 	protected double angleDirection;
 	private int r = 10;
-	private int ttl = 60;
+	private final int STARTING_TTL = 60;
+	private int ttl = STARTING_TTL;
 	private Color color;
 	private int colorValue;
 	
@@ -22,17 +23,19 @@ public class TrailParticle extends Particle {
 		this.angleDirection = angleDirection;
 		
 		colorValue = 141;
-		color = new Color(50, colorValue, 168);
+		color = new Color(50, colorValue, 168, 255);
 		
 	}
 	
 	@Override
 	public void update() {
 		
-		pos.add(velocity);
-		
-		colorValue = NumberUtils.mapInt(ttl, 0, 60, 50, 160);
-		color = new Color(color.getRed(), colorValue, color.getBlue());
+		if (ttl >= 0) {
+			pos.add(velocity);
+			
+			colorValue = NumberUtils.mapInt(ttl, 0, 60, 50, 160);
+			color = new Color(color.getRed(), colorValue, color.getBlue(), NumberUtils.mapInt(ttl, 0, STARTING_TTL, 0, 255));
+		}
 		
 	}
 	
