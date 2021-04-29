@@ -100,7 +100,6 @@ public class Bullet extends GameObject {
 			bulletPos.y < -100 ||
 			bulletPos.y > Frame.gameHeight) {
 			
-			
 			delete();
 		}
 		

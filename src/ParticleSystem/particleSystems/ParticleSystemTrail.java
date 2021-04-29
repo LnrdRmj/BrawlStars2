@@ -15,6 +15,11 @@ public class ParticleSystemTrail extends ParticleSystemInterface{
 	private double angleDirection;
 	private Vector<Particle> toAdd;
 	
+	private boolean shouldDie;
+	private Timer timer;
+	private TrailTask shootTask;
+	
+	
 	public ParticleSystemTrail (PVector pos, double angleDirection) {
 		
 		particles = new Vector<>(2);
@@ -23,13 +28,14 @@ public class ParticleSystemTrail extends ParticleSystemInterface{
 		this.angleDirection = angleDirection;
 		toAdd = new Vector<>(2);
 		
+		shouldDie = false;
+		
 		// Le due particelle devono essere un l'opposta dell'altra
 		particles.add(new TrailParticle(pos.x, pos.y, angleDirection + Math.PI / 2));
 		particles.add(new TrailParticle(pos.x, pos.y, angleDirection - Math.PI / 2));
 		
-		Timer timer = new Timer();
-		TrailTask shootTask = new TrailTask();
-		
+		timer = new Timer();
+		shootTask = new TrailTask();		
 		timer.scheduleAtFixedRate(shootTask, 0, 50);
 		
 	}
@@ -57,11 +63,30 @@ public class ParticleSystemTrail extends ParticleSystemInterface{
 			toAdd.clear();
 		}
 		
+		if (shouldDie && particles.size() == 0) {
+			isDead = true;
+		}
+		else if (shouldDie) {
+			
+			timer.cancel();
+			timer.purge();
+			
+		}
+		
 	}
 
 	@Override
+	public void setDead(boolean shouldDie) {
+		
+		this.shouldDie = shouldDie;
+		
+	}
+	
+	@Override
 	public boolean isDead() {
-		return isDead;
+		
+		return shouldDie && isDead;
+		
 	}
 
 	class TrailTask extends TimerTask{

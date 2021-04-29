@@ -43,7 +43,6 @@ public class BulletWithTrail extends Bullet{
 		super.delete();
 		
 		ps.setDead(true);
-		ParticleSystemRenderer.removeParticleSystem(ps);
 		
 	}
 	
