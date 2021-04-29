@@ -132,7 +132,6 @@ public class Gun extends GameObject implements MouseListener{
 		AffineTransform old = g2d.getTransform();
 		
 		g2d.translate(playerPos.x + adjustedmentPosition.x, playerPos.y + adjustedmentPosition.y);
-//		g2d.translate(playerPos.x, playerPos.y);
 		g2d.rotate(angleDirection);
 		
 		sprite.draw(g2d);
@@ -146,7 +145,7 @@ public class Gun extends GameObject implements MouseListener{
 		
 		SwingUtilities.convertPointFromScreen(mousePos = MouseInfo.getPointerInfo().getLocation(), Frame.game.getCanvas());
 		
-		angleDirection = (Math.atan2((mousePos.y - playerPos.y), (mousePos.x - playerPos.x)));
+		angleDirection = (Math.atan2((mousePos.y - (playerPos.y + adjustedmentPosition.y)), (mousePos.x - (playerPos.x + adjustedmentPosition.x))));
 		
 		if (isFlipped == 0) {
 			if 		(Math.abs(angleDirection) > Math.PI / 2) {
