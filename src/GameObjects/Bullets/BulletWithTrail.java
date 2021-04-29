@@ -33,22 +33,17 @@ public class BulletWithTrail extends Bullet{
 		super(originX, originY, angleDirection);
 		
 		 ps = new ParticleSystemTrail(bulletPos, angleDirection);
+		 ParticleSystemRenderer.addParticleSystem(ps);
 		 
-	}
-	
-	public void draw(Graphics g) {
-		
-		super.draw(g);
-		
-		ParticleSystemRenderer.addParticleSystem(ps);
-		
 	}
 	
 	@Override
 	public void delete() {
 		
 		super.delete();
+		
 		ps.setDead(true);
+		ParticleSystemRenderer.removeParticleSystem(ps);
 		
 	}
 	

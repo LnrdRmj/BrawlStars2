@@ -11,8 +11,6 @@ import ParticleSystem.Particles.TrailParticle;
 
 public class ParticleSystemTrail extends ParticleSystemInterface{
 
-	private boolean isDead = false;
-	
 	private PVector pos;
 	private double angleDirection;
 	private Vector<Particle> toAdd;
@@ -32,7 +30,7 @@ public class ParticleSystemTrail extends ParticleSystemInterface{
 		Timer timer = new Timer();
 		TrailTask shootTask = new TrailTask();
 		
-		timer.scheduleAtFixedRate(shootTask, 0, 300);
+		timer.scheduleAtFixedRate(shootTask, 0, 50);
 		
 	}
 	
