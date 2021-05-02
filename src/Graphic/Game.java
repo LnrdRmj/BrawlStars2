@@ -33,7 +33,7 @@ public class Game implements Runnable, KeyListener{
 		
 		player = new Player(canvas);
 		
-		for (int i = 0; i < 0; ++i)
+		for (int i = 0; i < 5; ++i)
 			new Enemy();
 
 		mainThread = new Thread(this);

@@ -41,7 +41,6 @@ public class ParticleSystemBlackHole extends ParticleSystemInterface {
 			
 			if (p.isDead()) {
 				
-				isDead = true;
 				particles.remove(p);
 				nDead++;
 
