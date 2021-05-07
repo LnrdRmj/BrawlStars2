@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import Animation.Animator;
@@ -15,6 +17,8 @@ import GameObjects.Guns.PierceGun;
 import Graphic.Canvas;
 import Graphic.Frame;
 import Utils.Friction;
+import Utils.KeyAction;
+import Utils.PVectorUtil;
 import Utils.StringUtils;
 
 public class Player extends GameObject implements KeyListener{
@@ -42,6 +46,7 @@ public class Player extends GameObject implements KeyListener{
 	private Gun gun;
 	private Animator animator;
 	private Vector<String> inputsPressed;
+	private Map<String, KeyAction> keyToAction;
 	
 	public Player(Canvas canvas){
 		
@@ -50,6 +55,9 @@ public class Player extends GameObject implements KeyListener{
 		setName("Giocatore");
 		
 		canvas.addKeyListener(this);
+
+		velocity = new PVector();
+		acc = new PVector();
 		
 		height = 125;
 		pos = new PVector(Frame.gameWidth / 2 - height / 2, Frame.gameHeight / 2 - height / 2);
@@ -59,14 +67,14 @@ public class Player extends GameObject implements KeyListener{
 		animator.setHeightMaintainRatio(height);
 		setHitBox(new HitBox(thick = new Dimension(animator.getWidthFrame(), animator.getHeightFrame()), pos));
 		
-		this.velocity = new PVector();
-		this.acc = new PVector();
-		
 		gunPos = new PVector(pos.x + thick.getWidth() * .3, pos.y + thick.getHeight() * .3);
 		gun = new Gun(gunPos);
 		canvas.addMouseListener(gun);
 		
 		inputsPressed = new Vector<String>();
+		keyToAction = new HashMap<String, KeyAction>();
+		
+		populateKeyAction();
 		
 	}
 	
@@ -75,21 +83,34 @@ public class Player extends GameObject implements KeyListener{
 //		hitBox.draw(g);
 		animator.drawFrame(g);
 		
+		outOfWindow(g);
+		
 	}
 	
 	public void update() {
 		
 		velocity.add(acc);
-
+		
 		if 		(velocity.x >= MAX_VELOCITY) 	velocity.x =  MAX_VELOCITY;
 		else if (velocity.x <= -MAX_VELOCITY)	velocity.x = -MAX_VELOCITY;
 		if 		(velocity.y >= MAX_VELOCITY) 	velocity.y =  MAX_VELOCITY;
 		else if (velocity.y <= -MAX_VELOCITY)	velocity.y = -MAX_VELOCITY;
 		
-		applyFrictionTovelocity();
+		applyFrictionToVelocity();
 		
-		pos.add(velocity);
-		gunPos.add(velocity);
+		if (outOfWindow()) {
+			
+			stopPlayer();
+//			acc.x += - acc.x * .1;
+//			acc.y += - acc.y * .1;
+			
+		}
+		else {
+			
+			pos.add(velocity);
+			gunPos.add(velocity);
+			
+		}
 		
 	}
 	
@@ -186,18 +207,7 @@ public class Player extends GameObject implements KeyListener{
 			break;
 		case 'a':
 			
-			acc.add(ACCELERATION, 0);
-			
-			a = false;
-			
-			inputsPressed.remove(StringUtils.charToString(keyChar));
-			
-			if (inputsPressed.size() > 0)
-				// Se io smetto di premere un tasto ma in precedenza ne avevo già premuto un altro,
-				// allora devo riprendere l'animazione del pulsante precedente
-				animator.start(Animator.WASDtoDirection(inputsPressed.lastElement()));
-			else 
-				animator.stop();
+			keyToAction.get("a").doSomething();
 			
 			break;
 		case 's':
@@ -243,9 +253,40 @@ public class Player extends GameObject implements KeyListener{
 		
 	}
 	
-	public void applyFrictionTovelocity() {
+	public void applyFrictionToVelocity() {
 		
 		this.velocity.add(Friction.calculateFriction(this.velocity));
+		
+	}
+	
+	private boolean outOfWindow() {
+		
+		PVector p = PVectorUtil.addVectors(pos, velocity);
+				
+		return p.x < 0 || p.x > Frame.gameWidth - thick.width || p.y < 0 || p.y > Frame.gameHeight - thick.height;
+		
+	}
+	
+	private boolean outOfWindow(Graphics g) {
+		
+		PVector p = PVectorUtil.addVectors(pos, velocity);
+		
+		g.fillOval((int)p.x, (int)p.y, 10, 10);
+				
+		return p.x < 0 || p.x > Frame.gameWidth - thick.width || p.y < 0 || p.y > Frame.gameHeight - thick.height;
+		
+	}
+	
+	private void stopPlayer() {
+		
+		this.acc.reset();
+		this.velocity.reset();
+		
+	}
+	
+	private void populateKeyAction() {
+		
+		keyToAction.put("a", new AAction());
 		
 	}
 	
@@ -294,6 +335,30 @@ public class Player extends GameObject implements KeyListener{
 		}
 		else if (hit instanceof Enemy) {
 			// Fai qualcos'altro
+		}
+		
+	}
+	
+	private class AAction implements KeyAction{
+
+		private char key = 'a';
+		
+		@Override
+		public void doSomething() {
+			
+			acc.add(ACCELERATION, 0);
+			
+			a = false;
+			
+			inputsPressed.remove(StringUtils.charToString(key));
+			
+			if (inputsPressed.size() > 0)
+				// Se io smetto di premere un tasto ma in precedenza ne avevo già premuto un altro,
+				// allora devo riprendere l'animazione del pulsante precedente
+				animator.start(Animator.WASDtoDirection(inputsPressed.lastElement()));
+			else 
+				animator.stop();
+			
 		}
 		
 	}

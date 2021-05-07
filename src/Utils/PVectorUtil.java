@@ -4,6 +4,18 @@ import Collision.PVector;
 
 public class PVectorUtil {
 
+	public static PVector addVectors(PVector p1, PVector p2) {
+		
+		return addVectors(p1.x, p1.y, p2.x, p2.y);
+		
+	}
+	
+	public static PVector addVectors(float x1, float y1, float x2, float y2) {
+		
+		return new PVector(x1 + x2, y1 + y2);
+		
+	}
+	
 	public static PVector vectorBetween(PVector p1, PVector p2) {
 		
 		return new PVector(p1.x - p2.x, p1.y - p2.y);
