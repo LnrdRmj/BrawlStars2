@@ -1,12 +1,16 @@
 package Graphic;
 
 
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 
 import Collision.CollisionEngine;
+import Collision.HitBox;
+import Collision.PVector;
 import GameObjects.Enemy;
 import GameObjects.GameObject;
 import GameObjects.Player;
@@ -55,7 +59,7 @@ public class Game implements Runnable, KeyListener{
 		}
 
 	}
-
+	
 	private void wait(int milliseconds) {
 		try {
 			Thread.sleep(milliseconds);

@@ -23,7 +23,6 @@ public abstract class GameObject implements Serializable{
 	public GameObject (HitBox hitBox) {
 		this();
 		this.hitBox = hitBox;
-		
 	}
 	
 	public GameObject (Color fillColor) {
