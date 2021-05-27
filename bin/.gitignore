@@ -1,2 +1,8 @@
-/GameObjects/
-/Utils/
+/Animation/
+/Collision/
+/Global/
+/Graphic/
+/Main/
+/ParticleSystem/
+/Tests/
+/Server/
