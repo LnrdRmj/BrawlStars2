@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -13,9 +15,9 @@ import Collision.HitBox;
 import Collision.PVector;
 import GameObjects.Bullets.Bullet;
 import GameObjects.Guns.Gun;
-import GameObjects.Guns.PierceGun;
 import Graphic.Canvas;
 import Graphic.Frame;
+import Server.SocketWriter;
 import Utils.Friction;
 import Utils.KeyAction;
 import Utils.PVectorUtil;
@@ -48,6 +50,9 @@ public class Player extends GameObject implements KeyListener{
 	private Vector<String> inputsPressed;
 	private Map<String, KeyAction> keyToAction;
 	
+	private Socket socket;
+	private SocketWriter socketWriter;
+	
 	public Player(Canvas canvas){
 		
 		super();
@@ -75,6 +80,16 @@ public class Player extends GameObject implements KeyListener{
 		keyToAction = new HashMap<String, KeyAction>();
 		
 		populateKeyAction();
+		
+		try {
+			
+			socket = new Socket("localhost", 7777);
+			socketWriter = new SocketWriter(socket);
+			
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -109,7 +124,7 @@ public class Player extends GameObject implements KeyListener{
 			
 			pos.add(velocity);
 			gunPos.add(velocity);
-			
+			socketWriter.write(pos.x + ";" + pos.y);
 		}
 		
 	}
@@ -297,6 +312,11 @@ public class Player extends GameObject implements KeyListener{
 
 	public void setPos(PVector pos) {
 		this.pos = pos;
+	}
+	
+	public void setPos(int x, int y) {
+		this.pos.x = x;
+		this.pos.y = y;
 	}
 	
 	public float getX() {
