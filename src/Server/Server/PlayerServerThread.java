@@ -18,7 +18,7 @@ public class PlayerServerThread implements Runnable{
 	public PlayerServerThread(Socket newPlayer) throws IOException {
 		
 		this.player = newPlayer;
-		out = new PrintWriter(this.player.getOutputStream());
+		out = new PrintWriter(this.player.getOutputStream(), true);
 		in = new BufferedReader(new InputStreamReader(this.player.getInputStream()));
 		
 		thisThread = new Thread(this);
@@ -54,7 +54,7 @@ public class PlayerServerThread implements Runnable{
 	
 	public void write(String info) {
 		
-		out.write(info);
+		out.println(info);
 		
 	}
 

@@ -27,30 +27,18 @@ import Utils.KeyAction;
 import Utils.PVectorUtil;
 import Utils.StringUtils;
 
-public class MainPlayer extends GameObject implements KeyListener{
+public class MainPlayer extends Player implements KeyListener{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private PVector pos = new PVector(0, 0);
 	private PVector gunPos;
-	private int health = 100;
-	
-	private Dimension thick;
-	private int height;
-	
-	private final float MAX_VELOCITY = 10;
-	private final float ACCELERATION = 0.3f;
 	
 	private boolean w = false, a = false, s = false, d = false;
 	
-	private PVector velocity;
-	private PVector acc;
-	
 	private Gun gun;
-	private Animator animator;
 	private Vector<String> inputsPressed;
 	private Map<String, KeyAction> keyToAction;
 	
@@ -61,21 +49,8 @@ public class MainPlayer extends GameObject implements KeyListener{
 		
 		super();
 		
-		setName("Giocatore");
-		
 		canvas.addKeyListener(this);
 
-		velocity = new PVector();
-		acc = new PVector();
-		
-		height = 125;
-		pos = new PVector(Frame.gameWidth / 2 - height / 2, Frame.gameHeight / 2 - height / 2);
-		health = 100;
-		
-		animator = new Animator(pos, "Sprites/character/17.png");
-		animator.setHeightMaintainRatio(height);
-		setHitBox(new HitBox(thick = new Dimension(animator.getWidthFrame(), animator.getHeightFrame()), pos));
-		
 		gunPos = new PVector(pos.x + thick.getWidth() * .3, pos.y + thick.getHeight() * .3);
 		gun = new Gun(gunPos);
 		canvas.addMouseListener(gun);
@@ -308,44 +283,6 @@ public class MainPlayer extends GameObject implements KeyListener{
 		
 		keyToAction.put("a", new AAction());
 		
-	}
-	
-	// Getters e Setters inutili (unless...)
-	public PVector getPos() {
-		return this.pos;
-	}
-
-	public void setPos(PVector pos) {
-		this.pos = pos;
-	}
-	
-	public void setPos(int x, int y) {
-		this.pos.x = x;
-		this.pos.y = y;
-	}
-	
-	public float getX() {
-		return this.pos.x;
-	}
-	
-	public float getY() {
-		return this.pos.y;
-	}
-	
-	public int getHealth() {
-		return health;
-	}
-
-	public void setHealth(int health) {
-		this.health = health;
-	}
-
-	public int getThicc() {
-		return height;
-	}
-
-	public void setThicc(int thicc) {
-		this.height = thicc;
 	}
 	
 	public Gun getGun() {

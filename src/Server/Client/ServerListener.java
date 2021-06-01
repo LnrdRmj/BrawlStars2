@@ -33,7 +33,9 @@ public class ServerListener implements Runnable{
 			
 			try {
 				
-				httpEvent.onMessageReceived(in.readLine());
+				String s = in.readLine();
+				System.out.println("Client - ho letto una stringa " + s);
+				httpEvent.onMessageReceived(s);
 				
 			} catch (IOException e) {
 				System.out.println(e.getMessage());

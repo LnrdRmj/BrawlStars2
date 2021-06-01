@@ -38,7 +38,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		canvas.addKeyListener(this);
 		
 		player = new MainPlayer(canvas);
-		enemyPlayer = new EnemyPlayer(canvas);
+		enemyPlayer = new EnemyPlayer();
 		
 //		for (int i = 0; i < 5; ++i)
 //			new Enemy();
@@ -111,7 +111,6 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		switch (e.getKeyChar()) {
 		case '': // R: Non so perch� ma dovrebbe essere una R maiuscola
 			
-			
 			if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) {
 				
 				System.out.println("New game");
@@ -127,13 +126,14 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onMessageReceived(String message) {
 
+		System.out.println("Client - ho ricevuto qualcosa dal server: " + message);
+		
 		String [] data = message.split(";");
 		
 		int x = (int)Double.parseDouble(data[0]);

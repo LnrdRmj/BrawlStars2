@@ -1,21 +1,40 @@
 package GameObjects.Player;
 
-import java.awt.event.KeyEvent;
+import java.awt.Graphics;
 
-import Graphic.Canvas;
-import Server.Client.PlayerListenerThread;
+import GameObjects.GameObject;
 
-public class EnemyPlayer extends MainPlayer{
+public class EnemyPlayer extends Player{
 
-	private PlayerListenerThread listenerThread;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	public EnemyPlayer(Canvas canvas) {
-		super(canvas);		
+	public EnemyPlayer() {
+		
+		super();
+		
+	}
+
+	@Override
+	public void hit(GameObject hit) {
+		
+	}
+
+	@Override
+	public void draw(Graphics g) {
+		
+//		hitBox.draw(g);
+		animator.drawFrame(g);
+		
+	}
+
+	@Override
+	public void update() {
+
+		
+		
 	}
 	
-	@Override
-	public void keyReleased(KeyEvent e) {}
-	
-	@Override
-	public void keyPressed(KeyEvent e) {}
 }
