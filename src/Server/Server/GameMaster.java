@@ -1,10 +1,10 @@
-package Server;
+package Server.Server;
 
 import java.util.Vector;
 
 public class GameMaster implements Runnable{
 
-	Vector<PlayerServerThread> players;
+	private Vector<PlayerServerThread> players;
 	
 	public GameMaster() {
 		
@@ -45,6 +45,10 @@ public class GameMaster implements Runnable{
 			
 		}
 		
+	}
+
+	public int numPlayers() {
+		return players.size();
 	}
 	
 }

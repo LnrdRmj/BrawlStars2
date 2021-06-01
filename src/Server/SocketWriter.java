@@ -6,12 +6,10 @@ import java.net.Socket;
 
 public class SocketWriter {
 
-	private Socket socket;
 	private PrintWriter out;
 	
 	public SocketWriter(Socket socket) {
-		
-		this.socket = socket;
+
 		try {
 			out = new PrintWriter(socket.getOutputStream());
 		} catch (IOException e) {
@@ -23,6 +21,7 @@ public class SocketWriter {
 	
 	public void write(String data) {
 		out.write(data);
+		out.flush();
 	}
 	
 }

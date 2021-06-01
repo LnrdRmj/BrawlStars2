@@ -1,19 +1,19 @@
-package Server;
+package Server.Client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-import GameObjects.Player;
+import GameObjects.Player.MainPlayer;
 
 public class PlayerListenerThread implements Runnable{
 
 	private Socket server;
 	private BufferedReader in;
-	private Player player;
+	private MainPlayer player;
 	
-	public PlayerListenerThread(Socket server, Player player){
+	public PlayerListenerThread(Socket server, MainPlayer player){
 		
 		this.server = server;
 		this.player = player;

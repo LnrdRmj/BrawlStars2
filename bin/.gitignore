@@ -1,9 +1,3 @@
-/Animation/
-/Collision/
-/Global/
-/Graphic/
-/Main/
-/ParticleSystem/
-/Tests/
-/Server/
 /GameObjects/
+/Graphic/
+/Server/

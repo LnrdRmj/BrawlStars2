@@ -1,10 +1,11 @@
-package GameObjects;
+package GameObjects.Player;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,17 +14,20 @@ import java.util.Vector;
 import Animation.Animator;
 import Collision.HitBox;
 import Collision.PVector;
+import GameObjects.Enemy;
+import GameObjects.GameObject;
 import GameObjects.Bullets.Bullet;
 import GameObjects.Guns.Gun;
 import Graphic.Canvas;
 import Graphic.Frame;
 import Server.SocketWriter;
+import Server.Client.PlayerListenerThread;
 import Utils.Friction;
 import Utils.KeyAction;
 import Utils.PVectorUtil;
 import Utils.StringUtils;
 
-public class Player extends GameObject implements KeyListener{
+public class MainPlayer extends GameObject implements KeyListener{
 
 	/**
 	 * 
@@ -51,9 +55,9 @@ public class Player extends GameObject implements KeyListener{
 	private Map<String, KeyAction> keyToAction;
 	
 	private Socket socket;
-	private SocketWriter socketWriter;
+	private PrintWriter out;
 	
-	public Player(Canvas canvas){
+	public MainPlayer(Canvas canvas){
 		
 		super();
 		
@@ -84,13 +88,13 @@ public class Player extends GameObject implements KeyListener{
 		try {
 			
 			socket = new Socket("localhost", 7777);
-			socketWriter = new SocketWriter(socket);
+			out = new PrintWriter(socket.getOutputStream(), true);
 			
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 	}
 	
 	public void draw(Graphics g) {
@@ -124,7 +128,8 @@ public class Player extends GameObject implements KeyListener{
 			
 			pos.add(velocity);
 			gunPos.add(velocity);
-			socketWriter.write(pos.x + ";" + pos.y);
+			out.println(pos.x + ";" + pos.y);
+			
 		}
 		
 	}

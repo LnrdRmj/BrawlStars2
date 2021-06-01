@@ -1,4 +1,4 @@
-package Server;
+package Server.Server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,10 +35,13 @@ public class PlayerServerThread implements Runnable{
 				
 				String comand = in.readLine();
 				
+				System.out.println("Server - ho ricevuto un messaggio dal client");
+				System.out.println("Server - " + comand);
+				
 				// pos (x,y)
 				String [] pos = comand.split(";");
-				x = Integer.parseInt(pos[0]);
-				y = Integer.parseInt(pos[1]);
+				x = (int)Double.parseDouble(pos[0]);
+				y = (int)Double.parseDouble(pos[1]);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
