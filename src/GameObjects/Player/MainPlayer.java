@@ -1,6 +1,5 @@
 package GameObjects.Player;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -12,7 +11,6 @@ import java.util.Map;
 import java.util.Vector;
 
 import Animation.Animator;
-import Collision.HitBox;
 import Collision.PVector;
 import GameObjects.Enemy;
 import GameObjects.GameObject;
@@ -20,8 +18,6 @@ import GameObjects.Bullets.Bullet;
 import GameObjects.Guns.Gun;
 import Graphic.Canvas;
 import Graphic.Frame;
-import Server.SocketWriter;
-import Server.Client.PlayerListenerThread;
 import Utils.Friction;
 import Utils.KeyAction;
 import Utils.PVectorUtil;
@@ -59,16 +55,6 @@ public class MainPlayer extends Player implements KeyListener{
 		keyToAction = new HashMap<String, KeyAction>();
 		
 		populateKeyAction();
-		
-		try {
-			
-			socket = new Socket("localhost", 7777);
-			out = new PrintWriter(socket.getOutputStream(), true);
-			
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
 
 	}
 	
@@ -321,6 +307,18 @@ public class MainPlayer extends Player implements KeyListener{
 			else 
 				animator.stop();
 			
+		}
+		
+	}
+
+	public void setSocket(Socket server) {
+		this.socket = server;
+		
+		try {
+			out = new PrintWriter(socket.getOutputStream(), true);
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		
 	}

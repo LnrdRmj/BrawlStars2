@@ -11,6 +11,7 @@ public class ServerListener implements Runnable{
 
 	private HTTPEvent httpEvent;
 	private BufferedReader in;
+	private Thread thisThread;
 	
 	public ServerListener(Socket toListen, HTTPEvent httpEvent) {
 		
@@ -23,6 +24,9 @@ public class ServerListener implements Runnable{
 			e.printStackTrace();
 		}
 		this.httpEvent = httpEvent;
+		
+		thisThread = new Thread(this);
+		thisThread.start();
 		
 	}
 

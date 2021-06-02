@@ -34,18 +34,6 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 	
 	private void startNewGame() {
 		
-		canvas = new Canvas();
-		canvas.addKeyListener(this);
-		
-		player = new MainPlayer(canvas);
-		enemyPlayer = new EnemyPlayer();
-		
-//		for (int i = 0; i < 5; ++i)
-//			new Enemy();
-
-		mainThread = new Thread(this);
-		mainThread.start();
-		
 		try {
 			
 			server = new Socket("localhost", 7777);
@@ -55,6 +43,19 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
+
+		canvas = new Canvas();
+		canvas.addKeyListener(this);
+		
+		player = new MainPlayer(canvas);
+		player.setSocket(server);
+//		enemyPlayer = new EnemyPlayer();
+		
+//		for (int i = 0; i < 5; ++i)
+//			new Enemy();
+
+		mainThread = new Thread(this);
+		mainThread.start();
 		
 	}
 	
@@ -133,6 +134,13 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 	public void onMessageReceived(String message) {
 
 		System.out.println("Client - ho ricevuto qualcosa dal server: " + message);
+
+		if (enemyPlayer == null) {
+			
+			System.out.println("Primo mezzaggio: ho creato il nemico");
+			enemyPlayer = new EnemyPlayer();
+			
+		}
 		
 		String [] data = message.split(";");
 		
