@@ -8,6 +8,8 @@ import java.net.Socket;
 
 import javax.swing.JPanel;
 
+import org.omg.Messaging.SyncScopeHelper;
+
 import Collision.CollisionEngine;
 import GameObjects.GameObject;
 import GameObjects.Player.EnemyPlayer;
@@ -133,17 +135,20 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 	@Override
 	public void onMessageReceived(String message) {
 
-		System.out.println("Client - ho ricevuto qualcosa dal server: " + message);
+//		System.out.println("Client - ho ricevuto qualcosa dal server: " + message);
 
 		if (enemyPlayer == null) {
 			
-			System.out.println("Primo mezzaggio: ho creato il nemico");
+//			System.out.println("Primo messaggio: ho creato il nemico");
 			enemyPlayer = new EnemyPlayer();
 			
 		}
 		
 		String [] data = message.split(";");
 		
+		if (data[0].equals("null")) return;
+		
+//		System.out.println("Info di " + data[2]);
 		int x = (int)Double.parseDouble(data[0]);
 		int y = (int)Double.parseDouble(data[1]);
 		

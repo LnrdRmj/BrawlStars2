@@ -4,7 +4,7 @@ import Graphic.Frame;
 
 public class Gioco {
 
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		
 		new Frame();
 		

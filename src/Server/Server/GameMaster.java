@@ -38,7 +38,7 @@ public class GameMaster implements Runnable{
 					
 				}
 				
-				sendToAllBut(player, player.getInfo());
+				sendInfoToAllBut(player);
 				
 			}
 			
@@ -60,13 +60,16 @@ public class GameMaster implements Runnable{
 		
 	}
 	
-	public void sendToAllBut(PlayerServerThread player, String info) {
+	public void sendInfoToAllBut(PlayerServerThread player) {
+		
+//		System.out.println("Scrivo le informazioni di " + player.getCode() + " a:");
 		
 		for(PlayerServerThread pl : players) {
 			
 			if (pl != player) {
 				
-				pl.writeInfo();
+//				System.out.println("- " + pl.getCode());
+				pl.write(player.getInfo());
 				
 			}
 			
