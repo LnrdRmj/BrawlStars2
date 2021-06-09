@@ -8,6 +8,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,11 +20,17 @@ import GameObjects.GameObject;
 import GameObjects.Bullets.Bullet;
 import Graphic.Frame;
 import Graphic.Sprite;
+import Utils.Observer;
 import Utils.PVectorUtil;
 
 public class Gun extends GameObject implements MouseListener{
 	
-//	public static Dimension gunDimension = new Dimension(100, (int)(100 / 2.8));
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	//	public static Dimension gunDimension = new Dimension(100, (int)(100 / 2.8));
 	public static int gunWidth;
 	public static int gunHeight;
 	public static Dimension gunDimension;
@@ -37,12 +44,14 @@ public class Gun extends GameObject implements MouseListener{
 	protected Double angleDirection;
 	protected PVector adjustedmentPosition;
 	
+	protected ArrayList<Observer> onGunShot;
+	
 	Point mousePos;
 	
 	/*
 	 * 0 - Da decidere ancora al primo loop
-	 * 1 - vuol dire che la pistola sta a destra e quindi non è flippata
-	 * 2 - lo sprite della pistola sta a sinistra e quindi è flippata
+	 * 1 - vuol dire che la pistola sta a destra e quindi non ï¿½ flippata
+	 * 2 - lo sprite della pistola sta a sinistra e quindi ï¿½ flippata
 	 * */
 	private int isFlipped;
 	
@@ -64,6 +73,8 @@ public class Gun extends GameObject implements MouseListener{
 		
 		isFlipped = 0;
 		
+		onGunShot = new ArrayList<Observer>();
+		
 	}
 	
 	public void shoot(int mouseX, int mouseY) {
@@ -71,6 +82,9 @@ public class Gun extends GameObject implements MouseListener{
 		PVector p = PVectorUtil.rotatePoint(playerPos.x + adjustedmentPosition.x, playerPos.y + adjustedmentPosition.y, playerPos.x + adjustedmentPosition.x + gunDimension.width, playerPos.y + adjustedmentPosition.y + gunDimension.height / 2, angleDirection);
 		
 		new Bullet(p.x, p.y, angleDirection);
+		
+		// Notifica tutti gli observer
+		onGunShot.forEach( obs -> obs.update() );
 		
 	}
 	
@@ -159,12 +173,12 @@ public class Gun extends GameObject implements MouseListener{
 		
 		hitBox.setAngle(angleDirection);
 		
-		// Verifico se è a destra e se prima lo sprite è flippato
+		// Verifico se ï¿½ a destra e se prima lo sprite ï¿½ flippato
 		if (Math.abs(angleDirection) <= Math.PI / 2 && isFlipped == 2) {
 			sprite.flip();
 			isFlipped = 1;
 		}
-		// Verifico se è a sinistra e se prima lo sprite non è flippato
+		// Verifico se ï¿½ a sinistra e se prima lo sprite non ï¿½ flippato
 		else if (Math.abs(angleDirection) > Math.PI / 2 && isFlipped == 1) {
 			sprite.flip();
 			isFlipped = 2;

@@ -45,14 +45,17 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		} catch (IOException e) {
 			
 			// Prova ogni 5 secondi a riconnetterti al server
-
 			new RetryConnection("localhost", 7777, (s) -> {
+			
 				server = s;
 				new ServerListener(server, this);
+				player.setSocket(server);
+				
 			}, 5000);
 			
 			System.out.println(e.getMessage());
 			e.printStackTrace();
+			
 		}
 
 		canvas = new Canvas();

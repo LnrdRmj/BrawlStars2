@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -20,6 +21,7 @@ import Graphic.Canvas;
 import Graphic.Frame;
 import Utils.Friction;
 import Utils.KeyAction;
+import Utils.Observer;
 import Utils.PVectorUtil;
 import Utils.StringUtils;
 
@@ -41,6 +43,8 @@ public class MainPlayer extends Player implements KeyListener{
 	private Socket socket;
 	private PrintWriter out;
 	
+	protected ArrayList<Runnable> onUpdate;
+	
 	public MainPlayer(Canvas canvas){
 		
 		super();
@@ -55,6 +59,8 @@ public class MainPlayer extends Player implements KeyListener{
 		keyToAction = new HashMap<String, KeyAction>();
 		
 		populateKeyAction();
+		
+		onUpdate = new ArrayList<>();
 
 	}
 	
@@ -89,9 +95,17 @@ public class MainPlayer extends Player implements KeyListener{
 			
 			pos.add(velocity);
 			gunPos.add(velocity);
-			if (out != null) out.println(pos.x + ";" + pos.y);
+//			if (out != null) out.println(pos.x + ";" + pos.y); E' fatto con gli observer
 			
 		}
+		
+		onUpdate.forEach(obs -> obs.run());
+		
+	}
+	
+	public void addOnUpdateObserver(Runnable onUpdate) {
+		
+		this.onUpdate.add(onUpdate);
 		
 	}
 	
@@ -312,10 +326,15 @@ public class MainPlayer extends Player implements KeyListener{
 	}
 
 	public void setSocket(Socket server) {
+		
 		this.socket = server;
 		
 		try {
 			out = new PrintWriter(socket.getOutputStream(), true);
+			
+			// Serve per scrivere al server ogni qualvolta che il player viene aggiornato
+			onUpdate.add( () -> out.println(pos.x + ";" + pos.y) );
+			
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
