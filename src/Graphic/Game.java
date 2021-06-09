@@ -15,6 +15,7 @@ import GameObjects.GameObject;
 import GameObjects.Player.EnemyPlayer;
 import GameObjects.Player.MainPlayer;
 import Server.HTTPEvent;
+import Server.RetryConnection;
 import Server.Client.ServerListener;
 
 public class Game implements Runnable, KeyListener, HTTPEvent{
@@ -42,6 +43,14 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			new ServerListener(server, this);
 			
 		} catch (IOException e) {
+			
+			// Prova ogni 5 secondi a riconnetterti al server
+
+			new RetryConnection("localhost", 7777, (s) -> {
+				server = s;
+				new ServerListener(server, this);
+			}, 5000);
+			
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
@@ -50,7 +59,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		canvas.addKeyListener(this);
 		
 		player = new MainPlayer(canvas);
-		player.setSocket(server);
+		if (server != null) player.setSocket(server);
 //		enemyPlayer = new EnemyPlayer();
 		
 //		for (int i = 0; i < 5; ++i)

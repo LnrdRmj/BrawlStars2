@@ -89,7 +89,7 @@ public class MainPlayer extends Player implements KeyListener{
 			
 			pos.add(velocity);
 			gunPos.add(velocity);
-			out.println(pos.x + ";" + pos.y);
+			if (out != null) out.println(pos.x + ";" + pos.y);
 			
 		}
 		
