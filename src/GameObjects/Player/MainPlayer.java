@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,9 +19,9 @@ import GameObjects.Bullets.Bullet;
 import GameObjects.Guns.Gun;
 import Graphic.Canvas;
 import Graphic.Frame;
+import Server.HTTPMessage;
 import Utils.Friction;
 import Utils.KeyAction;
-import Utils.Observer;
 import Utils.PVectorUtil;
 import Utils.StringUtils;
 
@@ -41,7 +41,8 @@ public class MainPlayer extends Player implements KeyListener{
 	private Map<String, KeyAction> keyToAction;
 	
 	private Socket socket;
-	private PrintWriter out;
+//	private PrintWriter out;
+	private ObjectOutputStream out;
 	
 	protected ArrayList<Runnable> onUpdate;
 	
@@ -330,10 +331,21 @@ public class MainPlayer extends Player implements KeyListener{
 		this.socket = server;
 		
 		try {
-			out = new PrintWriter(socket.getOutputStream(), true);
+			out = new ObjectOutputStream(socket.getOutputStream());
 			
 			// Serve per scrivere al server ogni qualvolta che il player viene aggiornato
-			onUpdate.add( () -> out.println(pos.x + ";" + pos.y) );
+			onUpdate.add( () -> {
+				
+				try {
+					
+					out.writeObject(new HTTPMessage<String>("playerPos", pos.x + ";" + pos.y));
+					
+				} catch (IOException e) {
+					System.out.println(e.getMessage());
+					e.printStackTrace();
+				}
+				
+			} );
 			
 		} catch (IOException e) {
 			System.out.println(e.getMessage());

@@ -15,6 +15,7 @@ import GameObjects.GameObject;
 import GameObjects.Player.EnemyPlayer;
 import GameObjects.Player.MainPlayer;
 import Server.HTTPEvent;
+import Server.HTTPMessage;
 import Server.RetryConnection;
 import Server.Client.ServerListener;
 
@@ -145,27 +146,37 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 	}
 
 	@Override
-	public void onMessageReceived(String message) {
+	public void onMessageReceived(HTTPMessage<?> message) {
 
 //		System.out.println("Client - ho ricevuto qualcosa dal server: " + message);
 
-		if (enemyPlayer == null) {
+		switch(message.getComand()) {
+		
+		case "playerPos": 
 			
-//			System.out.println("Primo messaggio: ho creato il nemico");
-			enemyPlayer = new EnemyPlayer();
+			if (enemyPlayer == null) {
+				
+//				System.out.println("Primo messaggio: ho creato il nemico");
+				enemyPlayer = new EnemyPlayer();
+				
+			}
 			
+			String [] data = ((String)message.getMessageBody()).split(";");
+			
+			if (data[0].equals("null")) return;
+			
+//			System.out.println("Info di " + data[2]);
+			int x = (int)Double.parseDouble(data[0]);
+			int y = (int)Double.parseDouble(data[1]);
+			
+			enemyPlayer.setPos(x, y);
+			
+			break;
+		
 		}
 		
-		String [] data = message.split(";");
 		
-		if (data[0].equals("null")) return;
-		
-//		System.out.println("Info di " + data[2]);
-		int x = (int)Double.parseDouble(data[0]);
-		int y = (int)Double.parseDouble(data[1]);
-		
-		enemyPlayer.setPos(x, y);
 		
 	}
-	
+
 }

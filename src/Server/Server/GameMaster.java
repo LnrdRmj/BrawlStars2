@@ -2,6 +2,8 @@ package Server.Server;
 
 import java.util.Vector;
 
+import Server.HTTPMessage;
+
 public class GameMaster implements Runnable{
 
 	private Vector<PlayerServerThread> players;
@@ -32,6 +34,8 @@ public class GameMaster implements Runnable{
 				
 				// Quando il socket del player viene chiuso o disconnesso per qualche motivo
 				if (player.isClosed()) {
+					
+					System.out.println("Un player si è disconnesso: id = " + player.getCode());
 					
 					playersToRemove.add(player);
 					continue;
@@ -69,7 +73,7 @@ public class GameMaster implements Runnable{
 			if (pl != player) {
 				
 //				System.out.println("- " + pl.getCode());
-				pl.write(player.getInfo());
+				pl.write(new HTTPMessage<String>("playerPos", player.getInfo()));
 				
 			}
 			

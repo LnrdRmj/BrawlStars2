@@ -1,7 +1,9 @@
 package Server;
 
-public interface HTTPEvent {
+import java.io.Serializable;
 
-	public void onMessageReceived(String message);
+public interface HTTPEvent extends Serializable{
+
+	public void onMessageReceived(HTTPMessage<?> message);
 	
 }
