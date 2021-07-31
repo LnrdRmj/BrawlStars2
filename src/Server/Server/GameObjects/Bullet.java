@@ -13,6 +13,8 @@ import Server.HTTPMessage;
 import ServerData.BulletData;
 import Utils.HTTPMessages;
 
+import static Logger.Logger.*;
+
 public class Bullet extends ServerGameObject{
 	
 	public static Dimension bulletDimension = new Dimension(30, 8);
@@ -67,11 +69,16 @@ public class Bullet extends ServerGameObject{
 			
 			isDead = true;
 			
+			logServer("bullet morto");
+			
 			CollisionEngine.removeGameObject(this);
+			
+			return;
 			
 		}
 		
 		serverData.getHitBox().update();
+		logServer(bulletPos.toString());
 		
 		try {
 			client.writeObject(new HTTPMessage<>(HTTPMessages.DRAW_BULLET, new BulletData(bulletPos, angleDirection)));
