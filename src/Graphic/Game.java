@@ -5,17 +5,23 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.net.Socket;
 
 import javax.swing.JPanel;
 
-import Collision.CollisionEngine;
-import Collision.HitBox;
-import Collision.PVector;
-import GameObjects.Enemy;
-import GameObjects.GameObject;
-import GameObjects.Player;
+import org.omg.Messaging.SyncScopeHelper;
 
-public class Game implements Runnable, KeyListener{
+import Collision.CollisionEngine;
+import GameObjects.GameObject;
+import GameObjects.Player.EnemyPlayer;
+import GameObjects.Player.MainPlayer;
+import Server.HTTPEvent;
+import Server.HTTPMessage;
+import Server.RetryConnection;
+import Server.Client.ServerListener;
+
+public class Game implements Runnable, KeyListener, HTTPEvent{
 
 	/**
 	 * 
@@ -23,8 +29,10 @@ public class Game implements Runnable, KeyListener{
 	private static final long serialVersionUID = 1L;
 
 	private Thread mainThread;
-	private Player player;
+	private MainPlayer player;
 	private Canvas canvas;
+	private Socket server;
+	private EnemyPlayer enemyPlayer;
 
 	Game() {
 		startNewGame();
@@ -32,13 +40,36 @@ public class Game implements Runnable, KeyListener{
 	
 	private void startNewGame() {
 		
+		try {
+			
+			server = new Socket("localhost", 7777);
+			new ServerListener(server, this);
+			
+		} catch (IOException e) {
+			
+			// Prova ogni 5 secondi a riconnetterti al server
+			new RetryConnection("localhost", 7777, (s) -> {
+			
+				server = s;
+				new ServerListener(server, this);
+				player.setSocket(server);
+				
+			}, 5000);
+			
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			
+		}
+
 		canvas = new Canvas();
 		canvas.addKeyListener(this);
 		
-		player = new Player(canvas);
+		player = new MainPlayer(canvas);
+		if (server != null) player.setSocket(server);
+//		enemyPlayer = new EnemyPlayer();
 		
-		for (int i = 0; i < 5; ++i)
-			new Enemy();
+//		for (int i = 0; i < 5; ++i)
+//			new Enemy();
 
 		mainThread = new Thread(this);
 		mainThread.start();
@@ -98,7 +129,6 @@ public class Game implements Runnable, KeyListener{
 		switch (e.getKeyChar()) {
 		case '': // R: Non so perch� ma dovrebbe essere una R maiuscola
 			
-			
 			if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) {
 				
 				System.out.println("New game");
@@ -114,8 +144,41 @@ public class Game implements Runnable, KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
-	
+
+	@Override
+	public void onMessageReceived(HTTPMessage<?> message) {
+
+//		System.out.println("Client - ho ricevuto qualcosa dal server: " + message);
+
+		switch(message.getComand()) {
+		
+		case "playerPos": 
+			
+			if (enemyPlayer == null) {
+				
+//				System.out.println("Primo messaggio: ho creato il nemico");
+				enemyPlayer = new EnemyPlayer();
+				
+			}
+			
+			String [] data = ((String)message.getMessageBody()).split(";");
+			
+			if (data[0].equals("null")) return;
+			
+//			System.out.println("Info di " + data[2]);
+			int x = (int)Double.parseDouble(data[0]);
+			int y = (int)Double.parseDouble(data[1]);
+			
+			enemyPlayer.setPos(x, y);
+			
+			break;
+		
+		}
+		
+		
+		
+	}
+
 }

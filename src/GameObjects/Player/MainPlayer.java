@@ -1,72 +1,57 @@
-package GameObjects;
+package GameObjects.Player;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
 import Animation.Animator;
-import Collision.HitBox;
 import Collision.PVector;
+import GameObjects.Enemy;
+import GameObjects.GameObject;
 import GameObjects.Bullets.Bullet;
 import GameObjects.Guns.Gun;
-import GameObjects.Guns.PierceGun;
 import Graphic.Canvas;
 import Graphic.Frame;
+import Server.HTTPMessage;
 import Utils.Friction;
 import Utils.KeyAction;
 import Utils.PVectorUtil;
 import Utils.StringUtils;
 
-public class Player extends GameObject implements KeyListener{
+public class MainPlayer extends Player implements KeyListener{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private PVector pos = new PVector(0, 0);
 	private PVector gunPos;
-	private int health = 100;
-	
-	private Dimension thick;
-	private int height;
-	
-	private final float MAX_VELOCITY = 10;
-	private final float ACCELERATION = 0.3f;
 	
 	private boolean w = false, a = false, s = false, d = false;
 	
-	private PVector velocity;
-	private PVector acc;
-	
 	private Gun gun;
-	private Animator animator;
 	private Vector<String> inputsPressed;
 	private Map<String, KeyAction> keyToAction;
 	
-	public Player(Canvas canvas){
+	private Socket socket;
+//	private PrintWriter out;
+	private ObjectOutputStream out;
+	
+	protected ArrayList<Runnable> onUpdate;
+	
+	public MainPlayer(Canvas canvas){
 		
 		super();
 		
-		setName("Giocatore");
-		
 		canvas.addKeyListener(this);
 
-		velocity = new PVector();
-		acc = new PVector();
-		
-		height = 125;
-		pos = new PVector(Frame.gameWidth / 2 - height / 2, Frame.gameHeight / 2 - height / 2);
-		health = 100;
-		
-		animator = new Animator(pos, "Sprites/character/17.png");
-		animator.setHeightMaintainRatio(height);
-		setHitBox(new HitBox(thick = new Dimension(animator.getWidthFrame(), animator.getHeightFrame()), pos));
-		
 		gunPos = new PVector(pos.x + thick.getWidth() * .3, pos.y + thick.getHeight() * .3);
 		gun = new Gun(gunPos);
 		canvas.addMouseListener(gun);
@@ -76,6 +61,8 @@ public class Player extends GameObject implements KeyListener{
 		
 		populateKeyAction();
 		
+		onUpdate = new ArrayList<>();
+
 	}
 	
 	public void draw(Graphics g) {
@@ -109,8 +96,17 @@ public class Player extends GameObject implements KeyListener{
 			
 			pos.add(velocity);
 			gunPos.add(velocity);
+//			if (out != null) out.println(pos.x + ";" + pos.y); E' fatto con gli observer
 			
 		}
+		
+		onUpdate.forEach(obs -> obs.run());
+		
+	}
+	
+	public void addOnUpdateObserver(Runnable onUpdate) {
+		
+		this.onUpdate.add(onUpdate);
 		
 	}
 	
@@ -290,39 +286,6 @@ public class Player extends GameObject implements KeyListener{
 		
 	}
 	
-	// Getters e Setters inutili (unless...)
-	public PVector getPos() {
-		return this.pos;
-	}
-
-	public void setPos(PVector pos) {
-		this.pos = pos;
-	}
-	
-	public float getX() {
-		return this.pos.x;
-	}
-	
-	public float getY() {
-		return this.pos.y;
-	}
-	
-	public int getHealth() {
-		return health;
-	}
-
-	public void setHealth(int health) {
-		this.health = health;
-	}
-
-	public int getThicc() {
-		return height;
-	}
-
-	public void setThicc(int thicc) {
-		this.height = thicc;
-	}
-	
 	public Gun getGun() {
 		return gun;
 	}
@@ -359,6 +322,34 @@ public class Player extends GameObject implements KeyListener{
 			else 
 				animator.stop();
 			
+		}
+		
+	}
+
+	public void setSocket(Socket server) {
+		
+		this.socket = server;
+		
+		try {
+			out = new ObjectOutputStream(socket.getOutputStream());
+			
+			// Serve per scrivere al server ogni qualvolta che il player viene aggiornato
+			onUpdate.add( () -> {
+				
+				try {
+					
+					out.writeObject(new HTTPMessage<String>("playerPos", pos.x + ";" + pos.y));
+					
+				} catch (IOException e) {
+					System.out.println(e.getMessage());
+					e.printStackTrace();
+				}
+				
+			} );
+			
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		
 	}
