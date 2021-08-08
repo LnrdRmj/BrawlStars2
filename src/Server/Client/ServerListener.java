@@ -10,7 +10,6 @@ import Server.HTTPMessage;
 public class ServerListener implements Runnable{
 
 	private HTTPEvent httpEvent;
-//	private BufferedReader in;
 	private ObjectInputStream in;
 	private Thread thisThread;
 	
@@ -18,7 +17,6 @@ public class ServerListener implements Runnable{
 		
 		try {
 			
-//			in = new BufferedReader(new InputStreamReader(toListen.getInputStream()));
 			in = new ObjectInputStream(toListen.getInputStream()); 
 			
 		} catch (IOException e) {
@@ -41,15 +39,16 @@ public class ServerListener implements Runnable{
 			try {
 				
 				HTTPMessage<?> s = (HTTPMessage<?>) in.readObject();
-//				System.out.println("Client - ho letto una stringa " + s);
 				httpEvent.onMessageReceived(s);
 				
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
+				break;
 			} catch (ClassNotFoundException e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
+				break;
 			}
 			
 			

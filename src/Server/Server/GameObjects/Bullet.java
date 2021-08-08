@@ -14,9 +14,13 @@ import Server.HTTPMessage;
 import ServerData.BulletData;
 import Utils.HTTPMessages;
 
+<<<<<<< HEAD
 import static Logger.Logger.*;
 
 public class Bullet extends ServerGameObject implements Serializable{
+=======
+public class Bullet extends ServerGameObject{
+>>>>>>> parent of 860e9cc (Ho aggiunto una classe logger per semplicità e sembra che lo shoot dell proiettile funga in parte perché il suo stato viene aggiornato correttamente dal server ma le le informazioni del server non vengono lette correttamente dal server)
 	
 	/**
 	 * 
@@ -75,16 +79,18 @@ public class Bullet extends ServerGameObject implements Serializable{
 			
 			isDead = true;
 			
-			logServer("bullet morto");
-			
 			CollisionEngine.removeGameObject(this);
-			
-			return;
 			
 		}
 		
 		serverData.getHitBox().update();
+<<<<<<< HEAD
+<<<<<<< HEAD
 //		logServer(bulletPos.toString());
+=======
+>>>>>>> parent of 860e9cc (Ho aggiunto una classe logger per semplicità e sembra che lo shoot dell proiettile funga in parte perché il suo stato viene aggiornato correttamente dal server ma le le informazioni del server non vengono lette correttamente dal server)
+=======
+>>>>>>> parent of 860e9cc (Ho aggiunto una classe logger per semplicità e sembra che lo shoot dell proiettile funga in parte perché il suo stato viene aggiornato correttamente dal server ma le le informazioni del server non vengono lette correttamente dal server)
 		
 		try {
 			client.writeObject(new HTTPMessage<>(HTTPMessages.DRAW_BULLET, new BulletData(bulletPos, angleDirection, bulletPos.x + ";" + bulletPos.y)));

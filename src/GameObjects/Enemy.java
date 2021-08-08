@@ -6,16 +6,19 @@ import java.awt.Graphics;
 
 import Collision.HitBox;
 import Collision.PVector;
-import GameObjects.Bullets.Bullet;
 import Graphic.Frame;
-import ParticleSystem.ParticleSystemRenderer;
-import ParticleSystem.particleSystems.ParticleSystemBlackHole;
 import Utils.Random;
 
-public class Enemy extends GameObject {
+public class Enemy extends ServerData implements GameObject{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private PVector pos;
 	private Double  angle;
+	private Color fillColor;
 
 	public Enemy() {
 		
@@ -25,7 +28,7 @@ public class Enemy extends GameObject {
 		angle = 0d;
 		setHitBox(new HitBox(new Dimension(50, 50), pos, angle));
 		
-		setFillColor(new Color(52, 235, Random.random(256)));
+		fillColor = (new Color(52, 235, Random.random(256)));
 		
 		setName("Nemico");
 		
@@ -48,19 +51,9 @@ public class Enemy extends GameObject {
 	}
 
 	@Override
-	public void hit(GameObject hit) {
+	public void hit(ServerData hit) {
 		
-		if (hit instanceof Bullet){
-			ParticleSystemRenderer.addParticleSystem(new ParticleSystemBlackHole(pos.x, pos.y));
-			changeRandomPos();
-		}
 		
-	}
-
-	private void changeRandomPos() {
-
-		this.pos.x = Random.random(0, Frame.gameWidth);
-		this.pos.y = Random.random(0, Frame.gameHeight);
 		
 	}
 

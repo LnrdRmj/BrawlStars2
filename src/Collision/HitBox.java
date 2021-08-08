@@ -3,12 +3,18 @@ package Collision;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.Serializable;
 import java.util.Vector;
 
 import Utils.PVectorUtil;
 
-public class HitBox {
+public class HitBox implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 795784307355957233L;
+	
 	private Dimension dim;
 	private PVector origin;
 	private Double angle;
@@ -30,6 +36,13 @@ public class HitBox {
 		pointY = new int [4];
 		
 		update();
+		
+	}
+	
+	public void setPos(int x, int y) {
+		
+		origin.x = x;
+		origin.y = y;
 		
 	}
 	

@@ -1,7 +1,14 @@
 package Collision;
 
-public class PVector {
+import java.io.Serializable;
 
+public class PVector implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 554080776356314892L;
+	
 	public float x;
 	public float y;
 	

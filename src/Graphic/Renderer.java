@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import GameObjects.GameObject;
@@ -15,6 +16,10 @@ public class Renderer {
 	private static Vector<GameObject> toRemove = new Vector<>();
 	private static Vector<GameObject> toAdd = new Vector<>();
 
+	public static void addAllGameObjectToRender(List<GameObject> toAdd) {
+		toAdd.addAll(toAdd);
+	}
+	
 	public static void addGameObjectToRender(GameObject g) {
 		toAdd.add(g);
 	}
@@ -27,9 +32,11 @@ public class Renderer {
 		g.setColor(Color.white);
 		
 		for (Iterator<GameObject> iterator = toRender.iterator(); iterator.hasNext();) {
-		    GameObject go = iterator.next();
+		    
+			GameObject go = iterator.next();
 		    go.draw(g);
 		    go.update();
+		
 		}
 		
 		if (toRemove.size() > 0) {

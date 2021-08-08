@@ -7,19 +7,26 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.swing.JPanel;
 
-import org.omg.Messaging.SyncScopeHelper;
-
 import Collision.CollisionEngine;
+import Collision.PVector;
 import GameObjects.GameObject;
+import GameObjects.ServerData;
+import GameObjects.Bullets.Bullet;
 import GameObjects.Player.EnemyPlayer;
 import GameObjects.Player.MainPlayer;
 import Server.HTTPEvent;
 import Server.HTTPMessage;
 import Server.RetryConnection;
 import Server.Client.ServerListener;
+import ServerData.BulletData;
+import Utils.HTTPMessages;
+
+import static Logger.Logger.*;
 
 public class Game implements Runnable, KeyListener, HTTPEvent{
 
@@ -80,7 +87,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 
 		while (true) {
 			
-			double start = System.currentTimeMillis();
+//			double start = System.currentTimeMillis();
 
 			canvas.repaint();
 
@@ -92,24 +99,24 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 	}
 	
 	private void wait(int milliseconds) {
+		
 		try {
 			Thread.sleep(milliseconds);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 	public static void addGameObject(GameObject toAdd) {
 
 		Renderer.addGameObjectToRender(toAdd);
-		CollisionEngine.addGameObject(toAdd);
 
 	}
 	
 	public static void removeGameObject(GameObject toRemove) {
 		
 		Renderer.removeGameObjectToRender(toRemove);
-		CollisionEngine.removeGameObject(toRemove);
 		
 	}
 
@@ -147,6 +154,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		
 	}
 
+	// Chiamato da ServerListener
 	@Override
 	public void onMessageReceived(HTTPMessage<?> message) {
 
@@ -154,7 +162,9 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 
 		switch(message.getComand()) {
 		
-		case "playerPos": 
+		case HTTPMessages.PLAYER_POS: 
+			
+			if (!(message.getMessageBody() instanceof String)) break;
 			
 			if (enemyPlayer == null) {
 				
@@ -165,19 +175,30 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			String [] data = ((String)message.getMessageBody()).split(";");
 			
-			if (data[0].equals("null")) return;
+			if (data[0].equals("null") || data[1].equals("null")) return;
 			
-//			System.out.println("Info di " + data[2]);
 			int x = (int)Double.parseDouble(data[0]);
 			int y = (int)Double.parseDouble(data[1]);
 			
 			enemyPlayer.setPos(x, y);
 			
 			break;
+			
+		case HTTPMessages.DRAW_BULLET:
+			
+			if (!(message.getMessageBody() instanceof BulletData)) break;
+			
+			BulletData d = (BulletData) message.getMessageBody();
+//			logClient(d.getPos().toString());
+//			logClient(d.getA().toString());
+			
+			StringTokenizer st = new StringTokenizer(d.getA(), ";");
+			
+			Renderer.addGameObjectToRender( new Bullet(new PVector(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())), d.getAngleDirection()) );
+			
+			break;
 		
 		}
-		
-		
 		
 	}
 

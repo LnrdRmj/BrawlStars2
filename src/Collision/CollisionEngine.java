@@ -2,24 +2,25 @@ package Collision;
 
 import java.util.Vector;
 
-import GameObjects.GameObject;
+import GameObjects.ServerData;
+import Server.Server.GameObjects.ServerGameObject;
 
 public class CollisionEngine {
 
-	private static Vector<GameObject> gameObjects = new Vector<>();
-	private static Vector<GameObject> toRemove 	  = new Vector<>();
-	private static Vector<GameObject> toAdd 	  = new Vector<>();
+	private static Vector<ServerGameObject> gameObjects 	= new Vector<>();
+	private static Vector<ServerGameObject> toRemove 	  	= new Vector<>();
+	private static Vector<ServerGameObject> toAdd 	 		= new Vector<>();
 	
-	public static void addGameObject(GameObject toAdd) {
+	public static void addGameObject(ServerGameObject toAdd) {
 		CollisionEngine.toAdd.add(toAdd);
 	}
 	
 	public static void calculateCollision() {
 		
-		for (GameObject obj :  gameObjects) {
+		for (ServerGameObject obj :  gameObjects) {
 			HitBox hb = obj.getHitBox();
 			
-			for (GameObject obj2 :  gameObjects) {
+			for (ServerGameObject obj2 :  gameObjects) {
 				HitBox hb2 = obj2.getHitBox();
 				
 				//System.out.println(obj.getName() + " - " + obj2.getName());
@@ -29,6 +30,7 @@ public class CollisionEngine {
 					//System.out.println(obj.getName() + " ha colpito " + obj2.getName());
 					
 					obj.hit(obj2);
+					
 				}
 			}
 		}
@@ -45,7 +47,7 @@ public class CollisionEngine {
 		
 	}
 
-	public static void removeGameObject(GameObject go) {
+	public static void removeGameObject(ServerGameObject go) {
 		
 		toRemove.add(go);
 		

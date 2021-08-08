@@ -3,8 +3,9 @@ package GameObjects.Player;
 import java.awt.Graphics;
 
 import GameObjects.GameObject;
+import GameObjects.ServerData;
 
-public class EnemyPlayer extends Player{
+public class EnemyPlayer extends Player implements GameObject{
 
 	/**
 	 * 
@@ -18,7 +19,7 @@ public class EnemyPlayer extends Player{
 	}
 
 	@Override
-	public void hit(GameObject hit) {
+	public void hit(ServerData hit) {
 		
 	}
 
