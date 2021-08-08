@@ -25,9 +25,10 @@ public class Enemy extends ServerGameObject{
 		this.angle = angle;
 	}
 
+	
 	@Override
 	public void update() {
-		
+
 		
 		
 	}
