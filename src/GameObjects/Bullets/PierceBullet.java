@@ -2,7 +2,7 @@ package GameObjects.Bullets;
 
 import Collision.PVector;
 import GameObjects.Enemy;
-import GameObjects.GameObject;
+import GameObjects.ServerData;
 import Graphic.Game;
 import ParticleSystem.ParticleSystemRenderer;
 import ParticleSystem.particleSystems.ParticleSystemExplosion;
@@ -34,7 +34,7 @@ public class PierceBullet extends Bullet {
 	}
 	
 	@Override
-	public void hit(GameObject hit) {
+	public void hit(ServerData hit) {
 		
 		if (hit instanceof Enemy) {
 			

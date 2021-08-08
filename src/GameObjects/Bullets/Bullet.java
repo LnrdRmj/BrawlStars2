@@ -1,36 +1,27 @@
 package GameObjects.Bullets;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-import Collision.HitBox;
 import Collision.PVector;
 import GameObjects.Enemy;
 import GameObjects.GameObject;
-import Graphic.Frame;
+import GameObjects.ServerData;
 import Graphic.Game;
+import Graphic.Renderer;
 import ParticleSystem.ParticleSystemRenderer;
 import ParticleSystem.particleSystems.ParticleSystemExplosion;
 import Utils.ImageUtils;
 
-public class Bullet extends GameObject {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1388429583603351070L;
+public class Bullet implements GameObject {
 
 	private BufferedImage sprite;
 	
 	public static Dimension bulletDimension = new Dimension(30, 8);
 	public int bulletSpeed = 30;
-
-	public static int bulletWidth;
-	public static int bulletHeight;
 
 	protected double angleDirection;
 
@@ -58,16 +49,16 @@ public class Bullet extends GameObject {
 		
 		super();
 		
-		setFillColor(Color.decode("#E26D5C"));
-		setName("Proiettile");
+//		setFillColor(Color.decode("#E26D5C"));
+//		setName("Proiettile");
 		
 		sprite = ImageUtils.getImage("Sprites/weapons/bullets/bullet.png");
 		
 		bulletPos = new PVector(originX, originY);
 		
-		setHitBox(new HitBox(bulletDimension, bulletPos, angleDirection));
-		
 		this.angleDirection = angleDirection;
+		
+		Renderer.addGameObjectToRender(this);
 		
 	}
 
@@ -91,19 +82,24 @@ public class Bullet extends GameObject {
 	
 	public void update() {
 		
-		bulletPos.x += bulletSpeed * Math.cos(angleDirection);
-		bulletPos.y += bulletSpeed * Math.sin(angleDirection);
-
-		// If the bullet goes off-screen delete it
-		if (bulletPos.x < - 100 || 
-			bulletPos.x > Frame.gameWidth + 100 ||
-			bulletPos.y < -100 ||
-			bulletPos.y > Frame.gameHeight) {
-			
-			delete();
-		}
+//		bulletPos.x += bulletSpeed * Math.cos(angleDirection);
+//		bulletPos.y += bulletSpeed * Math.sin(angleDirection);
+//
+//		// If the bullet goes off-screen delete it
+//		if (bulletPos.x < - 100 || 
+//			bulletPos.x > Frame.gameWidth + 100 ||
+//			bulletPos.y < -100 ||
+//			bulletPos.y > Frame.gameHeight) {
+//			
+//			delete();
+//			
+//		}
+//		
+//		hitBox.update();
 		
-		hitBox.update();
+		// Non so se vale per tutti ma nel caso dei proiettili vanno renderizzati
+	    // solo una volta sola perché il frame successivo ce lo darà il server
+		Renderer.removeGameObjectToRender(this);
 		
 	}
 	
@@ -114,7 +110,7 @@ public class Bullet extends GameObject {
 	}
 
 	@Override
-	public void hit(GameObject hit) {
+	public void hit(ServerData hit) {
 		
 		if (hit instanceof Enemy) {
 			
@@ -123,6 +119,14 @@ public class Bullet extends GameObject {
 			
 		}
 		
+	}
+
+	public PVector getBulletPos() {
+		return bulletPos;
+	}
+
+	public double getAngleDirection() {
+		return angleDirection;
 	}
 
 }

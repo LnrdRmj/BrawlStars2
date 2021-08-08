@@ -2,7 +2,7 @@ package Server;
 
 import java.io.Serializable;
 
-public class HTTPMessage<T> implements Serializable{
+public class HTTPMessage<T extends Serializable> implements Serializable{
 
 	/**
 	 * 

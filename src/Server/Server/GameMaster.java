@@ -3,6 +3,7 @@ package Server.Server;
 import java.util.Vector;
 
 import Server.HTTPMessage;
+import Utils.HTTPMessages;
 
 public class GameMaster implements Runnable{
 
@@ -30,7 +31,9 @@ public class GameMaster implements Runnable{
 
 		while(true) {
 			
-			for(PlayerServerThread player : players) {
+			players.forEach(player -> {
+				
+				player.update();
 				
 				// Quando il socket del player viene chiuso o disconnesso per qualche motivo
 				if (player.isClosed()) {
@@ -38,14 +41,14 @@ public class GameMaster implements Runnable{
 					System.out.println("Un player si è disconnesso: id = " + player.getCode());
 					
 					playersToRemove.add(player);
-					continue;
+					return;
 					
 				}
 				
 				sendInfoToAllBut(player);
 				
-			}
-			
+			});
+
 			if (playersToAdd.size() > 0) {
 				
 				players.addAll(playersToAdd);
@@ -60,10 +63,22 @@ public class GameMaster implements Runnable{
 				
 			}
 			
+			wait(16);
+			
 		}
 		
 	}
 	
+	private void wait(int milliseconds) {
+		
+		try {
+			Thread.sleep(milliseconds);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	public void sendInfoToAllBut(PlayerServerThread player) {
 		
 //		System.out.println("Scrivo le informazioni di " + player.getCode() + " a:");
@@ -73,7 +88,8 @@ public class GameMaster implements Runnable{
 			if (pl != player) {
 				
 //				System.out.println("- " + pl.getCode());
-				pl.write(new HTTPMessage<String>("playerPos", player.getInfo()));
+				pl.write(new HTTPMessage<String>(HTTPMessages.PLAYER_POS, player.getInfo()));
+//				pl.write(new HTTPMessage<>(HTTPMessages.TO_DRAW, player.getToUpdate()));
 				
 			}
 			

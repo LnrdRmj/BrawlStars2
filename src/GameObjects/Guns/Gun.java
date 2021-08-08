@@ -11,21 +11,24 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.Consumer;
 
 import javax.swing.SwingUtilities;
 
 import Collision.HitBox;
 import Collision.PVector;
 import GameObjects.GameObject;
+import GameObjects.ServerData;
 import GameObjects.Bullets.Bullet;
 import Graphic.Frame;
+import Graphic.Renderer;
 import Graphic.Sprite;
 import Utils.Observer;
 import Utils.PVectorUtil;
 
-public class Gun extends GameObject implements MouseListener{
+public class Gun extends ServerData implements MouseListener, GameObject{
 	
-/**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -44,9 +47,11 @@ public class Gun extends GameObject implements MouseListener{
 	protected Double angleDirection;
 	protected PVector adjustedmentPosition;
 	
-	protected ArrayList<Observer> onGunShot;
+	protected ArrayList<Consumer<Bullet>> onGunShot;
 	
 	Point mousePos;
+	
+	protected Sprite sprite;
 	
 	/*
 	 * 0 - Da decidere ancora al primo loop
@@ -73,7 +78,9 @@ public class Gun extends GameObject implements MouseListener{
 		
 		isFlipped = 0;
 		
-		onGunShot = new ArrayList<Observer>();
+		onGunShot = new ArrayList<>();
+		
+		Renderer.addGameObjectToRender(this);
 		
 	}
 	
@@ -81,10 +88,10 @@ public class Gun extends GameObject implements MouseListener{
 		
 		PVector p = PVectorUtil.rotatePoint(playerPos.x + adjustedmentPosition.x, playerPos.y + adjustedmentPosition.y, playerPos.x + adjustedmentPosition.x + gunDimension.width, playerPos.y + adjustedmentPosition.y + gunDimension.height / 2, angleDirection);
 		
-		new Bullet(p.x, p.y, angleDirection);
+		Bullet bulletShot = new Bullet(p.x, p.y, angleDirection);
 		
 		// Notifica tutti gli observer
-		onGunShot.forEach( obs -> obs.update() );
+		onGunShot.forEach( obs -> obs.accept(bulletShot) );
 		
 	}
 	
@@ -188,9 +195,15 @@ public class Gun extends GameObject implements MouseListener{
 	}
 
 	@Override
-	public void hit(GameObject hit) {
+	public void hit(ServerData hit) {
 		
 		
+		
+	}
+
+	public void addOnShoot(Consumer<Bullet> event) {
+		
+		onGunShot.add(event);
 		
 	}
 	

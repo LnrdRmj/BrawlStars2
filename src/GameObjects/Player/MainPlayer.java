@@ -15,17 +15,23 @@ import Animation.Animator;
 import Collision.PVector;
 import GameObjects.Enemy;
 import GameObjects.GameObject;
+import GameObjects.ServerData;
 import GameObjects.Bullets.Bullet;
 import GameObjects.Guns.Gun;
 import Graphic.Canvas;
 import Graphic.Frame;
+import Graphic.Renderer;
 import Server.HTTPMessage;
+import ServerData.BulletData;
 import Utils.Friction;
+import Utils.HTTPMessages;
 import Utils.KeyAction;
 import Utils.PVectorUtil;
 import Utils.StringUtils;
 
-public class MainPlayer extends Player implements KeyListener{
+import static Logger.Logger.*;
+
+public class MainPlayer extends Player implements KeyListener, GameObject{
 
 	/**
 	 * 
@@ -41,7 +47,6 @@ public class MainPlayer extends Player implements KeyListener{
 	private Map<String, KeyAction> keyToAction;
 	
 	private Socket socket;
-//	private PrintWriter out;
 	private ObjectOutputStream out;
 	
 	protected ArrayList<Runnable> onUpdate;
@@ -63,6 +68,8 @@ public class MainPlayer extends Player implements KeyListener{
 		
 		onUpdate = new ArrayList<>();
 
+		Renderer.addGameObjectToRender(this);
+		
 	}
 	
 	public void draw(Graphics g) {
@@ -130,7 +137,7 @@ public class MainPlayer extends Player implements KeyListener{
 				
 				inputsPressed.add(StringUtils.charToString(keyChar));
 				
-			}	
+			}
 			
 			break;
 		case 'a':
@@ -290,15 +297,12 @@ public class MainPlayer extends Player implements KeyListener{
 		return gun;
 	}
 
+	
+	// Questo va messo nel server
 	@Override
-	public void hit(GameObject hit) {
+	public void hit(ServerData hit) {
 		
-		if 		(hit instanceof Bullet) {
-			// Fai qualcosa
-		}
-		else if (hit instanceof Enemy) {
-			// Fai qualcos'altro
-		}
+		
 		
 	}
 	
@@ -331,6 +335,7 @@ public class MainPlayer extends Player implements KeyListener{
 		this.socket = server;
 		
 		try {
+			
 			out = new ObjectOutputStream(socket.getOutputStream());
 			
 			// Serve per scrivere al server ogni qualvolta che il player viene aggiornato
@@ -338,14 +343,32 @@ public class MainPlayer extends Player implements KeyListener{
 				
 				try {
 					
-					out.writeObject(new HTTPMessage<String>("playerPos", pos.x + ";" + pos.y));
+					out.writeObject(new HTTPMessage<String>(HTTPMessages.PLAYER_POS, pos.x + ";" + pos.y));
+					
+				} catch (IOException e) {
+					System.out.println(e.getMessage());
+					e.printStackTrace();
+					throw new RuntimeException("Male");
+				}
+				
+			});
+			
+			gun.addOnShoot((bullet) -> {
+				
+				try {
+					
+					out.writeObject(new HTTPMessage<>(HTTPMessages.BULLET_SHOT, new BulletData(bullet.getBulletPos(), bullet.getAngleDirection(), "")));
+//					logClient("Ho appena sparato e mandato nell'internet un proiettile");
 					
 				} catch (IOException e) {
 					System.out.println(e.getMessage());
 					e.printStackTrace();
 				}
 				
-			} );
+			});
+			
+			for (int i = 0; i < 4; ++i)
+				gun.shoot(400, 400);
 			
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
