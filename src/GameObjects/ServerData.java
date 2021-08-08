@@ -15,8 +15,6 @@ public class ServerData implements Serializable{
 	protected String name = "";
 	
 	public ServerData() {
-		
-	}
 	
 	public ServerData (HitBox hitBox) {
 		this.hitBox = hitBox;
