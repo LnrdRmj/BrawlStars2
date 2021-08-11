@@ -73,7 +73,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		
 		player = new MainPlayer(canvas);
 		if (server != null) player.setSocket(server);
-//		enemyPlayer = new EnemyPlayer();
+		enemyPlayer = new EnemyPlayer();
 		
 //		for (int i = 0; i < 5; ++i)
 //			new Enemy();
