@@ -3,7 +3,7 @@ package ServerData;
 import java.io.Serializable;
 import Collision.PVector;
 
-public class EnemyBotData implements Serializable{
+public class EnemyBotData implements BasicData, Serializable{
 
 	/**
 	 * 

@@ -204,4 +204,16 @@ public class PlayerServerThread implements Runnable {
 		return this.toUpdate;
 	}
 
+	public void writeAllInfo() {
+		
+		this.write(new HTTPMessage<String>(HTTPMessages.PLAYER_POS, this.getInfo()));
+		
+		toUpdate.forEach(obj -> {
+			
+			this.write(obj.getMessageForClient());
+			
+		});
+		
+	}
+
 }
