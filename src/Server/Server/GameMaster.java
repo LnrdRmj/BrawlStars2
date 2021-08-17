@@ -88,8 +88,8 @@ public class GameMaster implements Runnable{
 			if (pl != player) {
 				
 //				System.out.println("- " + pl.getCode());
-				pl.writeAllInfo();
-				pl.write(new HTTPMessage<String>(HTTPMessages.PLAYER_POS, player.getInfo()));
+				player.writeAllInfo(pl.getSocketOut());
+//				pl.write(new HTTPMessage<String>(HTTPMessages.PLAYER_POS, player.getInfo()));
 //				pl.write(new HTTPMessage<>(HTTPMessages.TO_DRAW, player.getToUpdate()));
 				
 			}

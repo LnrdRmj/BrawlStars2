@@ -1,21 +1,19 @@
 package Graphic;
 
 
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.swing.JPanel;
 
-import Collision.CollisionEngine;
 import Collision.PVector;
+import GameObjects.Enemy;
 import GameObjects.GameObject;
-import GameObjects.ServerData;
 import GameObjects.Bullets.Bullet;
 import GameObjects.Player.EnemyPlayer;
 import GameObjects.Player.MainPlayer;
@@ -39,7 +37,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 	private MainPlayer player;
 	private Canvas canvas;
 	private Socket server;
-	private EnemyPlayer enemyPlayer;
+	private Map<String, EnemyPlayer> enemies;
 
 	Game() {
 		startNewGame();
@@ -73,11 +71,13 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		
 		player = new MainPlayer(canvas);
 		if (server != null) player.setSocket(server);
-		enemyPlayer = new EnemyPlayer();
+//		enemyPlayer = new EnemyPlayer();
 		
 //		for (int i = 0; i < 5; ++i)
 //			new Enemy();
 
+		enemies = new HashMap<>();
+		
 		mainThread = new Thread(this);
 		mainThread.start();
 		
@@ -166,12 +166,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			if (!(message.getMessageBody() instanceof String)) break;
 			
-			if (enemyPlayer == null) {
-				
-//				System.out.println("Primo messaggio: ho creato il nemico");
-				enemyPlayer = new EnemyPlayer();
-				
-			}
+			
 			
 			String [] data = ((String)message.getMessageBody()).split(";");
 			
@@ -179,8 +174,16 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			int x = (int)Double.parseDouble(data[0]);
 			int y = (int)Double.parseDouble(data[1]);
+			String code = data[2];
 			
-			enemyPlayer.setPos(x, y);
+			EnemyPlayer enemy = enemies.get(code);
+			
+			if ( enemy == null)
+				enemies.put(code, new EnemyPlayer(x, y));
+			else
+				enemy.setPos(x, y);
+			
+//			enemyPlayer.setPos(x, y);
 			
 			break;
 			
@@ -190,7 +193,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			BulletData d = (BulletData) message.getMessageBody();
 //			logClient(d.getPos().toString());
-//			logClient(d.getA().toString());
+			logClient(d.getA().toString());
 			
 			StringTokenizer st = new StringTokenizer(d.getA(), ";");
 			

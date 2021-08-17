@@ -46,6 +46,14 @@ public abstract class Player extends ServerData{
 	
 	}
 	
+	public Player(int x, int y) {
+		
+		this();
+		
+		setPos(x, y);
+		
+	}
+	
 	// Getters e Setters inutili (unless...)
 	public PVector getPos() {
 		return this.pos;

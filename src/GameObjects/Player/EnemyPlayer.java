@@ -20,6 +20,14 @@ public class EnemyPlayer extends Player implements GameObject{
 		Renderer.addGameObjectToRender(this);
 		
 	}
+	
+	public EnemyPlayer(int x, int y) {
+	
+		this();
+	
+		super.setPos(x, y);
+		
+	}
 
 	@Override
 	public void hit(ServerData hit) {
