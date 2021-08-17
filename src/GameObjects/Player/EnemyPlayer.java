@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import GameObjects.GameObject;
 import GameObjects.ServerData;
+import Graphic.Renderer;
 
 public class EnemyPlayer extends Player implements GameObject{
 
@@ -15,6 +16,16 @@ public class EnemyPlayer extends Player implements GameObject{
 	public EnemyPlayer() {
 		
 		super();
+		
+		Renderer.addGameObjectToRender(this);
+		
+	}
+	
+	public EnemyPlayer(int x, int y) {
+	
+		this();
+	
+		super.setPos(x, y);
 		
 	}
 

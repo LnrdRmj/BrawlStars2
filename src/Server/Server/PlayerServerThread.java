@@ -83,7 +83,7 @@ public class PlayerServerThread implements Runnable {
 				HTTPMessage<?> comand = (HTTPMessage<?>) cmd;
 
 //				logServer("Ho ricevuto un messagio col seguente comando" + comand.getComand());
-				logServer(comand.getComand());
+//				logServer(comand.getComand());
 				
 				switch(comand.getComand()) {
 				
@@ -91,7 +91,7 @@ public class PlayerServerThread implements Runnable {
 					
 //					System.out.println("Server - ho ricevuto un messaggio dal client");
 //					System.out.println("Server - " + comand);
-					
+					 
 					// pos (x,y)
 					String[] pos = ((String)comand.getMessageBody()).split(";");
 					x = (int) Double.parseDouble(pos[0]);
@@ -195,13 +195,40 @@ public class PlayerServerThread implements Runnable {
 		try {
 			out.writeObject(info);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public List<ServerGameObject> getToUpdate() {
 		return this.toUpdate;
+	}
+
+	public void writeAllInfo(ObjectOutputStream out) {
+		
+		try {
+			
+			// Informazioni del player stesso
+			out.writeObject(new HTTPMessage<String>(HTTPMessages.PLAYER_POS, this.getInfo()));
+			
+			// Informazioni degli oggetti del player (che magari ha generato o che in qualche modo gli sono correlati)
+			toUpdate.forEach(obj -> {
+				
+				try {
+					out.writeObject(obj.getMessageForClient());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+			});
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public ObjectOutputStream getSocketOut() {
+		return out;
 	}
 
 }

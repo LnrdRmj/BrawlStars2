@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import Collision.PVector;
 
-public class BulletData implements Serializable{
+public class BulletData implements BasicData, Serializable{
 
 	/**
 	 * 
@@ -19,6 +19,20 @@ public class BulletData implements Serializable{
 		super();
 		this.bulletPos = bulletPos;
 		this.angleDirection = angleDirection;
+		this.a = a;
+	}
+
+	
+	
+	public void setBulletPos(PVector bulletPos) {
+		this.bulletPos = bulletPos;
+	}
+
+	public void setAngleDirection(double angleDirection) {
+		this.angleDirection = angleDirection;
+	}
+
+	public void setA(String a) {
 		this.a = a;
 	}
 

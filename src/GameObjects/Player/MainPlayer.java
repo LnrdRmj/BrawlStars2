@@ -367,9 +367,6 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 				
 			});
 			
-			for (int i = 0; i < 4; ++i)
-				gun.shoot(400, 400);
-			
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
