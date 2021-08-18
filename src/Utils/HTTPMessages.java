@@ -11,5 +11,6 @@ public class HTTPMessages {
 	public static final String TO_DRAW	 		= "toDraw";
 	public static final String DRAW_BULLET	 	= "drawBullet";
 	public static final String DRAW_BOT_ENEMY	= "drawBotEnemy";
+	public static final String REMOVE_ENEMY		= "removeEnemy";
 	
 }

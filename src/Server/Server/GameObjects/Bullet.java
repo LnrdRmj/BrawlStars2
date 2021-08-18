@@ -99,11 +99,11 @@ public class Bullet extends ServerGameObject implements Serializable{
 	
 	public HTTPMessage<?> getMessageForClient() {
 		
-		logServer("Mi ha usato lol");
+		logServer("Mi hai usato");
 		
 		bulletData.setBulletPos(bulletPos);
 		bulletData.setAngleDirection(angleDirection);
-		bulletData.setA(bulletPos.x + ";" + bulletPos.y);
+		bulletData.setA(300 + ";" + 300);
 		
 		return new HTTPMessage<>(HTTPMessages.DRAW_BULLET, bulletData);
 		

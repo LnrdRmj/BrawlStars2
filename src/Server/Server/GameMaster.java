@@ -40,6 +40,8 @@ public class GameMaster implements Runnable{
 					
 					System.out.println("Un player si è disconnesso: id = " + player.getCode());
 					
+					sendMessageToAllBut(player, new HTTPMessage<>(HTTPMessages.REMOVE_ENEMY, player.getCode() + ""));
+					
 					playersToRemove.add(player);
 					return;
 					
@@ -79,6 +81,20 @@ public class GameMaster implements Runnable{
 		
 	}
 
+	public void sendMessageToAllBut(PlayerServerThread player, HTTPMessage<?> message) {
+		
+		for(PlayerServerThread pl : players) {
+			
+			if (pl != player) {
+				
+				pl.write(message);
+				
+			}
+			
+		}
+		
+	}
+	
 	public void sendInfoToAllBut(PlayerServerThread player) {
 		
 //		System.out.println("Scrivo le informazioni di " + player.getCode() + " a:");
@@ -87,10 +103,7 @@ public class GameMaster implements Runnable{
 			
 			if (pl != player) {
 				
-//				System.out.println("- " + pl.getCode());
 				player.writeAllInfo(pl.getSocketOut());
-//				pl.write(new HTTPMessage<String>(HTTPMessages.PLAYER_POS, player.getInfo()));
-//				pl.write(new HTTPMessage<>(HTTPMessages.TO_DRAW, player.getToUpdate()));
 				
 			}
 			
