@@ -210,8 +210,12 @@ public class PlayerServerThread implements Runnable {
 			// Informazioni del player stesso
 			out.writeObject(new HTTPMessage<String>(HTTPMessages.PLAYER_POS, this.getInfo()));
 			
+			logServer("Size: " + toUpdate.size());
+			
 			// Informazioni degli oggetti del player (che magari ha generato o che in qualche modo gli sono correlati)
 			toUpdate.forEach(obj -> {
+				
+				
 				
 				try {
 					out.writeObject(obj.getMessageForClient());

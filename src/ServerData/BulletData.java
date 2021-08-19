@@ -21,8 +21,6 @@ public class BulletData implements BasicData, Serializable{
 		this.angleDirection = angleDirection;
 		this.a = a;
 	}
-
-	
 	
 	public void setBulletPos(PVector bulletPos) {
 		this.bulletPos = bulletPos;

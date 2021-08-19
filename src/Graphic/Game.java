@@ -201,6 +201,17 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			break;
 		
+		case HTTPMessages.REMOVE_ENEMY:
+
+			if (!(message.getMessageBody() instanceof String)) break;
+			
+			code = (String) message.getMessageBody();
+			
+			Renderer.removeGameObjectToRender(enemies.get(code));
+			enemies.remove(code);
+			
+			break;
+			
 		}
 		
 	}
