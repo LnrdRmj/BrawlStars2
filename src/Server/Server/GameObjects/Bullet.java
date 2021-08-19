@@ -28,6 +28,8 @@ public class Bullet extends ServerGameObject implements Serializable{
 	protected PVector bulletPos;
 	public int bulletSpeed = 4;
 	protected double angleDirection;
+	
+	private BulletData bulletData;
 		
 	public Bullet(PVector pos, double angleDirection, ObjectOutputStream client) {
 		
@@ -54,6 +56,8 @@ public class Bullet extends ServerGameObject implements Serializable{
 //		setName("Proiettile");
 		
 		bulletPos = new PVector(originX, originY);
+
+		bulletData = new BulletData(bulletPos, angleDirection, originX + ";" + originY);
 		
 		serverData = new ServerData(new HitBox(bulletDimension, bulletPos, angleDirection));
 		
@@ -80,13 +84,26 @@ public class Bullet extends ServerGameObject implements Serializable{
 		}
 		
 		serverData.getHitBox().update();
-	
 		try {
-			client.writeObject(new HTTPMessage<>(HTTPMessages.DRAW_BULLET, new BulletData(bulletPos, angleDirection, bulletPos.x + ";" + bulletPos.y)));
+			client.writeObject(new HTTPMessage<>(HTTPMessages.DRAW_BULLET, bulletData));
 			client.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		logServer(bulletPos.x + ";" + bulletPos.y);
+		
+	}
+	
+	public HTTPMessage<?> getMessageForClient() {
+		
+		logServer("Mi ha usato lol");
+		
+		bulletData.setBulletPos(bulletPos);
+		bulletData.setAngleDirection(angleDirection);
+		bulletData.setA(bulletPos.x + ";" + bulletPos.y);
+		
+		return new HTTPMessage<>(HTTPMessages.DRAW_BULLET, bulletData);
 		
 	}
 	

@@ -14,6 +14,11 @@ import Utils.Random;
 
 public class Enemy extends ServerGameObject{
 
+	public Enemy(ObjectOutputStream client) {
+		super(client);
+	}
+
+
 	protected Dimension thick;
 
 	private PVector pos;
@@ -55,6 +60,13 @@ public class Enemy extends ServerGameObject{
 		int y = Random.random(0, Frame.gameHeight);
 		this.serverData.getHitBox().setPos(x, y);
 		
+	}
+
+
+	@Override
+	public HTTPMessage<?> getMessageForClient() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
