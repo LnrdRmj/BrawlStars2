@@ -1,27 +1,50 @@
 package Server.Server;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.List;
 import java.util.Vector;
 
+import javax.lang.model.element.Element;
+
 import Server.HTTPMessage;
+import Server.Server.GameObjects.ServerGameObject;
 import Utils.HTTPMessages;
 
 public class GameMaster implements Runnable{
 
-	private Vector<PlayerServerThread> players;
-	private Vector<PlayerServerThread> playersToAdd;
-	private Vector<PlayerServerThread> playersToRemove;
+	private List<PlayerServerThread> players;
+	private List<PlayerServerThread> playersToAdd;
+	private List<PlayerServerThread> playersToRemove;
+	
+	private List<ServerGameObject> gameObjects;
 	
 	public GameMaster() {
 		
 		players = new Vector<PlayerServerThread>();
 		playersToAdd = new Vector<PlayerServerThread>();
 		playersToRemove = new Vector<PlayerServerThread>();
+		
+		gameObjects = new Vector<>();
+		
 		new Thread(this).start();
 		
 	}
 	
 	public void addPlayerThread(PlayerServerThread player) {
 		
+		player.addOnNewGameObject(el -> {
+			
+			gameObjects.add(el);
+			
+		});
+
+		player.addOnDeadGameObject(el -> {
+			
+			gameObjects.remove(el);
+			
+		});
+
 		this.playersToAdd.add(player);
 		
 	}
@@ -47,6 +70,7 @@ public class GameMaster implements Runnable{
 					
 				}
 				
+				sendAllGameObjectsToPLayer(player);
 				sendInfoToAllBut(player);
 				
 			});
@@ -71,6 +95,22 @@ public class GameMaster implements Runnable{
 		
 	}
 	
+	private void sendAllGameObjectsToPLayer(PlayerServerThread player) {
+
+		ObjectOutputStream out = player.getSocketOut();
+		
+		gameObjects.forEach( el -> {
+			
+			try {
+				out.writeObject(el.getMessageForClient());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		});
+		
+	}
+
 	private void wait(int milliseconds) {
 		
 		try {

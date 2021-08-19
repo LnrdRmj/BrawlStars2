@@ -12,7 +12,6 @@ import java.util.StringTokenizer;
 import javax.swing.JPanel;
 
 import Collision.PVector;
-import GameObjects.Enemy;
 import GameObjects.GameObject;
 import GameObjects.Bullets.Bullet;
 import GameObjects.Player.EnemyPlayer;
@@ -166,8 +165,6 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			if (!(message.getMessageBody() instanceof String)) break;
 			
-			
-			
 			String [] data = ((String)message.getMessageBody()).split(";");
 			
 			if (data[0].equals("null") || data[1].equals("null")) return;
@@ -183,8 +180,6 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			else
 				enemy.setPos(x, y);
 			
-//			enemyPlayer.setPos(x, y);
-			
 			break;
 			
 		case HTTPMessages.DRAW_BULLET:
@@ -192,8 +187,6 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			if (!(message.getMessageBody() instanceof BulletData)) break;
 			
 			BulletData d = (BulletData) message.getMessageBody();
-//			logClient(d.getPos().toString());
-			logClient(d.getA().toString());
 			
 			StringTokenizer st = new StringTokenizer(d.getA(), ";");
 			

@@ -296,7 +296,6 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 	public Gun getGun() {
 		return gun;
 	}
-
 	
 	// Questo va messo nel server
 	@Override

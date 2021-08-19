@@ -84,26 +84,16 @@ public class Bullet extends ServerGameObject implements Serializable{
 		}
 		
 		serverData.getHitBox().update();
-		try {
-			client.writeObject(new HTTPMessage<>(HTTPMessages.DRAW_BULLET, bulletData));
-			client.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		logServer(bulletPos.x + ";" + bulletPos.y);
 		
 	}
 	
 	public HTTPMessage<?> getMessageForClient() {
 		
-		logServer("Mi hai usato");
-		
 		bulletData.setBulletPos(bulletPos);
 		bulletData.setAngleDirection(angleDirection);
-		bulletData.setA(300 + ";" + 300);
+		bulletData.setA(bulletPos.x + ";" + bulletPos.y);
 		
-		return new HTTPMessage<>(HTTPMessages.DRAW_BULLET, bulletData);
+		return new HTTPMessage<>(HTTPMessages.DRAW_BULLET, new BulletData(bulletPos, angleDirection, bulletPos.x + ";" + bulletPos.y));
 		
 	}
 	

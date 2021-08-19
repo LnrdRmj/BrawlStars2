@@ -9,6 +9,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.function.Consumer;
 
 import Server.HTTPMessage;
 import Server.Server.GameObjects.Bullet;
@@ -40,7 +41,8 @@ public class PlayerServerThread implements Runnable {
 	private List<ServerGameObject> toRemove 	  	= new Vector<>();
 	private List<ServerGameObject> toAdd 	 		= new Vector<>();
 	
-	private int cont = 0;
+	private List<Consumer<? super ServerGameObject>> onNewGameObject;
+	private List<Consumer<? super ServerGameObject>> onDeadGameObject;
 	
 	public PlayerServerThread(Socket newPlayer) throws IOException {
 
@@ -49,9 +51,11 @@ public class PlayerServerThread implements Runnable {
 		code = codeGen;
 		codeGen++;
 
-		toUpdate = new ArrayList<ServerGameObject>();
-		toRemove = new ArrayList<ServerGameObject>();
-		toAdd = new ArrayList<ServerGameObject>();
+		toUpdate = new Vector<ServerGameObject>();
+		toRemove = new Vector<ServerGameObject>();
+		toAdd = new Vector<ServerGameObject>();
+		onNewGameObject = new Vector<>();
+		onDeadGameObject = new Vector<>();
 		
 //		out = new PrintWriter(this.player.getOutputStream(), true);
 //		in = new BufferedReader(new InputStreamReader(this.player.getInputStream()));
@@ -100,9 +104,6 @@ public class PlayerServerThread implements Runnable {
 					break;
 					
 				case HTTPMessages.BULLET_SHOT:
-				
-					cont++;
-					logServer(cont);
 					
 					if (!(comand.getMessageBody() instanceof BulletData)) break;
 					
@@ -112,7 +113,7 @@ public class PlayerServerThread implements Runnable {
 					
 					toUpdate.add(newBullet);
 
-					logServer("Ho appena ricevuto un bullet dal client e l'ho aggiunto tra i cosi da aggiornare");
+					onNewGameObject.forEach(el -> el.accept(newBullet));
 					
 					break;
 					
@@ -142,8 +143,12 @@ public class PlayerServerThread implements Runnable {
 			
 			obj.update();
 			
-			if (obj.isDead())
+			if (obj.isDead()) {
+				
 				toRemove.add(obj);
+				onDeadGameObject.forEach(el -> el.accept(obj));
+				
+			}
 			
 		});
 		
@@ -210,21 +215,6 @@ public class PlayerServerThread implements Runnable {
 			// Informazioni del player stesso
 			out.writeObject(new HTTPMessage<String>(HTTPMessages.PLAYER_POS, this.getInfo()));
 			
-			logServer("Size: " + toUpdate.size());
-			
-			// Informazioni degli oggetti del player (che magari ha generato o che in qualche modo gli sono correlati)
-			toUpdate.forEach(obj -> {
-				
-				
-				
-				try {
-					out.writeObject(obj.getMessageForClient());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-			});
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -233,6 +223,18 @@ public class PlayerServerThread implements Runnable {
 
 	public ObjectOutputStream getSocketOut() {
 		return out;
+	}
+
+	public void addOnNewGameObject(Consumer<? super ServerGameObject> consumer) {
+
+		onNewGameObject.add(consumer);
+		
+	}
+
+	public void addOnDeadGameObject(Consumer<? super ServerGameObject> consumer) {
+
+		onDeadGameObject.add(consumer);
+		
 	}
 
 }
