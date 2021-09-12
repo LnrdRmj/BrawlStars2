@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.function.Consumer;
 
@@ -19,7 +20,12 @@ import Utils.HTTPMessages;
 
 import static Logger.Logger.*;
 
-public class PlayerServerThread implements Runnable {
+/*
+ * Serve soltanto per la gestione della connessione col Client
+ * 
+ * */
+
+public class PlayerServerThread extends ServerGameObject implements Runnable {
 
 	private Socket player;
 
@@ -37,29 +43,28 @@ public class PlayerServerThread implements Runnable {
 	private Thread thisThread;
 	private boolean closed = false;
 	
-	private List<ServerGameObject> toUpdate;
-	private List<ServerGameObject> toRemove 	  	= new Vector<>();
-	private List<ServerGameObject> toAdd 	 		= new Vector<>();
+//	private List<ServerGameObject> toUpdate;
+//	private List<ServerGameObject> toRemove 	  	= new Vector<>();
+//	private List<ServerGameObject> toAdd 	 		= new Vector<>();
 	
 	private List<Consumer<? super ServerGameObject>> onNewGameObject;
 	private List<Consumer<? super ServerGameObject>> onDeadGameObject;
 	
 	public PlayerServerThread(Socket newPlayer) throws IOException {
 
+		super(new ObjectOutputStream(newPlayer.getOutputStream()));
+		
 		this.player = newPlayer;
 
 		code = codeGen;
 		codeGen++;
 
-		toUpdate = new Vector<ServerGameObject>();
-		toRemove = new Vector<ServerGameObject>();
-		toAdd = new Vector<ServerGameObject>();
 		onNewGameObject = new Vector<>();
 		onDeadGameObject = new Vector<>();
 		
 //		out = new PrintWriter(this.player.getOutputStream(), true);
 //		in = new BufferedReader(new InputStreamReader(this.player.getInputStream()));
-		out = new ObjectOutputStream(newPlayer.getOutputStream());
+		out = client;
 		in = new ObjectInputStream(newPlayer.getInputStream());
 
 		thisThread = new Thread(this);
@@ -109,10 +114,10 @@ public class PlayerServerThread implements Runnable {
 					
 					BulletData d = (BulletData) comand.getMessageBody();
 					
-					ServerGameObject newBullet = new Bullet(d.getPos(), d.getAngleDirection(), out);
+					StringTokenizer st = new StringTokenizer(d.getPos(), ";");
 					
-					toUpdate.add(newBullet);
-
+					ServerGameObject newBullet = new Bullet(Float.parseFloat(st.nextToken()), Float.parseFloat(st.nextToken()), d.getAngleDirection(), out);
+					
 					onNewGameObject.forEach(el -> el.accept(newBullet));
 					
 					break;
@@ -137,30 +142,8 @@ public class PlayerServerThread implements Runnable {
 	}
 
 	public void update() {
-		// TODO Auto-generated method stub
 		
-		toUpdate.forEach(obj -> {
-			
-			obj.update();
-			
-			if (obj.isDead()) {
-				
-				toRemove.add(obj);
-				onDeadGameObject.forEach(el -> el.accept(obj));
-				
-			}
-			
-		});
 		
-		if (toRemove.size() > 0) {
-			toUpdate.removeAll(toRemove);
-			toRemove.clear();
-		}
-		
-		if (toAdd.size() > 0) {
-			toUpdate.addAll(toAdd);
-			toAdd.clear();
-		}
 		
 	}
 
@@ -200,22 +183,7 @@ public class PlayerServerThread implements Runnable {
 		try {
 			out.writeObject(info);
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public List<ServerGameObject> getToUpdate() {
-		return this.toUpdate;
-	}
-
-	public void writeAllInfo(ObjectOutputStream out) {
-		
-		try {
-			
-			// Informazioni del player stesso
-			out.writeObject(new HTTPMessage<String>(HTTPMessages.PLAYER_POS, this.getInfo()));
-			
-		} catch (IOException e) {
+			closed = true;
 			e.printStackTrace();
 		}
 		
@@ -235,6 +203,12 @@ public class PlayerServerThread implements Runnable {
 
 		onDeadGameObject.add(consumer);
 		
+	}
+
+	@Override
+	public HTTPMessage<?> getMessageForClient() {
+		// TODO Auto-generated method stub
+		return new HTTPMessage<>(HTTPMessages.PLAYER_POS, this.getInfo());
 	}
 
 }

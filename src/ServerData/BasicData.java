@@ -1,5 +1,5 @@
 package ServerData;
 
-public interface BasicData {
+public interface BasicData{
 
 }

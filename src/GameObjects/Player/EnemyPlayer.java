@@ -29,6 +29,15 @@ public class EnemyPlayer extends Player implements GameObject{
 		
 	}
 
+	public EnemyPlayer(int x, int y, int code) {
+		
+		this();
+	
+		this.code = code;
+		super.setPos(x, y);
+		
+	}
+	
 	@Override
 	public void hit(ServerData hit) {
 		

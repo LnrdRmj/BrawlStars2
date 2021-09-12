@@ -2,12 +2,18 @@ package GameObjects.Guns;
 
 import Collision.PVector;
 import GameObjects.Bullets.Bullet;
+import Graphic.Canvas;
 import Utils.PVectorUtil;
 
 public class ShotGun extends Gun{
 
-	public ShotGun(PVector p) {
-		super(p);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5801814393491090219L;
+
+	public ShotGun(PVector p, Canvas canvas) {
+		super(p, canvas);
 	}
 
 	@Override

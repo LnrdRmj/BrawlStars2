@@ -20,7 +20,7 @@ public class ConnectionServer {
 				Socket newPlayer = serverSocket.accept();
 				gameMaster.addPlayerThread(new PlayerServerThread(newPlayer));
 				
-				System.out.println("Server - Si Ã¨ connesso un nuovo player: " + gameMaster.numPlayers());
+				System.out.println("Server - Si è connesso un nuovo player: " + gameMaster.numPlayers());
 				
 //				if (gameMaster.numPlayers() == 2) return;
 			

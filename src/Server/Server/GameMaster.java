@@ -7,8 +7,10 @@ import java.util.Vector;
 
 import javax.lang.model.element.Element;
 
+import Server.Config;
 import Server.HTTPMessage;
 import Server.Server.GameObjects.ServerGameObject;
+import ServerData.HandShakeData;
 import Utils.HTTPMessages;
 
 public class GameMaster implements Runnable{
@@ -18,20 +20,34 @@ public class GameMaster implements Runnable{
 	private List<PlayerServerThread> playersToRemove;
 	
 	private List<ServerGameObject> gameObjects;
+	private List<ServerGameObject> gameObjectsToAdd;
+	private List<ServerGameObject> gameObjectsToRemove;
+	
+	public static Config config;
 	
 	public GameMaster() {
 		
-		players = new Vector<PlayerServerThread>();
-		playersToAdd = new Vector<PlayerServerThread>();
-		playersToRemove = new Vector<PlayerServerThread>();
+		players				= new Vector<>();
+		playersToAdd 		= new Vector<>();
+		playersToRemove 	= new Vector<>();
 		
-		gameObjects = new Vector<>();
+		gameObjects 		= new Vector<>();
+		gameObjectsToAdd 	= new Vector<>();
+		gameObjectsToRemove = new Vector<>();
 		
+		config = new Config();
+
 		new Thread(this).start();
 		
 	}
 	
 	public void addPlayerThread(PlayerServerThread player) {
+		
+		HandShakeData handShakeData = new HandShakeData();
+		handShakeData.setConfig(config);
+		handShakeData.setCode(player.getCode());
+		
+		player.write(new HTTPMessage<>(HTTPMessages.HAND_SHAKE, handShakeData));
 		
 		player.addOnNewGameObject(el -> {
 			
@@ -45,6 +61,8 @@ public class GameMaster implements Runnable{
 			
 		});
 
+		gameObjects.add(player);
+		
 		this.playersToAdd.add(player);
 		
 	}
@@ -53,28 +71,37 @@ public class GameMaster implements Runnable{
 	public void run() {
 
 		while(true) {
+		
+			// Ciclo per aggiornare e mandare i gameobjects a tutti i client
+			gameObjects.forEach( gameObject -> {
 			
-			players.forEach(player -> {
+				// Se è morto lo tolgo
+				if (gameObject.isDead())
+					gameObjectsToRemove.add(gameObject);
 				
-				player.update();
-				
-				// Quando il socket del player viene chiuso o disconnesso per qualche motivo
-				if (player.isClosed()) {
+				// Aggiorno i gameObjects
+				gameObject.update();
+			
+				// Mando i gameObjects a tutti i players
+				players.forEach( player -> {
 					
-					System.out.println("Un player si Ã¨ disconnesso: id = " + player.getCode());
+					HTTPMessage<?> a = gameObject.getMessageForClient();
+					player.write(a);
 					
-					sendMessageToAllBut(player, new HTTPMessage<>(HTTPMessages.REMOVE_ENEMY, player.getCode() + ""));
-					
-					playersToRemove.add(player);
-					return;
-					
-				}
-				
-				sendAllGameObjectsToPLayer(player);
-				sendInfoToAllBut(player);
-				
-			});
+				});
+			
+			});	
 
+			players.forEach( player -> {
+				
+				if (player.isClosed()) 
+					playersToRemove.add(player);
+					
+			});
+			
+			// -----------------------------------------------------------------
+			// Aggiunta o eliminazione elementi da players
+			// -----------------------------------------------------------------
 			if (playersToAdd.size() > 0) {
 				
 				players.addAll(playersToAdd);
@@ -89,25 +116,26 @@ public class GameMaster implements Runnable{
 				
 			}
 			
+			// -----------------------------------------------------------------
+			// Aggiunta o eliminazione elementi da gameObjects
+			// -----------------------------------------------------------------
+			if (gameObjectsToAdd.size() > 0) {
+				
+				gameObjects.addAll(gameObjectsToAdd);
+				gameObjectsToAdd.clear();
+				
+			}
+			
+			if (gameObjectsToRemove.size() > 0) {
+				
+				gameObjects.removeAll(gameObjectsToRemove);
+				gameObjectsToRemove.clear();
+				
+			}
+			
 			wait(16);
 			
 		}
-		
-	}
-	
-	private void sendAllGameObjectsToPLayer(PlayerServerThread player) {
-
-		ObjectOutputStream out = player.getSocketOut();
-		
-		gameObjects.forEach( el -> {
-			
-			try {
-				out.writeObject(el.getMessageForClient());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-		});
 		
 	}
 
@@ -128,22 +156,6 @@ public class GameMaster implements Runnable{
 			if (pl != player) {
 				
 				pl.write(message);
-				
-			}
-			
-		}
-		
-	}
-	
-	public void sendInfoToAllBut(PlayerServerThread player) {
-		
-//		System.out.println("Scrivo le informazioni di " + player.getCode() + " a:");
-		
-		for(PlayerServerThread pl : players) {
-			
-			if (pl != player) {
-				
-				player.writeAllInfo(pl.getSocketOut());
 				
 			}
 			

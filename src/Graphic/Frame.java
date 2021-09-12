@@ -16,7 +16,6 @@ public class Frame extends JFrame{
 	public final static int gameWidth  = 800;
 	public final static int gameHeight = 400;
 	
-	public static Game game = new Game();
 
 	public Frame() {
 		
@@ -26,8 +25,6 @@ public class Frame extends JFrame{
 //		this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 //		this.setUndecorated(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		this.getContentPane().add(game.getCanvas());
 		
 		this.setVisible(true);
 	}

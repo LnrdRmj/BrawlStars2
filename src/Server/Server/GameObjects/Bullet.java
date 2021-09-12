@@ -11,6 +11,7 @@ import Collision.PVector;
 import GameObjects.ServerData;
 import Graphic.Frame;
 import Server.HTTPMessage;
+import Server.Server.GameMaster;
 import ServerData.BulletData;
 import Utils.HTTPMessages;
 
@@ -57,8 +58,6 @@ public class Bullet extends ServerGameObject implements Serializable{
 		
 		bulletPos = new PVector(originX, originY);
 
-		bulletData = new BulletData(bulletPos, angleDirection, originX + ";" + originY);
-		
 		serverData = new ServerData(new HitBox(bulletDimension, bulletPos, angleDirection));
 		
 		this.angleDirection = angleDirection;
@@ -73,9 +72,9 @@ public class Bullet extends ServerGameObject implements Serializable{
 
 		// If the bullet goes off-screen delete it
 		if (bulletPos.x < - 100 || 
-			bulletPos.x > Frame.gameWidth + 100 ||
+			bulletPos.x > GameMaster.config.width + 100 ||
 			bulletPos.y < -100 ||
-			bulletPos.y > Frame.gameHeight) {
+			bulletPos.y > GameMaster.config.width) {
 			
 			isDead = true;
 			
@@ -89,11 +88,7 @@ public class Bullet extends ServerGameObject implements Serializable{
 	
 	public HTTPMessage<?> getMessageForClient() {
 		
-		bulletData.setBulletPos(bulletPos);
-		bulletData.setAngleDirection(angleDirection);
-		bulletData.setA(bulletPos.x + ";" + bulletPos.y);
-		
-		return new HTTPMessage<>(HTTPMessages.DRAW_BULLET, new BulletData(bulletPos, angleDirection, bulletPos.x + ";" + bulletPos.y));
+		return new HTTPMessage<>(HTTPMessages.DRAW_BULLET, new BulletData(bulletPos.x + ";" + bulletPos.y, angleDirection));
 		
 	}
 	

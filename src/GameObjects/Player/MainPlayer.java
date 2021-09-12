@@ -20,6 +20,7 @@ import GameObjects.Bullets.Bullet;
 import GameObjects.Guns.Gun;
 import Graphic.Canvas;
 import Graphic.Frame;
+import Graphic.Game;
 import Graphic.Renderer;
 import Server.HTTPMessage;
 import ServerData.BulletData;
@@ -33,9 +34,6 @@ import static Logger.Logger.*;
 
 public class MainPlayer extends Player implements KeyListener, GameObject{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private PVector gunPos;
@@ -58,7 +56,7 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 		canvas.addKeyListener(this);
 
 		gunPos = new PVector(pos.x + thick.getWidth() * .3, pos.y + thick.getHeight() * .3);
-		gun = new Gun(gunPos);
+		gun = new Gun(gunPos, canvas);
 		canvas.addMouseListener(gun);
 		
 		inputsPressed = new Vector<String>();
@@ -77,8 +75,6 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 //		hitBox.draw(g);
 		animator.drawFrame(g);
 		
-		outOfWindow(g);
-		
 	}
 	
 	public void update() {
@@ -94,7 +90,7 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 		
 		if (outOfWindow()) {
 			
-			stopPlayer();
+//			stopPlayer();
 //			acc.x += - acc.x * .1;
 //			acc.y += - acc.y * .1;
 			
@@ -266,7 +262,7 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 		
 		PVector p = PVectorUtil.addVectors(pos, velocity);
 				
-		return p.x < 0 || p.x > Frame.gameWidth - thick.width || p.y < 0 || p.y > Frame.gameHeight - thick.height;
+		return p.x < 0 || p.x > Game.config.width - thick.width || p.y < 0 || p.y > Game.config.height - thick.height;
 		
 	}
 	
@@ -276,7 +272,7 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 		
 		g.fillOval((int)p.x, (int)p.y, 10, 10);
 				
-		return p.x < 0 || p.x > Frame.gameWidth - thick.width || p.y < 0 || p.y > Frame.gameHeight - thick.height;
+		return p.x < 0 || p.x > Game.config.width - thick.width || p.y < 0 || p.y > Game.config.width - thick.height;
 		
 	}
 	
@@ -356,7 +352,8 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 				
 				try {
 					
-					out.writeObject(new HTTPMessage<>(HTTPMessages.BULLET_SHOT, new BulletData(bullet.getBulletPos(), bullet.getAngleDirection(), "")));
+					PVector bulletPos = bullet.getBulletPos();
+					out.writeObject(new HTTPMessage<>(HTTPMessages.BULLET_SHOT, new BulletData(bulletPos.x + ";" + bulletPos.y, bullet.getAngleDirection())));
 //					logClient("Ho appena sparato e mandato nell'internet un proiettile");
 					
 				} catch (IOException e) {

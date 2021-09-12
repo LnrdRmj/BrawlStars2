@@ -11,18 +11,16 @@ public class BulletData implements BasicData, Serializable{
 	 */
 	private static final long serialVersionUID = -1581026129262363726L;
 	
-	private PVector bulletPos;
+	private String bulletPos;
 	private double angleDirection;
-	private String a;
 	
-	public BulletData(PVector bulletPos, double angleDirection, String a) {
+	public BulletData(String bulletPos, double angleDirection) {
 		super();
 		this.bulletPos = bulletPos;
 		this.angleDirection = angleDirection;
-		this.a = a;
 	}
 	
-	public void setBulletPos(PVector bulletPos) {
+	public void setBulletPos(String bulletPos) {
 		this.bulletPos = bulletPos;
 	}
 
@@ -30,11 +28,7 @@ public class BulletData implements BasicData, Serializable{
 		this.angleDirection = angleDirection;
 	}
 
-	public void setA(String a) {
-		this.a = a;
-	}
-
-	public PVector getPos() {
+	public String getPos() {
 		return bulletPos;
 	}
 
@@ -42,8 +36,4 @@ public class BulletData implements BasicData, Serializable{
 		return angleDirection;
 	}
 	
-	public String getA() {
-		return a;
-	}
-
 }

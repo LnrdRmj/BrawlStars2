@@ -2,12 +2,18 @@ package GameObjects.Guns;
 
 import Collision.PVector;
 import GameObjects.Bullets.BulletWithTrail;
+import Graphic.Canvas;
 import Utils.PVectorUtil;
 
 public class PierceGun extends Gun {
 
-	public PierceGun(PVector p) {
-		super(p);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9006349511560210708L;
+
+	public PierceGun(PVector p, Canvas canvas) {
+		super(p, canvas);
 	}
 
 	@Override

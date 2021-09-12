@@ -20,6 +20,7 @@ import Collision.PVector;
 import GameObjects.GameObject;
 import GameObjects.ServerData;
 import GameObjects.Bullets.Bullet;
+import Graphic.Canvas;
 import Graphic.Frame;
 import Graphic.Renderer;
 import Graphic.Sprite;
@@ -53,6 +54,8 @@ public class Gun extends ServerData implements MouseListener, GameObject{
 	
 	protected Sprite sprite;
 	
+	private Canvas canvas;
+	
 	/*
 	 * 0 - Da decidere ancora al primo loop
 	 * 1 - vuol dire che la pistola sta a destra e quindi non � flippata
@@ -60,7 +63,7 @@ public class Gun extends ServerData implements MouseListener, GameObject{
 	 * */
 	private int isFlipped;
 	
-	public Gun(PVector p) {
+	public Gun(PVector p, Canvas canvas) {
 		
 		super();
 		
@@ -77,6 +80,8 @@ public class Gun extends ServerData implements MouseListener, GameObject{
 		setHitBox(new HitBox(gunDimension, p, angleDirection));
 		
 		isFlipped = 0;
+		
+		this.canvas = canvas;
 		
 		onGunShot = new ArrayList<>();
 		
@@ -164,7 +169,7 @@ public class Gun extends ServerData implements MouseListener, GameObject{
 	@Override
 	public void update() {
 		
-		SwingUtilities.convertPointFromScreen(mousePos = MouseInfo.getPointerInfo().getLocation(), Frame.game.getCanvas());
+		SwingUtilities.convertPointFromScreen(mousePos = MouseInfo.getPointerInfo().getLocation(), canvas);
 		
 		angleDirection = (Math.atan2((mousePos.y - (playerPos.y + adjustedmentPosition.y)), (mousePos.x - (playerPos.x + adjustedmentPosition.x))));
 		

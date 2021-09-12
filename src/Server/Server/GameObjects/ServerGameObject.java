@@ -8,8 +8,6 @@ import Server.HTTPMessage;
 
 public abstract class ServerGameObject {
 
-	
-	
 	protected ServerData serverData;
 	protected ObjectOutputStream client;
 	protected boolean isDead = false;

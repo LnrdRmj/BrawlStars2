@@ -2,12 +2,18 @@ package GameObjects.Guns;
 
 import Collision.PVector;
 import GameObjects.Bullets.Bullet;
+import Graphic.Canvas;
 
 public class OPGun extends Gun{
 	
-	public OPGun(PVector p) {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8068617494904800050L;
+
+	public OPGun(PVector p, Canvas canvas) {
 		
-		super(p);
+		super(p, canvas);
 		
 		fireRate = 1000;
 		

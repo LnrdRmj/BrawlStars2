@@ -1,12 +1,12 @@
 package Main;
 
-import Graphic.Frame;
+import Graphic.Game;
 
 public class Gioco {
 
 	public static void main(String[] args){
 		
-		new Frame();
+		new Game();
 		
 	}
 

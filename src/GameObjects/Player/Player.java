@@ -15,6 +15,8 @@ public abstract class Player extends ServerData{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	protected int code;
+	
 	protected PVector pos = new PVector(0, 0);
 	protected int health = 100;
 	
@@ -91,5 +93,15 @@ public abstract class Player extends ServerData{
 	public void setThicc(int thicc) {
 		this.height = thicc;
 	}
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
+	
+	
 	
 }
