@@ -24,6 +24,7 @@ import Server.RetryConnection;
 import Server.Client.ServerListener;
 import ServerData.BulletData;
 import ServerData.HandShakeData;
+import ServerData.PlayerData;
 import Utils.HTTPMessages;
 
 import static Logger.Logger.*;
@@ -172,27 +173,21 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		
 		switch(message.getComand()) {
 		
-		case HTTPMessages.PLAYER_POS: 
+		case HTTPMessages.PLAYER_DATA: 
 			
-			if (!(message.getMessageBody() instanceof String)) break;
+			if (!(message.getMessageBody() instanceof PlayerData)) break;
 			
-			String [] data = ((String)message.getMessageBody()).split(";");
-			
-			if (data[0].equals("null") || data[1].equals("null")) return;
-			
-			int x = (int)Double.parseDouble(data[0]);
-			int y = (int)Double.parseDouble(data[1]);
-			Integer code = Integer.parseInt(data[2]);
+			PlayerData pd = ((PlayerData)message.getMessageBody()); 
 			
 			// Se si tratta di un nemico
-			if (!code.equals(player.getCode())){
+			if (!pd.getCode().equals(player.getCode())){
 			
-				EnemyPlayer enemy = enemies.get(code);
+				EnemyPlayer enemy = enemies.get(pd.getCode());
 				
 				if ( enemy == null)
-					enemies.put(code, new EnemyPlayer(x, y, code));
+					enemies.put(pd.getCode(), new EnemyPlayer(pd.getPos(), pd.getCode()));
 				else
-					enemy.setPos(x, y);
+					enemy.setPos(pd.getPos());
 			
 			}
 			
@@ -214,7 +209,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 
 			if (!(message.getMessageBody() instanceof Integer)) break;
 			
-			code = (Integer) message.getMessageBody();
+			Integer code = (Integer) message.getMessageBody();
 			
 			Renderer.removeGameObjectToRender(enemies.get(code));
 			enemies.remove(code);
@@ -236,7 +231,6 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			// Codice univoco generato dal server
 			player.setCode(c.getCode());
-			logClient("Ho il codice: " + c.getCode());
 
 			break;
 			

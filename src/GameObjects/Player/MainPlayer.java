@@ -24,6 +24,7 @@ import Graphic.Game;
 import Graphic.Renderer;
 import Server.HTTPMessage;
 import ServerData.BulletData;
+import ServerData.PlayerData;
 import Utils.Friction;
 import Utils.HTTPMessages;
 import Utils.KeyAction;
@@ -338,7 +339,11 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 				
 				try {
 					
-					out.writeObject(new HTTPMessage<String>(HTTPMessages.PLAYER_POS, pos.x + ";" + pos.y));
+					PlayerData pd = new PlayerData();
+					pd.setPos(pd.getPos());
+					pd.setDirection(inputsPressed.lastElement());
+
+					out.writeObject(new HTTPMessage<>(HTTPMessages.PLAYER_DATA, pd));
 					
 				} catch (IOException e) {
 					System.out.println(e.getMessage());

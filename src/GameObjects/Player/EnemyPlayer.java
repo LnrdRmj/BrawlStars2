@@ -2,6 +2,7 @@ package GameObjects.Player;
 
 import java.awt.Graphics;
 
+import Collision.PVector;
 import GameObjects.GameObject;
 import GameObjects.ServerData;
 import Graphic.Renderer;
@@ -24,7 +25,7 @@ public class EnemyPlayer extends Player implements GameObject{
 	public EnemyPlayer(int x, int y) {
 	
 		this();
-	
+		
 		super.setPos(x, y);
 		
 	}
@@ -32,12 +33,18 @@ public class EnemyPlayer extends Player implements GameObject{
 	public EnemyPlayer(int x, int y, int code) {
 		
 		this();
-	
+		
 		this.code = code;
 		super.setPos(x, y);
 		
 	}
 	
+	public EnemyPlayer(PVector pos, Integer code) {
+		
+		this((int)pos.x, (int)pos.y, code);
+	
+	}
+
 	@Override
 	public void hit(ServerData hit) {
 		

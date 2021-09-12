@@ -11,10 +11,12 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.function.Consumer;
 
+import Collision.PVector;
 import Server.HTTPMessage;
 import Server.Server.GameObjects.Bullet;
 import Server.Server.GameObjects.ServerGameObject;
 import ServerData.BulletData;
+import ServerData.PlayerData;
 import Utils.HTTPMessages;
 
 import static Logger.Logger.*;
@@ -36,6 +38,7 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 
+	private PVector pos;
 	private Integer x;
 	private Integer y;
 
@@ -48,6 +51,8 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 	
 	private List<Consumer<? super ServerGameObject>> onNewGameObject;
 	private List<Consumer<? super ServerGameObject>> onDeadGameObject;
+	
+	private String direction;
 	
 	public PlayerServerThread(Socket newPlayer) throws IOException {
 
@@ -95,15 +100,16 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 				
 				switch(comand.getComand()) {
 				
-				case HTTPMessages.PLAYER_POS:
+				case HTTPMessages.PLAYER_DATA:
 					
-//					System.out.println("Server - ho ricevuto un messaggio dal client");
-//					System.out.println("Server - " + comand);
-					 
+					if (!(comand.getMessageBody() instanceof PlayerData)) break;
+					
 					// pos (x,y)
-					String[] pos = ((String)comand.getMessageBody()).split(";");
-					x = (int) Double.parseDouble(pos[0]);
-					y = (int) Double.parseDouble(pos[1]);
+					
+					PlayerData pd = (PlayerData)comand.getMessageBody();
+					
+					pos = pd.getPos();
+					direction =  pd.getDirection();
 					
 					break;
 					
@@ -159,9 +165,9 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 
 	}
 
-	public String getInfo() {
+	public String getFormattedPos() {
 
-		return x + ";" + y + ";" + code;
+		return x + ";" + y + ";";
 
 	}
 
@@ -206,13 +212,26 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 
 	@Override
 	public HTTPMessage<?> getMessageForClient() {
-		// TODO Auto-generated method stub
-		return new HTTPMessage<>(HTTPMessages.PLAYER_POS, this.getInfo());
+
+		
+		PlayerData pd = new PlayerData(this);
+		
+		return new HTTPMessage<>(HTTPMessages.PLAYER_DATA, pd);
 	}
 
 	public void kill() {
 		
 		write(new HTTPMessage<>(HTTPMessages.REMOVE_ENEMY, this.code));
+		
+	}
+
+	public String getDirection() {
+		return this.direction;
+	}
+	
+	public PVector getPos() {
+		
+		return this.pos;
 		
 	}
 
