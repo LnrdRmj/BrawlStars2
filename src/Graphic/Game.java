@@ -167,12 +167,12 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 	// Chiamato da ServerListener
 	@Override
 	public void onMessageReceived(HTTPMessage<?> message) {
-
-//		System.out.println("Client - ho ricevuto qualcosa dal server: " + message);
-
+		
+		//System.out.println("Client - ho ricevuto qualcosa dal server: " + message);
+		
 		switch(message.getComand()) {
 		
-		case HTTPMessages.MAIN_PLAYER_POS:
+		case HTTPMessages.PLAYER_POS: 
 			
 			if (!(message.getMessageBody() instanceof String)) break;
 			
@@ -184,26 +184,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			int y = (int)Double.parseDouble(data[1]);
 			Integer code = Integer.parseInt(data[2]);
 			
-//			player.setPos(x, y);
-			
-			break;
-		
-		case HTTPMessages.PLAYER_POS: 
-			
-			if (!(message.getMessageBody() instanceof String)) break;
-			
-			data = ((String)message.getMessageBody()).split(";");
-			
-			if (data[0].equals("null") || data[1].equals("null")) return;
-			
-			x = (int)Double.parseDouble(data[0]);
-			y = (int)Double.parseDouble(data[1]);
-			code = Integer.parseInt(data[2]);
-			
-			// Se il codice coincide col mainPlayer allora modifico il suo pos
-//			if (code.equals(player.getCode() + ""))
-//				player.setPos(x, y);
-			// altrimenti si tratta di un nemico
+			// Se si tratta di un nemico
 			if (!code.equals(player.getCode())){
 			
 				EnemyPlayer enemy = enemies.get(code);

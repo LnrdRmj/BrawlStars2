@@ -95,6 +95,7 @@ public class GameMaster implements Runnable{
 			players.forEach( player -> {
 				
 				if (player.isClosed()) {
+					
 					playersToRemove.add(player);
 					gameObjectsToRemove.add(player);
 					player.kill();
