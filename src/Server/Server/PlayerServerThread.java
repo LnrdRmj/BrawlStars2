@@ -6,7 +6,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -209,6 +208,12 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 	public HTTPMessage<?> getMessageForClient() {
 		// TODO Auto-generated method stub
 		return new HTTPMessage<>(HTTPMessages.PLAYER_POS, this.getInfo());
+	}
+
+	public void kill() {
+		
+		write(new HTTPMessage<>(HTTPMessages.REMOVE_ENEMY, this.code));
+		
 	}
 
 }

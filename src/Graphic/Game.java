@@ -40,7 +40,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 	private Canvas canvas;
 	private Frame frame;
 	private Socket server;
-	private Map<String, EnemyPlayer> enemies;
+	private Map<Integer, EnemyPlayer> enemies;
 	
 	public static Config config;
 
@@ -182,7 +182,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			int x = (int)Double.parseDouble(data[0]);
 			int y = (int)Double.parseDouble(data[1]);
-			String code = data[2];
+			Integer code = Integer.parseInt(data[2]);
 			
 //			player.setPos(x, y);
 			
@@ -198,18 +198,18 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			x = (int)Double.parseDouble(data[0]);
 			y = (int)Double.parseDouble(data[1]);
-			code = data[2];
+			code = Integer.parseInt(data[2]);
 			
 			// Se il codice coincide col mainPlayer allora modifico il suo pos
 //			if (code.equals(player.getCode() + ""))
 //				player.setPos(x, y);
 			// altrimenti si tratta di un nemico
-			if (!code.equals(player.getCode() + "")){
+			if (!code.equals(player.getCode())){
 			
 				EnemyPlayer enemy = enemies.get(code);
 				
 				if ( enemy == null)
-					enemies.put(code, new EnemyPlayer(x, y, Integer.parseInt(code)));
+					enemies.put(code, new EnemyPlayer(x, y, code));
 				else
 					enemy.setPos(x, y);
 			
@@ -231,9 +231,9 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		
 		case HTTPMessages.REMOVE_ENEMY:
 
-			if (!(message.getMessageBody() instanceof String)) break;
+			if (!(message.getMessageBody() instanceof Integer)) break;
 			
-			code = (String) message.getMessageBody();
+			code = (Integer) message.getMessageBody();
 			
 			Renderer.removeGameObjectToRender(enemies.get(code));
 			enemies.remove(code);
