@@ -126,8 +126,6 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 	
 	public void handShake() {
 		
-		// Aspetto il messagio di handShake da parte del server
-
 		// Una volta che ho ricevuto il messaggio di handshake da parte del server mando quello del client
 		// cioè il mio
 		HandShakeDataClientToServer handShake = new HandShakeDataClientToServer();
