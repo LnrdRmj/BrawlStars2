@@ -211,8 +211,10 @@ public class MainPlayer extends Player implements KeyListener{
 				direction = inputsPressed.lastElement();
 				animator.start(Animator.WASDtoDirection(direction));
 			}
-			else 
+			else {
 				animator.stop();
+				direction = " ";
+			}
 			
 			break;
 		case 'a':
@@ -234,8 +236,10 @@ public class MainPlayer extends Player implements KeyListener{
 				direction = inputsPressed.lastElement();
 				animator.start(Animator.WASDtoDirection(direction));
 			}
-			else 
+			else {
 				animator.stop();
+				direction = " ";
+			}
 			
 			break;
 		case 'd':
@@ -252,8 +256,10 @@ public class MainPlayer extends Player implements KeyListener{
 				direction = inputsPressed.lastElement();
 				animator.start(Animator.WASDtoDirection(direction));
 			}
-			else 
+			else {
 				animator.stop();
+				direction = " ";
+			}
 			
 			break;
 			
@@ -278,23 +284,6 @@ public class MainPlayer extends Player implements KeyListener{
 		PVector p = PVectorUtil.addVectors(pos, velocity);
 				
 		return p.x < 0 || p.x > Game.config.width - thick.width || p.y < 0 || p.y > Game.config.height - thick.height;
-		
-	}
-	
-	private boolean outOfWindow(Graphics g) {
-		
-		PVector p = PVectorUtil.addVectors(pos, velocity);
-		
-		g.fillOval((int)p.x, (int)p.y, 10, 10);
-				
-		return p.x < 0 || p.x > Game.config.width - thick.width || p.y < 0 || p.y > Game.config.width - thick.height;
-		
-	}
-	
-	private void stopPlayer() {
-		
-		this.acc.reset();
-		this.velocity.reset();
 		
 	}
 	
@@ -335,8 +324,10 @@ public class MainPlayer extends Player implements KeyListener{
 				direction = inputsPressed.lastElement();
 				animator.start(Animator.WASDtoDirection(direction));
 			}
-			else 
+			else {
 				animator.stop();
+				direction = " ";
+			}
 			
 		}
 		

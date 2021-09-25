@@ -122,7 +122,10 @@ public abstract class Player extends GameObject{
 	public void setDirection(String direction) {
 		
 		if (this.direction != direction)
-			animator.start(Animator.WASDtoDirection(direction));
+			if (direction.equals(" "))
+				animator.stop();
+			else 
+				animator.start(Animator.WASDtoDirection(direction));
 		
 		this.direction = direction;
 		
