@@ -5,19 +5,15 @@ import java.awt.Graphics;
 import Animation.Animator;
 import Collision.PVector;
 import GameObjects.GameObject;
-import GameObjects.ServerData;
 import Graphic.Renderer;
+import ServerData.PlayerData;
+import Utils.PVectorUtil;
 
-public class EnemyPlayer extends Player implements GameObject{
+public class EnemyPlayer extends Player{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	public EnemyPlayer() { 
 		
-		super();
+		setName("EnemyPlayer");
 		
 		animator = new Animator(pos, "Sprites/character/7.png");
 		animator.setHeightMaintainRatio(height);
@@ -49,8 +45,21 @@ public class EnemyPlayer extends Player implements GameObject{
 	
 	}
 
+	public EnemyPlayer(PlayerData playerData) {
+		
+		super();
+		
+		this.code = playerData.getCode();
+		this.direction = playerData.getDirection();
+		this.pos = PVectorUtil.PVectorFromString(playerData.getPos());
+		
+		animator = new Animator(this.pos, "Sprites/character/7.png");
+		animator.setHeightMaintainRatio(height);
+		
+	}
+
 	@Override
-	public void hit(ServerData hit) {
+	public void hit(GameObject hit) {
 		
 	}
 

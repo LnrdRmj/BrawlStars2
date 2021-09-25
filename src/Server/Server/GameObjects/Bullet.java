@@ -8,7 +8,6 @@ import java.io.Serializable;
 import Collision.CollisionEngine;
 import Collision.HitBox;
 import Collision.PVector;
-import GameObjects.ServerData;
 import Graphic.Frame;
 import Server.HTTPMessage;
 import Server.Server.GameMaster;
@@ -31,7 +30,7 @@ public class Bullet extends ServerGameObject implements Serializable{
 	protected double angleDirection;
 	
 	private BulletData bulletData;
-		
+	
 	public Bullet(PVector pos, double angleDirection, ObjectOutputStream client) {
 		
 		this(pos.x, pos.y, angleDirection, client);
@@ -58,7 +57,7 @@ public class Bullet extends ServerGameObject implements Serializable{
 		
 		bulletPos = new PVector(originX, originY);
 
-		serverData = new ServerData(new HitBox(bulletDimension, bulletPos, angleDirection));
+		hitBox = new HitBox(bulletDimension, bulletPos, angleDirection);
 		
 		this.angleDirection = angleDirection;
 		
@@ -82,7 +81,7 @@ public class Bullet extends ServerGameObject implements Serializable{
 			
 		}
 		
-		serverData.getHitBox().update();
+		hitBox.update();
 		
 	}
 	

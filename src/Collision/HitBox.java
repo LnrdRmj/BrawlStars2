@@ -27,7 +27,7 @@ public class HitBox implements Serializable{
 	}
 	
 	public HitBox(Dimension dim, PVector origin, double angle) {
-		super();
+		
 		this.angle = angle;
 		this.origin = origin;
 		this.dim = dim;

@@ -3,12 +3,11 @@ package Server.Server.GameObjects;
 import java.io.ObjectOutputStream;
 
 import Collision.HitBox;
-import GameObjects.ServerData;
 import Server.HTTPMessage;
 
 public abstract class ServerGameObject {
 
-	protected ServerData serverData;
+	protected HitBox hitBox;
 	protected ObjectOutputStream out;
 	protected boolean isDead = false;
 	
@@ -24,7 +23,7 @@ public abstract class ServerGameObject {
 	public abstract HTTPMessage<?> getMessageForClient();
 	
 	public HitBox getHitBox() {
-		return serverData.getHitBox();
+		return hitBox;
 	}
 
 	public boolean isDead() {

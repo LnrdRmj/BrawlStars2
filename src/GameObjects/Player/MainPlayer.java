@@ -15,7 +15,6 @@ import Animation.Animator;
 import Collision.PVector;
 import GameObjects.Enemy;
 import GameObjects.GameObject;
-import GameObjects.ServerData;
 import GameObjects.Bullets.Bullet;
 import GameObjects.Guns.Gun;
 import Graphic.Canvas;
@@ -34,7 +33,7 @@ import Utils.StringUtils;
 
 import static Logger.Logger.*;
 
-public class MainPlayer extends Player implements KeyListener, GameObject{
+public class MainPlayer extends Player implements KeyListener{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -311,7 +310,7 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 	
 	// Questo va messo nel server
 	@Override
-	public void hit(ServerData hit) {
+	public void hit(GameObject hit) {
 		
 		
 		

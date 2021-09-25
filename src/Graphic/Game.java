@@ -249,15 +249,15 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			// Se si tratta di un nemico
 			if (! ( player.getCode().equals( playerData.getCode() ) ) ){
 
-				logClient(player.getCode());
-				logClient(playerData.toString());
-				
 				EnemyPlayer enemy = enemies.get(playerData.getCode());
 				
-				if ( enemy == null )
-					enemies.put(playerData.getCode(), new EnemyPlayer(pos, playerData.getCode()));
-				else
+				if ( enemy == null ) {
+					enemy = new EnemyPlayer(playerData);
+					enemies.put(playerData.getCode(), enemy);
+				}
+				else {
 					enemy.setPos(pos.x, pos.y);
+				}
 			
 			}
 			

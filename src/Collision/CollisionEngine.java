@@ -2,7 +2,6 @@ package Collision;
 
 import java.util.Vector;
 
-import GameObjects.ServerData;
 import Server.Server.GameObjects.ServerGameObject;
 
 public class CollisionEngine {

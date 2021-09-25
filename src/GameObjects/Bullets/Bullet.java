@@ -9,14 +9,13 @@ import java.awt.image.BufferedImage;
 import Collision.PVector;
 import GameObjects.Enemy;
 import GameObjects.GameObject;
-import GameObjects.ServerData;
 import Graphic.Game;
 import Graphic.Renderer;
 import ParticleSystem.ParticleSystemRenderer;
 import ParticleSystem.particleSystems.ParticleSystemExplosion;
 import Utils.ImageUtils;
 
-public class Bullet implements GameObject {
+public class Bullet extends GameObject {
 
 	private BufferedImage sprite;
 	
@@ -47,10 +46,7 @@ public class Bullet implements GameObject {
 
 	public Bullet(int originX, int originY, double angleDirection) {
 		
-		super();
-		
-//		setFillColor(Color.decode("#E26D5C"));
-//		setName("Proiettile");
+		super("Bullet");
 		
 		sprite = ImageUtils.getImage("Sprites/weapons/bullets/bullet.png");
 		
@@ -82,21 +78,6 @@ public class Bullet implements GameObject {
 	
 	public void update() {
 		
-//		bulletPos.x += bulletSpeed * Math.cos(angleDirection);
-//		bulletPos.y += bulletSpeed * Math.sin(angleDirection);
-//
-//		// If the bullet goes off-screen delete it
-//		if (bulletPos.x < - 100 || 
-//			bulletPos.x > Frame.gameWidth + 100 ||
-//			bulletPos.y < -100 ||
-//			bulletPos.y > Frame.gameHeight) {
-//			
-//			delete();
-//			
-//		}
-//		
-//		hitBox.update();
-		
 		// Non so se vale per tutti ma nel caso dei proiettili vanno renderizzati
 	    // solo una volta sola perché il frame successivo ce lo darà il server
 		Renderer.removeGameObjectToRender(this);
@@ -110,7 +91,7 @@ public class Bullet implements GameObject {
 	}
 
 	@Override
-	public void hit(ServerData hit) {
+	public void hit(GameObject hit) {
 		
 		if (hit instanceof Enemy) {
 			

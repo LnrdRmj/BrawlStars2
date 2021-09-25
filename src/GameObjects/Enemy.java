@@ -9,7 +9,7 @@ import Collision.PVector;
 import Graphic.Frame;
 import Utils.Random;
 
-public class Enemy extends ServerData implements GameObject{
+public class Enemy extends GameObject{
 
 	/**
 	 * 
@@ -22,7 +22,7 @@ public class Enemy extends ServerData implements GameObject{
 
 	public Enemy() {
 		
-		super();
+		super("Nemico");
 		
 		pos = new PVector(Random.random(Frame.gameWidth), Random.random(Frame.gameHeight));
 		angle = 0d;
@@ -51,7 +51,7 @@ public class Enemy extends ServerData implements GameObject{
 	}
 
 	@Override
-	public void hit(ServerData hit) {
+	public void hit(GameObject hit) {
 		
 		
 		

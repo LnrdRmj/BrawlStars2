@@ -58,7 +58,7 @@ public class Enemy extends ServerGameObject{
 
 		int x = Random.random(0, Frame.gameWidth);
 		int y = Random.random(0, Frame.gameHeight);
-		this.serverData.getHitBox().setPos(x, y);
+		this.hitBox.setPos(x, y);
 		
 	}
 

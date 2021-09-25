@@ -18,7 +18,6 @@ import javax.swing.SwingUtilities;
 import Collision.HitBox;
 import Collision.PVector;
 import GameObjects.GameObject;
-import GameObjects.ServerData;
 import GameObjects.Bullets.Bullet;
 import Graphic.Canvas;
 import Graphic.Frame;
@@ -27,7 +26,7 @@ import Graphic.Sprite;
 import Utils.Observer;
 import Utils.PVectorUtil;
 
-public class Gun extends ServerData implements MouseListener, GameObject{
+public class Gun extends GameObject implements MouseListener{
 	
 	/**
 	 * 
@@ -65,7 +64,7 @@ public class Gun extends ServerData implements MouseListener, GameObject{
 	
 	public Gun(PVector p, Canvas canvas) {
 		
-		super();
+		super("Gun");
 		
 		setName("Pistola");
 		sprite = new Sprite("Sprites/weapons/shotgun.png");
@@ -200,7 +199,7 @@ public class Gun extends ServerData implements MouseListener, GameObject{
 	}
 
 	@Override
-	public void hit(ServerData hit) {
+	public void hit(GameObject hit) {
 		
 		
 		

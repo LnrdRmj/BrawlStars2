@@ -5,10 +5,10 @@ import java.awt.Dimension;
 import Animation.Animator;
 import Collision.HitBox;
 import Collision.PVector;
-import GameObjects.ServerData;
+import GameObjects.GameObject;
 import Graphic.Frame;
 
-public abstract class Player extends ServerData{
+public abstract class Player extends GameObject{
 
 	/**
 	 * 
@@ -35,7 +35,7 @@ public abstract class Player extends ServerData{
 	
 	public Player() {
 		
-		setName("Giocatore");
+		super("Giocatore");
 		
 		velocity = new PVector();
 		acc = new PVector();
