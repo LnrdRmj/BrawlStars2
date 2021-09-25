@@ -131,7 +131,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		// Una volta che ho ricevuto il messaggio di handshake da parte del server mando quello del client
 		// cioè il mio
 		HandShakeDataClientToServer handShake = new HandShakeDataClientToServer();
-		handShake.setPos(player.getPos());
+		handShake.setPlayerData(new PlayerData(player));
 		
 		try {
 			
@@ -256,6 +256,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 					enemies.put(playerData.getCode(), enemy);
 				}
 				else {
+					enemy.applyData(playerData);
 					enemy.setPos(pos.x, pos.y);
 				}
 			

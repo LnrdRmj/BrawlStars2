@@ -75,5 +75,12 @@ public class EnemyPlayer extends Player{
 		
 		
 	}
+
+	public void applyData(PlayerData playerData) {
+		
+		this.setPos(PVectorUtil.PVectorFromString(playerData.getPos()));
+		this.setDirection(playerData.getDirection());
+		
+	}
 	
 }

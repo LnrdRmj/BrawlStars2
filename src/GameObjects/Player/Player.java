@@ -69,7 +69,8 @@ public abstract class Player extends GameObject{
 	}
 
 	public void setPos(PVector pos) {
-		this.pos = pos;
+		this.pos.x = pos.x;
+		this.pos.y = pos.y;
 	}
 	
 	public void setPos(int x, int y) {
@@ -119,7 +120,11 @@ public abstract class Player extends GameObject{
 	}
 	
 	public void setDirection(String direction) {
+		
 		this.direction = direction;
+		
+		animator.start(Animator.WASDtoDirection(direction));
+		
 	}
 	
 }

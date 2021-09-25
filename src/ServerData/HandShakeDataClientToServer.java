@@ -11,14 +11,14 @@ public class HandShakeDataClientToServer implements Serializable{
 	 */
 	private static final long serialVersionUID = -3292388186846326137L;
 	
-	private PVector pos;
+	private PlayerData playerData;
 
-	public PVector getPos() {
-		return pos;
+	public PlayerData getPlayerData() {
+		return playerData;
 	}
 
-	public void setPos(PVector pos) {
-		this.pos = pos;
+	public void setPlayerData(PlayerData playerData) {
+		this.playerData = playerData;
 	}
 	
 }

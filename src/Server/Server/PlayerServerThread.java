@@ -66,8 +66,10 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 			if (!(handShakeMessage.getMessageBody() instanceof HandShakeDataClientToServer)) return;
 			
 			HandShakeDataClientToServer handShake = (HandShakeDataClientToServer) handShakeMessage.getMessageBody();
-			this.pos = handShake.getPos();
-			logServer(this.pos);
+			PlayerData playerData = handShake.getPlayerData();
+			
+			this.pos = PVectorUtil.PVectorFromString(playerData.getPos());
+			this.direction = playerData.getDirection();
 			
 			HandShakeDataServerToClient handShakeData = new HandShakeDataServerToClient();
 			handShakeData.setConfig(GameMaster.config);

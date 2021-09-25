@@ -49,6 +49,7 @@ public class PlayerData implements Serializable{
 		return pos;
 	}
 	
+	
 	public void setPos(String pos) {
 		this.pos = pos;
 	}
