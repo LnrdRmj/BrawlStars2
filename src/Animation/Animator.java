@@ -69,12 +69,7 @@ public class Animator{
 		int width = cStep;
 		int height = rStep;
 		
-		try {
-			g.drawImage(framesImage.getSubimage(x, y, width, height), (int)pos.x, (int)pos.y, frameWidth, frameHeight, null);
-		}
-		catch (NullPointerException e) {
-			System.out.println(e);
-		}
+		g.drawImage(framesImage.getSubimage(x, y, width, height), (int)pos.x, (int)pos.y, frameWidth, frameHeight, null);
 		
 	}
 

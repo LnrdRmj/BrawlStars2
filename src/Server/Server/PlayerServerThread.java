@@ -20,6 +20,7 @@ import ServerData.HandShakeDataClientToServer;
 import ServerData.HandShakeDataServerToClient;
 import ServerData.PlayerData;
 import Utils.HTTPMessages;
+import Utils.PVectorUtil;
 
 import static Logger.Logger.*;
 
@@ -33,7 +34,7 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 	private Socket player;
 
 	public static int codeGen = 1;
-	private int code;
+	private Integer code;
 
 	private PVector pos;
 	private Integer x;
@@ -54,6 +55,8 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 		super(new ObjectOutputStream(newPlayer.getOutputStream()));
 		
 		in = new ObjectInputStream(newPlayer.getInputStream());
+		
+		code = codeGen++;
 		
 		// Dopo aver mandato l'handshake devo aspettare il messaggio di ritorno del client
 		try {
@@ -80,9 +83,6 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 		}
 		
 		this.player = newPlayer;
-
-		code = codeGen;
-		codeGen++;
 
 		onNewGameObject = new Vector<>();
 		onDeadGameObject = new Vector<>();
@@ -113,7 +113,7 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 					
 					PlayerData pd = (PlayerData)comand.getMessageBody();
 					
-					pos = pd.getPos();
+					pos = PVectorUtil.PVectorFromString(pd.getPos());
 					direction =  pd.getDirection();
 					
 					break;
@@ -180,11 +180,11 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 		return closed;
 	}
 
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
+	public void setCode(Integer code) {
 		this.code = code;
 	}
 

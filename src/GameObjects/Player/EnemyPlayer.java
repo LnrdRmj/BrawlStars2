@@ -2,6 +2,7 @@ package GameObjects.Player;
 
 import java.awt.Graphics;
 
+import Animation.Animator;
 import Collision.PVector;
 import GameObjects.GameObject;
 import GameObjects.ServerData;
@@ -14,9 +15,12 @@ public class EnemyPlayer extends Player implements GameObject{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public EnemyPlayer() {
+	public EnemyPlayer() { 
 		
 		super();
+		
+		animator = new Animator(pos, "Sprites/character/7.png");
+		animator.setHeightMaintainRatio(height);
 		
 		Renderer.addGameObjectToRender(this);
 		

@@ -13,7 +13,7 @@ public class PlayerData implements Serializable{
 	 */
 	private static final long serialVersionUID = -8460153752312860124L;
 	
-	private PVector pos;
+	private String pos;
 	private String direction;
 	private Integer code;
 	
@@ -23,7 +23,7 @@ public class PlayerData implements Serializable{
 	
 	public PlayerData(Player player) {
 		
-		this.pos = player.getPos();
+		this.pos = player.getPos().x + ";" + player.getPos().y;
 		this.direction = player.getDirection();
 		this.code = player.getCode();
 		
@@ -31,7 +31,7 @@ public class PlayerData implements Serializable{
 	
 	public PlayerData(PlayerServerThread player) {
 		
-		this.pos = player.getPos();
+		this.pos = player.getPos().x + ";" + player.getPos().y;
 		this.direction = player.getDirection();
 		this.code = player.getCode();
 		
@@ -45,11 +45,11 @@ public class PlayerData implements Serializable{
 		this.code = code;
 	}
 
-	public PVector getPos() {
+	public String getPos() {
 		return pos;
 	}
 	
-	public void setPos(PVector pos) {
+	public void setPos(String pos) {
 		this.pos = pos;
 	}
 	
@@ -60,5 +60,12 @@ public class PlayerData implements Serializable{
 	public void setDirection(String direction) {
 		this.direction = direction;
 	}
+
+	@Override
+	public String toString() {
+		return "PlayerData [pos=" + pos + ", direction=" + direction + ", code=" + code + "]";
+	}
+	
+	
 
 }

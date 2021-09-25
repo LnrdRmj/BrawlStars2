@@ -29,6 +29,7 @@ import ServerData.HandShakeDataClientToServer;
 import ServerData.HandShakeDataServerToClient;
 import ServerData.PlayerData;
 import Utils.HTTPMessages;
+import Utils.PVectorUtil;
 
 import static Logger.Logger.*;
 
@@ -131,7 +132,6 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		// cioè il mio
 		HandShakeDataClientToServer handShake = new HandShakeDataClientToServer();
 		handShake.setPos(player.getPos());
-		logClient(handShake.getPos());
 		
 		try {
 			
@@ -152,8 +152,12 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			// Codice univoco generato dal server
 			player.setCode(c.getCode());
-				
+			
+			logClient(c);
+			
 			startGame();
+			
+			Toast.setText(this.player.getCode());
 			
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
@@ -240,15 +244,20 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			PlayerData playerData = ((PlayerData)message.getMessageBody()); 
 			
+			PVector pos = PVectorUtil.PVectorFromString(playerData.getPos());
+			
 			// Se si tratta di un nemico
 			if (! ( player.getCode().equals( playerData.getCode() ) ) ){
-			
+
+				logClient(player.getCode());
+				logClient(playerData.toString());
+				
 				EnemyPlayer enemy = enemies.get(playerData.getCode());
 				
 				if ( enemy == null )
-					enemies.put(playerData.getCode(), new EnemyPlayer(playerData.getPos(), playerData.getCode()));
+					enemies.put(playerData.getCode(), new EnemyPlayer(pos, playerData.getCode()));
 				else
-					enemy.setPos(playerData.getPos());
+					enemy.setPos(pos.x, pos.y);
 			
 			}
 			

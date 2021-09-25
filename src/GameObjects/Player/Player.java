@@ -74,6 +74,11 @@ public abstract class Player extends ServerData{
 		this.pos.y = y;
 	}
 	
+	public void setPos(float x, float y) {
+		this.pos.x = x;
+		this.pos.y = y;
+	}
+	
 	public float getX() {
 		return this.pos.x;
 	}
@@ -102,7 +107,7 @@ public abstract class Player extends ServerData{
 		return code;
 	}
 
-	public void setCode(int code) {
+	public void setCode(Integer code) {
 		this.code = code;
 	}
 	

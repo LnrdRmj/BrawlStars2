@@ -1,5 +1,7 @@
 package Utils;
 
+import java.util.StringTokenizer;
+
 import Collision.PVector;
 
 public class PVectorUtil {
@@ -79,6 +81,14 @@ public class PVectorUtil {
 	public static float distance(float x1, float y1, float x2, float y2) {
 		
 		return (float)Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+		
+	}
+	
+	public static PVector PVectorFromString(String pvector) {
+		
+		StringTokenizer str = new StringTokenizer(pvector, ";");
+		
+		return new PVector(Float.parseFloat(str.nextToken()), Float.parseFloat(str.nextToken()));
 		
 	}
 	

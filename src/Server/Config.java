@@ -11,5 +11,11 @@ public class Config implements Serializable{
 	
 	public int width = 800;
 	public int height = 400;
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName() + " [width=" + width + ", height=" + height + "]";
+	}
+	
+	
 	
 }

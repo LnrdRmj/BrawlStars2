@@ -1,6 +1,5 @@
 package Server.Server.GameObjects;
 
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import Collision.HitBox;
@@ -11,7 +10,6 @@ public abstract class ServerGameObject {
 
 	protected ServerData serverData;
 	protected ObjectOutputStream out;
-	protected ObjectInputStream in;
 	protected boolean isDead = false;
 	
 	public ServerGameObject(ObjectOutputStream outStream) {

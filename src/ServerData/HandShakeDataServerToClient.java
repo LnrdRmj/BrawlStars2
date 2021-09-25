@@ -12,7 +12,7 @@ public class HandShakeDataServerToClient implements Serializable{
 	private static final long serialVersionUID = -5037512366859644432L;
 	
 	private Config config;
-	private int code;
+	private Integer code;
 	
 	public HandShakeDataServerToClient() {
 		
@@ -33,12 +33,24 @@ public class HandShakeDataServerToClient implements Serializable{
 		return config;
 	}
 
-	public void setCode(int code) {
+	public void setCode(Integer code) {
 		this.code = code;
 	}
 
-	public int getCode() {
+	public Integer getCode() {
 		return code;
+	}
+	
+	@Override
+	public String toString() {
+		
+		return this.getClass().getSimpleName() + "[\n"
+				
+				+ "Config: " + config.toString() + "\n"
+				+ "Code: " + code.toString() + "\n"
+				
+				+ "]";
+		
 	}
 	
 }
