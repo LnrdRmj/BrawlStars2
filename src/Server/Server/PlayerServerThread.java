@@ -16,6 +16,8 @@ import Server.HTTPMessage;
 import Server.Server.GameObjects.Bullet;
 import Server.Server.GameObjects.ServerGameObject;
 import ServerData.BulletData;
+import ServerData.HandShakeDataClientToServer;
+import ServerData.HandShakeDataServerToClient;
 import ServerData.PlayerData;
 import Utils.HTTPMessages;
 
@@ -33,11 +35,6 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 	public static int codeGen = 1;
 	private int code;
 
-//	private PrintWriter out;
-//	private BufferedReader in;
-	private ObjectInputStream in;
-	private ObjectOutputStream out;
-
 	private PVector pos;
 	private Integer x;
 	private Integer y;
@@ -45,9 +42,7 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 	private Thread thisThread;
 	private boolean closed = false;
 	
-//	private List<ServerGameObject> toUpdate;
-//	private List<ServerGameObject> toRemove 	  	= new Vector<>();
-//	private List<ServerGameObject> toAdd 	 		= new Vector<>();
+	private ObjectInputStream in;
 	
 	private List<Consumer<? super ServerGameObject>> onNewGameObject;
 	private List<Consumer<? super ServerGameObject>> onDeadGameObject;
@@ -58,6 +53,32 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 
 		super(new ObjectOutputStream(newPlayer.getOutputStream()));
 		
+		in = new ObjectInputStream(newPlayer.getInputStream());
+		
+		// Dopo aver mandato l'handshake devo aspettare il messaggio di ritorno del client
+		try {
+			
+			HTTPMessage<?> handShakeMessage = (HTTPMessage<?>)in.readObject();
+			
+			if (!(handShakeMessage.getMessageBody() instanceof HandShakeDataClientToServer)) return;
+			
+			HandShakeDataClientToServer handShake = (HandShakeDataClientToServer) handShakeMessage.getMessageBody();
+			this.pos = handShake.getPos();
+			logServer(this.pos);
+			
+			HandShakeDataServerToClient handShakeData = new HandShakeDataServerToClient();
+			handShakeData.setConfig(GameMaster.config);
+			handShakeData.setCode(this.getCode());
+			
+			// Qua mando l'handShake dal server al client
+			write(new HTTPMessage<>(HTTPMessages.HAND_SHAKE, handShakeData));
+			
+			// Dopo aver gestito l'handShake continuo col normale ciclo di vita
+			
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		
 		this.player = newPlayer;
 
 		code = codeGen;
@@ -65,22 +86,14 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 
 		onNewGameObject = new Vector<>();
 		onDeadGameObject = new Vector<>();
-		
-//		out = new PrintWriter(this.player.getOutputStream(), true);
-//		in = new BufferedReader(new InputStreamReader(this.player.getInputStream()));
-		out = client;
-		in = new ObjectInputStream(newPlayer.getInputStream());
 
 		thisThread = new Thread(this);
 		thisThread.start();
-
+		
 	}
 
 	@Override
 	public void run() {
-
-//		System.out.println("Server - Ho appena scritto al client");
-//		out.println("hey sono i server piacere di conoscerti");
 
 		while (true) {
 
@@ -88,23 +101,15 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 
 				Object cmd = in.readObject();
 				
-//				logServer(cmd.toString());
-				
 				if (!(cmd instanceof HTTPMessage)) continue;
 				
-				// TODO: questa cosa mi torna poco ma boh
 				HTTPMessage<?> comand = (HTTPMessage<?>) cmd;
 
-//				logServer("Ho ricevuto un messagio col seguente comando" + comand.getComand());
-//				logServer(comand.getComand());
-				
 				switch(comand.getComand()) {
 				
 				case HTTPMessages.PLAYER_DATA:
 					
 					if (!(comand.getMessageBody() instanceof PlayerData)) break;
-					
-					// pos (x,y)
 					
 					PlayerData pd = (PlayerData)comand.getMessageBody();
 					
@@ -213,7 +218,6 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 	@Override
 	public HTTPMessage<?> getMessageForClient() {
 
-		
 		PlayerData pd = new PlayerData(this);
 		
 		return new HTTPMessage<>(HTTPMessages.PLAYER_DATA, pd);

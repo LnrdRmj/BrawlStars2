@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import Server.Config;
 
-public class HandShakeData implements Serializable{
+public class HandShakeDataServerToClient implements Serializable{
 
 	/**
 	 * 
@@ -14,11 +14,11 @@ public class HandShakeData implements Serializable{
 	private Config config;
 	private int code;
 	
-	public HandShakeData() {
+	public HandShakeDataServerToClient() {
 		
 	}
 	
-	public HandShakeData(Config config, int code) {
+	public HandShakeDataServerToClient(Config config, int code) {
 		
 		this.config = config;
 		this.code = code;

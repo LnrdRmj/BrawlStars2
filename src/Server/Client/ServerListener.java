@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+import Graphic.Game;
 import Server.HTTPEvent;
 import Server.HTTPMessage;
 
@@ -13,18 +14,10 @@ public class ServerListener implements Runnable{
 	private ObjectInputStream in;
 	private Thread thisThread;
 	
-	public ServerListener(Socket toListen, HTTPEvent httpEvent) {
-		
-		try {
-			
-			in = new ObjectInputStream(toListen.getInputStream()); 
-			
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
+	public ServerListener(ObjectInputStream in, HTTPEvent httpEvent) {
 		
 		this.httpEvent = httpEvent;
+		this.in = in;
 		
 		thisThread = new Thread(this);
 		thisThread.start();
@@ -39,6 +32,7 @@ public class ServerListener implements Runnable{
 			try {
 				
 				HTTPMessage<?> s = (HTTPMessage<?>) in.readObject();
+				
 				httpEvent.onMessageReceived(s);
 				
 			} catch (IOException e) {

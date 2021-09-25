@@ -3,6 +3,7 @@ package ServerData;
 import java.io.Serializable;
 
 import Collision.PVector;
+import GameObjects.Player.Player;
 import Server.Server.PlayerServerThread;
 
 public class PlayerData implements Serializable{
@@ -17,6 +18,14 @@ public class PlayerData implements Serializable{
 	private Integer code;
 	
 	public PlayerData() {
+		
+	}
+	
+	public PlayerData(Player player) {
+		
+		this.pos = player.getPos();
+		this.direction = player.getDirection();
+		this.code = player.getCode();
 		
 	}
 	

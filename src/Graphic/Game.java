@@ -5,6 +5,8 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +25,8 @@ import Server.HTTPMessage;
 import Server.RetryConnection;
 import Server.Client.ServerListener;
 import ServerData.BulletData;
-import ServerData.HandShakeData;
+import ServerData.HandShakeDataClientToServer;
+import ServerData.HandShakeDataServerToClient;
 import ServerData.PlayerData;
 import Utils.HTTPMessages;
 
@@ -41,6 +44,9 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 	private Canvas canvas;
 	private Frame frame;
 	private Socket server;
+	private ObjectInputStream in;
+	private ObjectOutputStream out;
+	
 	private Map<Integer, EnemyPlayer> enemies;
 	
 	public static Config config;
@@ -51,19 +57,26 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 	
 	private void startNewGame() {
 		
+		canvas = new Canvas();
+		canvas.addKeyListener(this);
+
+		frame = new Frame();
+		frame.getContentPane().add(this.getCanvas());
+		
+		config = new Config();
+		
+		player = new MainPlayer(canvas);
+		
 		try {
 			
-			server = new Socket("localhost", 7777);
-			new ServerListener(server, this);
+			setServer(new Socket("localhost", 7777));
 			
 		} catch (IOException e) {
 			
 			// Prova ogni 5 secondi a riconnetterti al server
-			new RetryConnection("localhost", 7777, (s) -> {
-			
-				server = s;
-				new ServerListener(server, this);
-				player.setSocket(server);
+			new RetryConnection("localhost", 7777, (server) -> {
+				
+				setServer(server);
 				
 			}, 5000);
 			
@@ -72,25 +85,28 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 		}
 
-		config = new Config();
+	}
+	
+	public void setServer(Socket server) {
 		
-		canvas = new Canvas();
-		canvas.addKeyListener(this);
-
-		frame = new Frame();
-		frame.getContentPane().add(this.getCanvas());
+		this.server = server;
 		
-		player = new MainPlayer(canvas);
-		if (server != null) player.setSocket(server);
-//		enemyPlayer = new EnemyPlayer();
+		createInOutStreams(server);
 		
-//		for (int i = 0; i < 5; ++i)
-//			new Enemy();
-
-		enemies = new HashMap<>();
+		handShake();
+		player.setOutStream(out);
+		new ServerListener(in, this);
+			
+	}
+	
+	public void createInOutStreams(Socket server){
 		
-		mainThread = new Thread(this);
-		mainThread.start();
+		try {
+			in = new ObjectInputStream(server.getInputStream());
+			out = new ObjectOutputStream(server.getOutputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -98,8 +114,6 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 
 		while (true) {
 			
-//			double start = System.currentTimeMillis();
-
 			canvas.repaint();
 
 			// 60 Frames BABYYYY
@@ -107,6 +121,53 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 		}
 
+	}
+	
+	public void handShake() {
+		
+		// Aspetto il messagio di handShake da parte del server
+
+		// Una volta che ho ricevuto il messaggio di handshake da parte del server mando quello del client
+		// cioè il mio
+		HandShakeDataClientToServer handShake = new HandShakeDataClientToServer();
+		handShake.setPos(player.getPos());
+		logClient(handShake.getPos());
+		
+		try {
+			
+			out.writeObject(new HTTPMessage<>(HTTPMessages.HAND_SHAKE, handShake));
+			
+			HTTPMessage<?> handShakeMessage = (HTTPMessage<?>)in.readObject();
+
+			if (!(handShakeMessage.getMessageBody() instanceof HandShakeDataServerToClient)) return;
+			
+			HandShakeDataServerToClient c = (HandShakeDataServerToClient) handShakeMessage.getMessageBody();
+			
+			Game.config = c.getConfig();
+			
+			// Setto le dimensioni del JPanel uguali a quella del server
+			frame.setBounds(new Rectangle(Game.config.width, Game.config.height));
+			canvas.setFocusable(true);
+			canvas.requestFocusInWindow();
+			
+			// Codice univoco generato dal server
+			player.setCode(c.getCode());
+				
+			startGame();
+			
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void startGame() {
+		
+		enemies = new HashMap<>();
+		
+		mainThread = new Thread(this);
+		mainThread.start();
+		
 	}
 	
 	private void wait(int milliseconds) {
@@ -177,17 +238,17 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			if (!(message.getMessageBody() instanceof PlayerData)) break;
 			
-			PlayerData pd = ((PlayerData)message.getMessageBody()); 
+			PlayerData playerData = ((PlayerData)message.getMessageBody()); 
 			
 			// Se si tratta di un nemico
-			if (!pd.getCode().equals(player.getCode())){
+			if (! ( player.getCode().equals( playerData.getCode() ) ) ){
 			
-				EnemyPlayer enemy = enemies.get(pd.getCode());
+				EnemyPlayer enemy = enemies.get(playerData.getCode());
 				
-				if ( enemy == null)
-					enemies.put(pd.getCode(), new EnemyPlayer(pd.getPos(), pd.getCode()));
+				if ( enemy == null )
+					enemies.put(playerData.getCode(), new EnemyPlayer(playerData.getPos(), playerData.getCode()));
 				else
-					enemy.setPos(pd.getPos());
+					enemy.setPos(playerData.getPos());
 			
 			}
 			
@@ -214,24 +275,6 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			Renderer.removeGameObjectToRender(enemies.get(code));
 			enemies.remove(code);
 			
-			break;
-		
-		case HTTPMessages.HAND_SHAKE:
-
-			if (!(message.getMessageBody() instanceof HandShakeData)) break;
-			
-			HandShakeData c = (HandShakeData) message.getMessageBody();
-			
-			Game.config = c.getConfig();
-			
-			// Setto le dimensioni del JPanel uguali a quella del server
-			frame.setBounds(new Rectangle(Game.config.width, Game.config.height));
-			canvas.setFocusable(true);
-			canvas.requestFocusInWindow();
-			
-			// Codice univoco generato dal server
-			player.setCode(c.getCode());
-
 			break;
 			
 		}

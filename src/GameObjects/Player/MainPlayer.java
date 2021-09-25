@@ -24,6 +24,7 @@ import Graphic.Game;
 import Graphic.Renderer;
 import Server.HTTPMessage;
 import ServerData.BulletData;
+import ServerData.HandShakeDataClientToServer;
 import ServerData.PlayerData;
 import Utils.Friction;
 import Utils.HTTPMessages;
@@ -134,6 +135,8 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 				
 				inputsPressed.add(StringUtils.charToString(keyChar));
 				
+				direction = "w";
+				
 			}
 			
 			break;
@@ -146,6 +149,8 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 				animator.start(Animator.SINISTRA);
 				
 				inputsPressed.add(StringUtils.charToString(keyChar));
+				
+				direction = "a";
 				
 			}
 			
@@ -161,6 +166,8 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 				
 				inputsPressed.add(StringUtils.charToString(keyChar));
 				
+				direction = "s";
+				
 			}
 			
 			break;
@@ -173,6 +180,8 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 				animator.start(Animator.DESTRA);
 				
 				inputsPressed.add(StringUtils.charToString(keyChar));
+				
+				direction = "d";
 				
 			}
 			
@@ -197,10 +206,12 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 			
 			inputsPressed.remove(StringUtils.charToString(keyChar));
 			
-			if (inputsPressed.size() > 0)
+			if (inputsPressed.size() > 0) {
 				// Se io smetto di premere un tasto ma in precedenza ne avevo già premuto un altro,
 				// allora devo riprendere l'animazione del pulsante precedente
-				animator.start(Animator.WASDtoDirection(inputsPressed.lastElement()));
+				direction = inputsPressed.lastElement();
+				animator.start(Animator.WASDtoDirection(direction));
+			}
 			else 
 				animator.stop();
 			
@@ -218,10 +229,12 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 			
 			inputsPressed.remove(StringUtils.charToString(keyChar));
 			
-			if (inputsPressed.size() > 0)
+			if (inputsPressed.size() > 0) {
 				// Se io smetto di premere un tasto ma in precedenza ne avevo già premuto un altro,
 				// allora devo riprendere l'animazione del pulsante precedente
-				animator.start(Animator.WASDtoDirection(inputsPressed.lastElement()));
+				direction = inputsPressed.lastElement();
+				animator.start(Animator.WASDtoDirection(direction));
+			}
 			else 
 				animator.stop();
 			
@@ -234,10 +247,12 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 			
 			inputsPressed.remove(StringUtils.charToString(keyChar));
 			
-			if (inputsPressed.size() > 0)
+			if (inputsPressed.size() > 0) {
 				// Se io smetto di premere un tasto ma in precedenza ne avevo già premuto un altro,
 				// allora devo riprendere l'animazione del pulsante precedente
-				animator.start(Animator.WASDtoDirection(inputsPressed.lastElement()));
+				direction = inputsPressed.lastElement();
+				animator.start(Animator.WASDtoDirection(direction));
+			}
 			else 
 				animator.stop();
 			
@@ -315,10 +330,12 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 			
 			inputsPressed.remove(StringUtils.charToString(key));
 			
-			if (inputsPressed.size() > 0)
+			if (inputsPressed.size() > 0) {
 				// Se io smetto di premere un tasto ma in precedenza ne avevo già premuto un altro,
 				// allora devo riprendere l'animazione del pulsante precedente
-				animator.start(Animator.WASDtoDirection(inputsPressed.lastElement()));
+				direction = inputsPressed.lastElement();
+				animator.start(Animator.WASDtoDirection(direction));
+			}
 			else 
 				animator.stop();
 			
@@ -326,52 +343,40 @@ public class MainPlayer extends Player implements KeyListener, GameObject{
 		
 	}
 
-	public void setSocket(Socket server) {
+	public void setOutStream(ObjectOutputStream out) {
 		
-		this.socket = server;
+		this.out = out;
 		
-		try {
+		// Serve per scrivere al server ogni qualvolta che il player viene aggiornato
+		onUpdate.add( () -> {
 			
-			out = new ObjectOutputStream(socket.getOutputStream());
+			try {
+				
+				PlayerData pd = new PlayerData(this);
+				
+				out.writeObject(new HTTPMessage<>(HTTPMessages.PLAYER_DATA, pd));
+				
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
 			
-			// Serve per scrivere al server ogni qualvolta che il player viene aggiornato
-			onUpdate.add( () -> {
-				
-				try {
-					
-					PlayerData pd = new PlayerData();
-					pd.setPos(pd.getPos());
-					pd.setDirection(inputsPressed.lastElement());
-
-					out.writeObject(new HTTPMessage<>(HTTPMessages.PLAYER_DATA, pd));
-					
-				} catch (IOException e) {
-					System.out.println(e.getMessage());
-					e.printStackTrace();
-					throw new RuntimeException("Male");
-				}
-				
-			});
+		});
+		
+		gun.addOnShoot((bullet) -> {
 			
-			gun.addOnShoot((bullet) -> {
+			try {
 				
-				try {
-					
-					PVector bulletPos = bullet.getBulletPos();
-					out.writeObject(new HTTPMessage<>(HTTPMessages.BULLET_SHOT, new BulletData(bulletPos.x + ";" + bulletPos.y, bullet.getAngleDirection())));
-//					logClient("Ho appena sparato e mandato nell'internet un proiettile");
-					
-				} catch (IOException e) {
-					System.out.println(e.getMessage());
-					e.printStackTrace();
-				}
+				PVector bulletPos = bullet.getBulletPos();
+				out.writeObject(new HTTPMessage<>(HTTPMessages.BULLET_SHOT, new BulletData(bulletPos.x + ";" + bulletPos.y, bullet.getAngleDirection())));
 				
-			});
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
 			
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
+		});
+			
 		
 	}
 	

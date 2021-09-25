@@ -15,7 +15,7 @@ public abstract class Player extends ServerData{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	protected int code;
+	protected Integer code;
 	
 	protected PVector pos = new PVector(0, 0);
 	protected int health = 100;
@@ -30,6 +30,8 @@ public abstract class Player extends ServerData{
 	protected PVector acc;
 	
 	protected Animator animator;
+	
+	protected String direction;
 	
 	public Player() {
 		
@@ -46,6 +48,8 @@ public abstract class Player extends ServerData{
 		animator.setHeightMaintainRatio(height);
 		setHitBox(new HitBox(thick = new Dimension(animator.getWidthFrame(), animator.getHeightFrame()), pos));
 	
+		direction = "s";
+		
 	}
 	
 	public Player(int x, int y) {
@@ -94,7 +98,7 @@ public abstract class Player extends ServerData{
 		this.height = thicc;
 	}
 
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 
@@ -102,6 +106,12 @@ public abstract class Player extends ServerData{
 		this.code = code;
 	}
 	
+	public String getDirection() {
+		return this.direction;
+	}
 	
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
 	
 }

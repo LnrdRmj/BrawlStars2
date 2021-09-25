@@ -45,7 +45,7 @@ public class Enemy extends ServerGameObject{
 			changeRandomPos();
 			
 			try {
-				client.writeObject(new HTTPMessage<>(HTTPMessages.DRAW_BOT_ENEMY, new EnemyBotData(pos, angle)));
+				out.writeObject(new HTTPMessage<>(HTTPMessages.DRAW_BOT_ENEMY, new EnemyBotData(pos, angle)));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

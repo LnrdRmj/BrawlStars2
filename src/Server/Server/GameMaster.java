@@ -10,7 +10,7 @@ import javax.lang.model.element.Element;
 import Server.Config;
 import Server.HTTPMessage;
 import Server.Server.GameObjects.ServerGameObject;
-import ServerData.HandShakeData;
+import ServerData.HandShakeDataServerToClient;
 import Utils.HTTPMessages;
 
 public class GameMaster implements Runnable{
@@ -42,12 +42,6 @@ public class GameMaster implements Runnable{
 	}
 	
 	public void addPlayerThread(PlayerServerThread player) {
-		
-		HandShakeData handShakeData = new HandShakeData();
-		handShakeData.setConfig(config);
-		handShakeData.setCode(player.getCode());
-		
-		player.write(new HTTPMessage<>(HTTPMessages.HAND_SHAKE, handShakeData));
 		
 		player.addOnNewGameObject(el -> {
 			

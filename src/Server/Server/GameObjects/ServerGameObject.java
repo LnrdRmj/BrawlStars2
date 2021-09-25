@@ -1,5 +1,6 @@
 package Server.Server.GameObjects;
 
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import Collision.HitBox;
@@ -9,12 +10,13 @@ import Server.HTTPMessage;
 public abstract class ServerGameObject {
 
 	protected ServerData serverData;
-	protected ObjectOutputStream client;
+	protected ObjectOutputStream out;
+	protected ObjectInputStream in;
 	protected boolean isDead = false;
 	
-	public ServerGameObject(ObjectOutputStream client) {
+	public ServerGameObject(ObjectOutputStream outStream) {
 		super();
-		this.client = client;
+		this.out = outStream;
 	}
 
 	public abstract void update();
