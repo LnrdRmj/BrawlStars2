@@ -7,6 +7,7 @@ import Collision.HitBox;
 import Collision.PVector;
 import GameObjects.GameObject;
 import Graphic.Frame;
+import Graphic.Renderer;
 
 public abstract class Player extends GameObject{
 
@@ -49,6 +50,8 @@ public abstract class Player extends GameObject{
 		setHitBox(new HitBox(thick = new Dimension(animator.getWidthFrame(), animator.getHeightFrame()), pos));
 	
 		direction = "s";
+		
+		Renderer.addGameObjectToRender(this);
 		
 	}
 	

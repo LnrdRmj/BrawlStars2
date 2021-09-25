@@ -18,8 +18,6 @@ public class EnemyPlayer extends Player{
 		animator = new Animator(pos, "Sprites/character/7.png");
 		animator.setHeightMaintainRatio(height);
 		
-		Renderer.addGameObjectToRender(this);
-		
 	}
 	
 	public EnemyPlayer(int x, int y) {
