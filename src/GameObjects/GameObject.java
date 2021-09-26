@@ -5,17 +5,19 @@ import java.awt.Graphics;
 
 import Collision.HitBox;
 import Collision.PVector;
+import ServerData.BasicData;
 
 public abstract class GameObject {
 
+	protected Integer code;
 	protected HitBox hitBox;
 	protected String name = "";
 	
 	public abstract void hit(GameObject hit);
-
 	public abstract void draw(Graphics g);
-	
 	public abstract void update();
+	
+	public abstract void applyData(BasicData data);
 	
 	public GameObject (String name) {
 		this.name = name;

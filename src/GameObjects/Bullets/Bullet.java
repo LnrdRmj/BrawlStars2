@@ -13,7 +13,10 @@ import Graphic.Game;
 import Graphic.Renderer;
 import ParticleSystem.ParticleSystemRenderer;
 import ParticleSystem.particleSystems.ParticleSystemExplosion;
+import ServerData.BasicData;
+import ServerData.BulletData;
 import Utils.ImageUtils;
+import Utils.PVectorUtil;
 
 public class Bullet extends GameObject {
 
@@ -58,6 +61,14 @@ public class Bullet extends GameObject {
 		
 	}
 
+	public Bullet(BulletData bulletData) {
+		
+		this(PVectorUtil.PVectorFromString(bulletData.getPos()), bulletData.getAngleDirection());
+		
+		this.code = bulletData.getCode();
+		
+	}
+
 	public void draw(Graphics g) {
 		
 		Graphics2D g2d = (Graphics2D) g;
@@ -80,7 +91,7 @@ public class Bullet extends GameObject {
 		
 		// Non so se vale per tutti ma nel caso dei proiettili vanno renderizzati
 	    // solo una volta sola perché il frame successivo ce lo darà il server
-		Renderer.removeGameObjectToRender(this);
+//		Renderer.removeGameObjectToRender(this);
 		
 	}
 	
@@ -102,12 +113,28 @@ public class Bullet extends GameObject {
 		
 	}
 
+	
+	
 	public PVector getBulletPos() {
 		return bulletPos;
 	}
 
 	public double getAngleDirection() {
 		return angleDirection;
+	}
+
+	@Override
+	public void applyData(BasicData data) {
+
+		if (data instanceof BulletData) {
+			
+			BulletData bulletData = (BulletData) data;
+			
+			this.bulletPos = PVectorUtil.PVectorFromString(bulletData.getPos());
+			this.angleDirection = bulletData.getAngleDirection();
+			
+		}
+		
 	}
 
 }

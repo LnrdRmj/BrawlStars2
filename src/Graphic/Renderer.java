@@ -15,7 +15,7 @@ public class Renderer {
 	private static Vector<GameObject> toRender = new Vector<>();
 	private static Vector<GameObject> toRemove = new Vector<>();
 	private static Vector<GameObject> toAdd = new Vector<>();
-
+	
 	public static void addAllGameObjectToRender(List<GameObject> toAdd) {
 		toAdd.addAll(toAdd);
 	}

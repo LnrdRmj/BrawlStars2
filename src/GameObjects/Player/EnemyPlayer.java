@@ -6,6 +6,7 @@ import Animation.Animator;
 import Collision.PVector;
 import GameObjects.GameObject;
 import Graphic.Renderer;
+import ServerData.BasicData;
 import ServerData.PlayerData;
 import Utils.PVectorUtil;
 
@@ -80,6 +81,11 @@ public class EnemyPlayer extends Player{
 		
 		this.setPos(PVectorUtil.PVectorFromString(playerData.getPos()));
 		this.setDirection(playerData.getDirection());
+		
+	}
+
+	@Override
+	public void applyData(BasicData data) {
 		
 	}
 	

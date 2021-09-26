@@ -124,11 +124,11 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 					
 					if (!(comand.getMessageBody() instanceof BulletData)) break;
 					
-					BulletData d = (BulletData) comand.getMessageBody();
+					BulletData bulletData = (BulletData) comand.getMessageBody();
 					
-					StringTokenizer st = new StringTokenizer(d.getPos(), ";");
+					logServer(bulletData);
 					
-					ServerGameObject newBullet = new Bullet(Float.parseFloat(st.nextToken()), Float.parseFloat(st.nextToken()), d.getAngleDirection(), out);
+					ServerGameObject newBullet = new Bullet(bulletData, out);
 					
 					onNewGameObject.forEach(el -> el.accept(newBullet));
 					

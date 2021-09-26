@@ -7,13 +7,17 @@ import Server.HTTPMessage;
 
 public abstract class ServerGameObject {
 
+	public static Integer codeGenerator = 0;
+	protected Integer code;
 	protected HitBox hitBox;
 	protected ObjectOutputStream out;
 	protected boolean isDead = false;
 	
 	public ServerGameObject(ObjectOutputStream outStream) {
-		super();
+		
 		this.out = outStream;
+		code = codeGenerator++;
+		
 	}
 
 	public abstract void update();
@@ -28,6 +32,10 @@ public abstract class ServerGameObject {
 
 	public boolean isDead() {
 		return isDead;
+	}
+	
+	public Integer getCode() {
+		return this.code;
 	}
 	
 }

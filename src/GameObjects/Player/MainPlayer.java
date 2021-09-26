@@ -22,6 +22,7 @@ import Graphic.Frame;
 import Graphic.Game;
 import Graphic.Renderer;
 import Server.HTTPMessage;
+import ServerData.BasicData;
 import ServerData.BulletData;
 import ServerData.HandShakeDataClientToServer;
 import ServerData.PlayerData;
@@ -367,6 +368,13 @@ public class MainPlayer extends Player implements KeyListener{
 			
 		});
 			
+		
+	}
+
+	@Override
+	public void applyData(BasicData data) {
+
+		
 		
 	}
 

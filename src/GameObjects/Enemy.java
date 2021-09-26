@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import Collision.HitBox;
 import Collision.PVector;
 import Graphic.Frame;
+import ServerData.BasicData;
 import Utils.Random;
 
 public class Enemy extends GameObject{
@@ -54,6 +55,12 @@ public class Enemy extends GameObject{
 	public void hit(GameObject hit) {
 		
 		
+		
+	}
+
+	@Override
+	public void applyData(BasicData data) {
+		// TODO Auto-generated method stub
 		
 	}
 

@@ -47,8 +47,9 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 	private Socket server;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
-	
+
 	private Map<Integer, EnemyPlayer> enemies;
+	private Map<Integer, GameObject> gameObjects;
 	
 	public static Config config;
 
@@ -166,6 +167,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 	public void startGame() {
 		
 		enemies = new HashMap<>();
+		gameObjects = new HashMap<>();
 		
 		mainThread = new Thread(this);
 		mainThread.start();
@@ -266,11 +268,22 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			if (!(message.getMessageBody() instanceof BulletData)) break;
 			
-			BulletData d = (BulletData) message.getMessageBody();
+			BulletData bulletData = (BulletData) message.getMessageBody();
 			
-			StringTokenizer st = new StringTokenizer(d.getPos(), ";");
+			Bullet bullet = (Bullet) gameObjects.get(bulletData.getCode());
 			
-			Renderer.addGameObjectToRender( new Bullet( Float.parseFloat(st.nextToken()), Float.parseFloat(st.nextToken()), d.getAngleDirection() ) );
+			logClient(bulletData.getPos());
+			
+			if (bullet == null) {
+				
+				bullet = new Bullet(bulletData);
+				gameObjects.put(bulletData.getCode(), bullet);
+				Renderer.addGameObjectToRender(bullet);
+				
+			}
+			else {
+				bullet.applyData(bulletData);
+			}
 			
 			break;
 		

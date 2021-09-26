@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.StringTokenizer;
 
 import Collision.CollisionEngine;
 import Collision.HitBox;
@@ -13,6 +14,7 @@ import Server.HTTPMessage;
 import Server.Server.GameMaster;
 import ServerData.BulletData;
 import Utils.HTTPMessages;
+import Utils.PVectorUtil;
 
 import static Logger.Logger.*;
 
@@ -28,8 +30,6 @@ public class Bullet extends ServerGameObject implements Serializable{
 	protected PVector bulletPos;
 	public int bulletSpeed = 4;
 	protected double angleDirection;
-	
-	private BulletData bulletData;
 	
 	public Bullet(PVector pos, double angleDirection, ObjectOutputStream client) {
 		
@@ -53,14 +53,31 @@ public class Bullet extends ServerGameObject implements Serializable{
 		
 		super(client);
 		
-//		setName("Proiettile");
 		
 		bulletPos = new PVector(originX, originY);
+		this.angleDirection = angleDirection;
 
 		hitBox = new HitBox(bulletDimension, bulletPos, angleDirection);
 		
-		this.angleDirection = angleDirection;
+	}
+	
+	public Bullet(BulletData bulletData, ObjectOutputStream client) {
 		
+		super(client);
+		
+		bulletPos = PVectorUtil.PVectorFromString(bulletData.getPos());
+		this.angleDirection = bulletData.getAngleDirection();
+		
+		hitBox = new HitBox(bulletDimension, bulletPos, angleDirection);
+		
+	}
+
+	public PVector getPos() {
+		return this.bulletPos;
+	}
+	
+	public double angleDirection() {
+		return this.angleDirection;
 	}
 	
 	@Override
@@ -87,7 +104,7 @@ public class Bullet extends ServerGameObject implements Serializable{
 	
 	public HTTPMessage<?> getMessageForClient() {
 		
-		return new HTTPMessage<>(HTTPMessages.DRAW_BULLET, new BulletData(bulletPos.x + ";" + bulletPos.y, angleDirection));
+		return new HTTPMessage<>(HTTPMessages.DRAW_BULLET, new BulletData(this));
 		
 	}
 	

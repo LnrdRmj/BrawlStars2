@@ -23,8 +23,11 @@ import Graphic.Canvas;
 import Graphic.Frame;
 import Graphic.Renderer;
 import Graphic.Sprite;
+import ServerData.BasicData;
 import Utils.Observer;
 import Utils.PVectorUtil;
+
+import static Logger.Logger.*;
 
 public class Gun extends GameObject implements MouseListener{
 	
@@ -91,6 +94,9 @@ public class Gun extends GameObject implements MouseListener{
 	public void shoot(int mouseX, int mouseY) {
 		
 		PVector p = PVectorUtil.rotatePoint(playerPos.x + adjustedmentPosition.x, playerPos.y + adjustedmentPosition.y, playerPos.x + adjustedmentPosition.x + gunDimension.width, playerPos.y + adjustedmentPosition.y + gunDimension.height / 2, angleDirection);
+		
+		logClient(angleDirection);
+		logClient(p.x + ";" + p.y);
 		
 		Bullet bulletShot = new Bullet(p.x, p.y, angleDirection);
 		
@@ -208,6 +214,12 @@ public class Gun extends GameObject implements MouseListener{
 	public void addOnShoot(Consumer<Bullet> event) {
 		
 		onGunShot.add(event);
+		
+	}
+
+	@Override
+	public void applyData(BasicData data) {
+		// TODO Auto-generated method stub
 		
 	}
 	
