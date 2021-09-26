@@ -270,19 +270,32 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			BulletData bulletData = (BulletData) message.getMessageBody();
 			
-			Bullet bullet = (Bullet) gameObjects.get(bulletData.getCode());
-			
-			logClient(bulletData.getPos());
-			
-			if (bullet == null) {
+			if (bulletData.isDead()) {
 				
-				bullet = new Bullet(bulletData);
-				gameObjects.put(bulletData.getCode(), bullet);
-				Renderer.addGameObjectToRender(bullet);
+				GameObject toDelete = gameObjects.get(bulletData.getCode());
+
+				if (toDelete != null) {
+					toDelete.kill();
+					Renderer.removeGameObjectToRender(toDelete);
+					gameObjects.remove(bulletData.getCode());
+				}
 				
 			}
 			else {
-				bullet.applyData(bulletData);
+				
+				Bullet bullet = (Bullet) gameObjects.get(bulletData.getCode());
+				
+				if (bullet == null) {
+					
+					bullet = new Bullet(bulletData);
+					gameObjects.put(bulletData.getCode(), bullet);
+					Renderer.addGameObjectToRender(bullet);
+					
+				}
+				else {
+					bullet.applyData(bulletData);
+				}
+				
 			}
 			
 			break;

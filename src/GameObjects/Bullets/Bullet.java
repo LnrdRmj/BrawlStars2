@@ -89,11 +89,12 @@ public class Bullet extends GameObject {
 		
 		// Non so se vale per tutti ma nel caso dei proiettili vanno renderizzati
 	    // solo una volta sola perché il frame successivo ce lo darà il server
-//		Renderer.removeGameObjectToRender(this);
+		// Renderer.removeGameObjectToRender(this);
 		
 	}
 	
-	public void delete () {
+	@Override
+	public void kill () {
 		
 		Game.removeGameObject(this);
 		
@@ -105,7 +106,7 @@ public class Bullet extends GameObject {
 		if (hit instanceof Enemy) {
 			
 			ParticleSystemRenderer.addParticleSystem(new ParticleSystemExplosion(bulletPos.x, bulletPos.y));
-			delete();
+			kill();
 			
 		}
 		

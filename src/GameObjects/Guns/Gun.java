@@ -95,9 +95,6 @@ public class Gun extends GameObject implements MouseListener{
 		
 		PVector p = PVectorUtil.rotatePoint(playerPos.x + adjustedmentPosition.x, playerPos.y + adjustedmentPosition.y, playerPos.x + adjustedmentPosition.x + gunDimension.width, playerPos.y + adjustedmentPosition.y + gunDimension.height / 2, angleDirection);
 		
-		logClient(angleDirection);
-		logClient(p.x + ";" + p.y);
-		
 		Bullet bulletShot = new Bullet(p.x, p.y, angleDirection);
 		
 		// Notifica tutti gli observer

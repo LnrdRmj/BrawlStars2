@@ -17,6 +17,8 @@ public abstract class GameObject {
 	public abstract void draw(Graphics g);
 	public abstract void update();
 	
+	public void kill() {}
+	
 	public abstract void applyData(BasicData data);
 	
 	public GameObject (String name) {

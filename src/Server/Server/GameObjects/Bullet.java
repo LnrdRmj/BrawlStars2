@@ -65,8 +65,9 @@ public class Bullet extends ServerGameObject implements Serializable{
 		
 		super(client);
 		
+		isDead = bulletData.isDead();		
 		bulletPos = PVectorUtil.PVectorFromString(bulletData.getPos());
-		this.angleDirection = bulletData.getAngleDirection();
+		angleDirection = bulletData.getAngleDirection();
 		
 		hitBox = new HitBox(bulletDimension, bulletPos, angleDirection);
 		
@@ -93,6 +94,12 @@ public class Bullet extends ServerGameObject implements Serializable{
 			bulletPos.y > GameMaster.config.width) {
 			
 			isDead = true;
+			
+			try {
+				out.writeObject(getMessageForClient());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			
 			CollisionEngine.removeGameObject(this);
 			

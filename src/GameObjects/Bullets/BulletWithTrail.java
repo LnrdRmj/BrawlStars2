@@ -38,9 +38,9 @@ public class BulletWithTrail extends Bullet{
 	}
 	
 	@Override
-	public void delete() {
+	public void kill() {
 		
-		super.delete();
+		super.kill();
 		
 		ps.setDead(true);
 		

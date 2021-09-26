@@ -14,6 +14,7 @@ public class BulletData implements BasicData, Serializable{
 	private Integer code;
 	private String bulletPos;
 	private double angleDirection;
+	private boolean isDead;
 	
 	public BulletData(String bulletPos, double angleDirection) {
 		super();
@@ -33,6 +34,7 @@ public class BulletData implements BasicData, Serializable{
 		this.bulletPos = bullet.getPos().x + ";" + bullet.getPos().y;
 		this.angleDirection = bullet.angleDirection();
 		this.code = bullet.getCode();
+		this.isDead = bullet.isDead();
 		
 	}
 
@@ -63,6 +65,10 @@ public class BulletData implements BasicData, Serializable{
 	@Override
 	public String toString() {
 		return "BulletData [code=" + code + ", bulletPos=" + bulletPos + ", angleDirection=" + angleDirection + "]";
+	}
+
+	public boolean isDead() {
+		return isDead;
 	}
 	
 	
