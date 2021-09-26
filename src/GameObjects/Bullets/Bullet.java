@@ -57,8 +57,6 @@ public class Bullet extends GameObject {
 		
 		this.angleDirection = angleDirection;
 		
-		Renderer.addGameObjectToRender(this);
-		
 	}
 
 	public Bullet(BulletData bulletData) {
