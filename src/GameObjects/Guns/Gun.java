@@ -19,6 +19,7 @@ import Collision.HitBox;
 import Collision.PVector;
 import GameObjects.GameObject;
 import GameObjects.Bullets.Bullet;
+import GameObjects.Bullets.NormalBullet;
 import GameObjects.Bullets.TrippleBullets;
 import Graphic.Canvas;
 import Graphic.Frame;
@@ -96,7 +97,7 @@ public class Gun extends GameObject implements MouseListener{
 		
 		PVector p = PVectorUtil.rotatePoint(playerPos.x + adjustedmentPosition.x, playerPos.y + adjustedmentPosition.y, playerPos.x + adjustedmentPosition.x + gunDimension.width, playerPos.y + adjustedmentPosition.y + gunDimension.height / 2, angleDirection);
 		
-		Bullet bulletShot = new Bullet(p, angleDirection);
+		Bullet bulletShot = new NormalBullet(p, angleDirection);
 		
 		// Notifica tutti gli observer
 		onGunShot.forEach( obs -> obs.accept(bulletShot) );

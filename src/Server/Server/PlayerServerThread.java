@@ -15,7 +15,7 @@ import Collision.PVector;
 import Server.HTTPMessage;
 import Server.Server.GameObjectUtil.BulletUtil;
 import Server.Server.GameObjects.ServerGameObject;
-import Server.Server.GameObjects.Bullets.Bullet;
+import Server.Server.GameObjects.Bullets.NormalBullet;
 import ServerData.BulletData;
 import ServerData.HandShakeDataClientToServer;
 import ServerData.HandShakeDataServerToClient;

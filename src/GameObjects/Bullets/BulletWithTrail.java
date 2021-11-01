@@ -3,6 +3,7 @@ package GameObjects.Bullets;
 import java.awt.Graphics;
 
 import Collision.PVector;
+import GameObjects.GameObject;
 import ParticleSystem.ParticleSystemRenderer;
 import ParticleSystem.particleSystems.ParticleSystemTrail;
 
@@ -22,6 +23,16 @@ public class BulletWithTrail extends Bullet{
 		super.kill();
 		
 		ps.setDead(true);
+		
+	}
+
+	@Override
+	public void update() {
+		
+	}
+
+	@Override
+	public void hit(GameObject hit) {
 		
 	}
 	

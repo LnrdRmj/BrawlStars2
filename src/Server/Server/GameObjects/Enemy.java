@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 import Collision.PVector;
 import Graphic.Frame;
 import Server.HTTPMessage;
-import Server.Server.GameObjects.Bullets.Bullet;
+import Server.Server.GameObjects.Bullets.NormalBullet;
 import ServerData.BulletData;
 import ServerData.EnemyBotData;
 import Utils.HTTPMessages;
@@ -42,7 +42,7 @@ public class Enemy extends ServerGameObject{
 	@Override
 	public void hit(ServerGameObject hit) {
 		
-		if (hit instanceof Bullet){
+		if (hit instanceof NormalBullet){
 			changeRandomPos();
 			
 			try {

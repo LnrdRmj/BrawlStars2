@@ -7,7 +7,7 @@ import java.awt.geom.AffineTransform;
 import Collision.PVector;
 import ServerData.BulletData;
 
-public class TrippleBullets extends Bullet {
+public class TrippleBullets extends NormalBullet {
 
 	public TrippleBullets(PVector pos, double angleDirection) {
 		super(pos, angleDirection);

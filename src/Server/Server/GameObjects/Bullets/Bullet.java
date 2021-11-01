@@ -4,12 +4,10 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.StringTokenizer;
 
 import Collision.CollisionEngine;
 import Collision.HitBox;
 import Collision.PVector;
-import Graphic.Frame;
 import Server.HTTPMessage;
 import Server.Server.GameMaster;
 import Server.Server.GameObjects.ServerGameObject;
@@ -17,26 +15,19 @@ import ServerData.BulletData;
 import Utils.HTTPMessages;
 import Utils.PVectorUtil;
 
-import static Logger.Logger.*;
+public abstract class Bullet extends ServerGameObject {
 
-public class Bullet extends ServerGameObject implements Serializable{
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7971045488072260238L;
-
-	public static Dimension bulletDimension = new Dimension(30, 8);
 	
+	public static Dimension bulletDimension = new Dimension(30, 8);
 	protected PVector bulletPos;
 	public int bulletSpeed = 4;
 	protected double angleDirection;
 	protected String bulletType;
-	
-	
+
 	public Bullet(PVector pos, double angleDirection, ObjectOutputStream client) {
 		
-		super(client);
+		this(client);
 		
 		this.bulletPos = pos;
 		this.angleDirection = angleDirection;
@@ -44,15 +35,9 @@ public class Bullet extends ServerGameObject implements Serializable{
 		hitBox = new HitBox(bulletDimension, bulletPos, angleDirection);
 		
 	}
-	
-	public Bullet(BulletData bulletData, ObjectOutputStream client) {
-		
-		super(client);
-		
-		applyBulletData(bulletData);
-		
-		hitBox = new HitBox(bulletDimension, bulletPos, angleDirection);
-		
+
+	public Bullet(ObjectOutputStream outStream) {
+		super(outStream);
 	}
 
 	public void applyBulletData(BulletData bulletData) {
@@ -63,25 +48,25 @@ public class Bullet extends ServerGameObject implements Serializable{
 		bulletType = bulletData.getBulletType();
 		
 	}
-	
+
 	public PVector getPos() {
 		return this.bulletPos;
 	}
-	
+
 	public double getAngleDirection() {
 		return this.angleDirection;
 	}
-	
+
 	public String getType() {
 		return this.bulletType;
 	}
-	
+
 	@Override
 	public void update() {
-
+	
 		bulletPos.x += bulletSpeed * Math.cos(angleDirection);
 		bulletPos.y += bulletSpeed * Math.sin(angleDirection);
-
+	
 		// If the bullet goes off-screen delete it
 		if (bulletPos.x < - 100 || 
 			bulletPos.x > GameMaster.config.width + 100 ||
@@ -103,11 +88,11 @@ public class Bullet extends ServerGameObject implements Serializable{
 		hitBox.update();
 		
 	}
-	
+
 	public HTTPMessage<?> getMessageForClient() {
 		
 		return new HTTPMessage<>(HTTPMessages.DRAW_BULLET, new BulletData(this));
 		
 	}
-	
+
 }

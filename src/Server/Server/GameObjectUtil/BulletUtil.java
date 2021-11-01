@@ -6,7 +6,7 @@ import GameObjects.GameObject;
 import GameObjects.Bullets.BulletType;
 import Graphic.Game;
 import Server.Server.GameObjects.ServerGameObject;
-import Server.Server.GameObjects.Bullets.Bullet;
+import Server.Server.GameObjects.Bullets.NormalBullet;
 import Server.Server.GameObjects.Bullets.TrippleBullet;
 import ServerData.BulletData;
 
@@ -17,7 +17,7 @@ public class BulletUtil {
 		switch(bulletData.getBulletType()) {
 		
 		case BulletType.NORMAL_BULLET:
-			return new Bullet(bulletData, out);
+			return new NormalBullet(bulletData, out);
 			
 		case BulletType.TRIPPLE_BULLET:
 			return new TrippleBullet(bulletData, out);	
@@ -26,7 +26,7 @@ public class BulletUtil {
 			return new TrippleBullet(bulletData, out);	
 	
 		default:
-			return new Bullet(bulletData, out);
+			return new NormalBullet(bulletData, out);
 			
 		}
 		
@@ -37,7 +37,7 @@ public class BulletUtil {
 		switch(bulletData.getBulletType()) {
 		
 		case BulletType.NORMAL_BULLET:
-			return new GameObjects.Bullets.Bullet(bulletData);
+			return new GameObjects.Bullets.NormalBullet(bulletData);
 			
 		case BulletType.TRIPPLE_BULLET:
 			return new GameObjects.Bullets.TrippleBullets(bulletData);	
@@ -45,7 +45,7 @@ public class BulletUtil {
 		case BulletType.STANGE_BULLET:
 	
 		default:
-			return new GameObjects.Bullets.Bullet(bulletData);
+			return new GameObjects.Bullets.NormalBullet(bulletData);
 			
 		}
 		

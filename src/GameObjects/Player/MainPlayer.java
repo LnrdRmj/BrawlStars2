@@ -15,7 +15,7 @@ import Animation.Animator;
 import Collision.PVector;
 import GameObjects.Enemy;
 import GameObjects.GameObject;
-import GameObjects.Bullets.Bullet;
+import GameObjects.Bullets.NormalBullet;
 import GameObjects.Guns.Gun;
 import Graphic.Canvas;
 import Graphic.Frame;

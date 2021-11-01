@@ -13,12 +13,9 @@ import Utils.PVectorUtil;
 
 public class TrippleBullet extends Bullet {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2957182747963635174L;
 
-	private List<Bullet> bullets;
+	private List<NormalBullet> bullets;
 	
 	private final double spreadAangle = Math.toRadians(30);
 	
@@ -28,21 +25,21 @@ public class TrippleBullet extends Bullet {
 		
 		bullets = new ArrayList<>();
 		
-		bullets.add(new Bullet(bulletPos.clone(), angleDirection + spreadAangle, client));
-		bullets.add(new Bullet(bulletPos.clone(), angleDirection, client));
-		bullets.add(new Bullet(bulletPos.clone(), angleDirection - spreadAangle, client));
+		bullets.add(new NormalBullet(bulletPos.clone(), angleDirection + spreadAangle, client));
+		bullets.add(new NormalBullet(bulletPos.clone(), angleDirection, client));
+		bullets.add(new NormalBullet(bulletPos.clone(), angleDirection - spreadAangle, client));
 		
 	}
 
 	public TrippleBullet(BulletData bulletData, ObjectOutputStream client) {
 		
-		super(bulletData, client);
+		super(client);
 		
 		bullets = new ArrayList<>();
 		
-		bullets.add(new Bullet(bulletPos.clone(), angleDirection + spreadAangle, client));
-		bullets.add(new Bullet(bulletPos.clone(), angleDirection, client));
-		bullets.add(new Bullet(bulletPos.clone(), angleDirection - spreadAangle, client));
+		bullets.add(new NormalBullet(bulletPos.clone(), angleDirection + spreadAangle, client));
+		bullets.add(new NormalBullet(bulletPos.clone(), angleDirection, client));
+		bullets.add(new NormalBullet(bulletPos.clone(), angleDirection - spreadAangle, client));
 		
 	}
 
@@ -51,7 +48,7 @@ public class TrippleBullet extends Bullet {
 		
 		Bullet bullet = null;
 		
-		for (Iterator<Bullet> itr = bullets.iterator(); itr.hasNext();) {
+		for (Iterator<NormalBullet> itr = bullets.iterator(); itr.hasNext();) {
 			
 			bullet = itr.next();
 			

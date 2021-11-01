@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import Collision.PVector;
 import GameObjects.GameObject;
 import GameObjects.Bullets.Bullet;
+import GameObjects.Bullets.NormalBullet;
 import GameObjects.Player.EnemyPlayer;
 import GameObjects.Player.MainPlayer;
 import Server.Config;
@@ -287,7 +288,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 				
 				if (bullet == null) {
 					
-					bullet = new Bullet(bulletData);
+					bullet = new NormalBullet(bulletData);
 					gameObjects.put(bulletData.getCode(), bullet);
 					Renderer.addGameObjectToRender(bullet);
 					
