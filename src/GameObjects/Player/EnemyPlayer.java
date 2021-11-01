@@ -14,6 +14,8 @@ public class EnemyPlayer extends Player{
 
 	public EnemyPlayer() { 
 		
+		super();
+		
 		setName("EnemyPlayer");
 		
 		animator = new Animator(pos, "Sprites/character/7.png");
@@ -21,40 +23,23 @@ public class EnemyPlayer extends Player{
 		
 	}
 	
-	public EnemyPlayer(int x, int y) {
+//	public EnemyPlayer(PVector pos, int code) {
+//		
+//		this();
+//		
+//		this.code = code;
+//		super.setPos(pos);
+//		
+//	}
 	
-		this();
-		
-		super.setPos(x, y);
-		
-	}
-
-	public EnemyPlayer(int x, int y, int code) {
-		
-		this();
-		
-		this.code = code;
-		super.setPos(x, y);
-		
-	}
-	
-	public EnemyPlayer(PVector pos, Integer code) {
-		
-		this((int)pos.x, (int)pos.y, code);
-	
-	}
-
 	public EnemyPlayer(PlayerData playerData) {
 		
-		super();
+		this();
 		
 		this.code = playerData.getCode();
 		this.direction = playerData.getDirection();
 		this.pos = PVectorUtil.PVectorFromString(playerData.getPos());
-		
-		animator = new Animator(this.pos, "Sprites/character/7.png");
-		animator.setHeightMaintainRatio(height);
-		
+
 	}
 
 	@Override

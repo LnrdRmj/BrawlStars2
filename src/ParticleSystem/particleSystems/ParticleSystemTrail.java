@@ -92,8 +92,8 @@ public class ParticleSystemTrail extends ParticleSystemInterface{
 		public void run() {
 			
 			// Le due particelle devono essere un l'opposta dell'altra
-			toAdd.add(new TrailParticle(pos.x, pos.y, angleDirection + Math.PI / 2));
-			toAdd.add(new TrailParticle(pos.x, pos.y, angleDirection - Math.PI / 2));
+			toAdd.add(new TrailParticle(pos, angleDirection + Math.PI / 2));
+			toAdd.add(new TrailParticle(pos, angleDirection - Math.PI / 2));
 			
 		}
 		

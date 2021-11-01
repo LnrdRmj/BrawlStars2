@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import Collision.PVector;
 import Graphic.Frame;
 import Server.HTTPMessage;
+import Server.Server.GameObjects.Bullets.Bullet;
 import ServerData.BulletData;
 import ServerData.EnemyBotData;
 import Utils.HTTPMessages;

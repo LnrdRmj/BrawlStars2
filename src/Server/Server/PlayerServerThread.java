@@ -13,8 +13,9 @@ import java.util.function.Consumer;
 
 import Collision.PVector;
 import Server.HTTPMessage;
-import Server.Server.GameObjects.Bullet;
+import Server.Server.GameObjectUtil.BulletUtil;
 import Server.Server.GameObjects.ServerGameObject;
+import Server.Server.GameObjects.Bullets.Bullet;
 import ServerData.BulletData;
 import ServerData.HandShakeDataClientToServer;
 import ServerData.HandShakeDataServerToClient;
@@ -128,7 +129,8 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 					
 					logServer(bulletData);
 					
-					ServerGameObject newBullet = new Bullet(bulletData, out);
+					ServerGameObject newBullet = BulletUtil.getBullet(bulletData, out);
+//					ServerGameObject newBullet = new Bullet(bulletData, out);
 					
 					onNewGameObject.forEach(el -> el.accept(newBullet));
 					

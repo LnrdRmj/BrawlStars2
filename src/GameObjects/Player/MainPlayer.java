@@ -57,7 +57,7 @@ public class MainPlayer extends Player implements KeyListener{
 		
 		canvas.addKeyListener(this);
 
-		gunPos = new PVector(pos.x + thick.getWidth() * .3, pos.y + thick.getHeight() * .3);
+		gunPos = new PVector(pos.x + thick.getWidth() * .3, pos.y + (int)(thick.getHeight()) * .3);
 		gun = new Gun(gunPos, canvas);
 		canvas.addMouseListener(gun);
 		
@@ -343,9 +343,7 @@ public class MainPlayer extends Player implements KeyListener{
 			
 			try {
 				
-				PlayerData pd = new PlayerData(this);
-				
-				out.writeObject(new HTTPMessage<>(HTTPMessages.PLAYER_DATA, pd));
+				out.writeObject(new HTTPMessage<>(HTTPMessages.PLAYER_DATA, new PlayerData(this)));
 				
 			} catch (IOException e) {
 				System.out.println(e.getMessage());	
@@ -358,8 +356,7 @@ public class MainPlayer extends Player implements KeyListener{
 			
 			try {
 				
-				PVector bulletPos = bullet.getBulletPos();
-				out.writeObject(new HTTPMessage<>(HTTPMessages.BULLET_SHOT, new BulletData(bulletPos.x + ";" + bulletPos.y, bullet.getAngleDirection())));
+				out.writeObject(new HTTPMessage<>(HTTPMessages.BULLET_SHOT, new BulletData(bullet)));
 				
 			} catch (IOException e) {
 				System.out.println(e.getMessage());

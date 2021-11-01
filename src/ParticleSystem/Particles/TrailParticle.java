@@ -16,9 +16,9 @@ public class TrailParticle extends Particle {
 	private Color color;
 	private int colorValue;
 	
-	public TrailParticle (float x, float y, double angleDirection) {
+	public TrailParticle (PVector pos, double angleDirection) {
 		
-		this.pos = new PVector(x, y);
+		this.pos = pos;
 		this.velocity = PVectorUtil.rotatePoint(5, 0, angleDirection);
 		this.angleDirection = angleDirection;
 		

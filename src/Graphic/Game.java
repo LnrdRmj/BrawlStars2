@@ -257,7 +257,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 				}
 				else {
 					enemy.applyData(playerData);
-					enemy.setPos(pos.x, pos.y);
+					enemy.setPos(pos);
 				}
 			
 			}

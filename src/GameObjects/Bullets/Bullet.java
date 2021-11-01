@@ -20,7 +20,9 @@ import Utils.PVectorUtil;
 
 public class Bullet extends GameObject {
 
-	private BufferedImage sprite;
+	protected String type;
+	
+	protected BufferedImage sprite;
 	
 	public static Dimension bulletDimension = new Dimension(30, 8);
 	public int bulletSpeed = 30;
@@ -31,39 +33,22 @@ public class Bullet extends GameObject {
 
 	public Bullet(PVector pos, double angleDirection) {
 		
-		this(pos.x, pos.y, angleDirection);
-		
-	}
-	
-	public Bullet (float originX, float originY, double angleDirection) {
-		
-		this((int)originX, (int)originY, angleDirection);
-		
-	}
-	
-	public Bullet(int originX, int originY, int mouseX, int mouseY) {
-
-		this(originX, originY, Math.atan2((mouseY - originY), (mouseX - originX)));
-
-	}
-
-	public Bullet(int originX, int originY, double angleDirection) {
-		
 		super("Bullet");
 		
+		this.type = BulletType.NORMAL_BULLET;
+		
 		sprite = ImageUtils.getImage("Sprites/weapons/bullets/bullet.png");
-		
-		bulletPos = new PVector(originX, originY);
-		
+		this.bulletPos = pos;
 		this.angleDirection = angleDirection;
 		
 	}
-
+	
 	public Bullet(BulletData bulletData) {
 		
 		this(PVectorUtil.PVectorFromString(bulletData.getPos()), bulletData.getAngleDirection());
 		
 		this.code = bulletData.getCode();
+		this.type = BulletType.NORMAL_BULLET;
 		
 	}
 
@@ -105,7 +90,7 @@ public class Bullet extends GameObject {
 		
 		if (hit instanceof Enemy) {
 			
-			ParticleSystemRenderer.addParticleSystem(new ParticleSystemExplosion(bulletPos.x, bulletPos.y));
+			ParticleSystemRenderer.addParticleSystem(new ParticleSystemExplosion(bulletPos.clone()));
 			kill();
 			
 		}
@@ -120,6 +105,12 @@ public class Bullet extends GameObject {
 
 	public double getAngleDirection() {
 		return angleDirection;
+	}
+	
+	public String getType() {
+		
+		return this.type;
+		
 	}
 
 	@Override

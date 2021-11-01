@@ -22,7 +22,11 @@ public abstract class GameObject {
 	public abstract void applyData(BasicData data);
 	
 	public GameObject (String name) {
+		this();
 		this.name = name;
+	}
+	
+	public GameObject () {
 		hitBox = new HitBox(new Dimension(), new PVector());
 	}
 	
@@ -51,6 +55,12 @@ public abstract class GameObject {
 		this.name = name;
 	}
 	
+	public Integer getCode() {
+		return code;
+	}
+	public void setCode(Integer code) {
+		this.code = code;
+	}
 	public void setBounds(int x, int y, int width, int height) {
 		
 		hitBox.setBounds(x, y, width, height);

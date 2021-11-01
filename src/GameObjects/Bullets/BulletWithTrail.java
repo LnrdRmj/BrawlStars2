@@ -12,29 +12,8 @@ public class BulletWithTrail extends Bullet{
 	
 	public BulletWithTrail(PVector pos, double angleDirection) {
 		
-		this(pos.x, pos.y, angleDirection);
+		super(pos, angleDirection);
 		
-	}
-	
-	public BulletWithTrail (float originX, float originY, double angleDirection) {
-		
-		this((int)originX, (int)originY, angleDirection);
-		
-	}
-	
-	public BulletWithTrail(int originX, int originY, int mouseX, int mouseY) {
-
-		this(originX, originY, Math.atan2((mouseY - originY), (mouseX - originX)));
-
-	}
-
-	public BulletWithTrail(int originX, int originY, double angleDirection) {
-		
-		super(originX, originY, angleDirection);
-		
-		 ps = new ParticleSystemTrail(bulletPos, angleDirection);
-		 ParticleSystemRenderer.addParticleSystem(ps);
-		 
 	}
 	
 	@Override

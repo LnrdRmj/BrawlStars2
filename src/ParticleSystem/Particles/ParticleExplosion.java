@@ -16,7 +16,7 @@ public class ParticleExplosion extends Particle{
 	
 	private int ttl;
 	
-	public ParticleExplosion(float x, float y) {
+	public ParticleExplosion(PVector pos) {
 
 		int colorValue = Random.random(30, 256);
 		color = new Color(204, colorValue, 18);
@@ -26,7 +26,7 @@ public class ParticleExplosion extends Particle{
 		fadeOut = Random.random(11);
 		ttl = 20;
 		
-		pos = new PVector(x, y);
+		this.pos = pos;
 		velocity = new PVector(Math.cos(angle) * Random.random(1, 19) / 10, Math.sin(angle) * Random.random(1, 19) / 10);
 		acc = new PVector(velocity.x / 10, velocity.y / 10);
 		

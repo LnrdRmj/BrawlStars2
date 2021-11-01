@@ -21,7 +21,7 @@ public class PierceGun extends Gun {
 		
 		PVector p = PVectorUtil.rotatePoint(playerPos.x + adjustedmentPosition.x, playerPos.y + adjustedmentPosition.y, playerPos.x + adjustedmentPosition.x + gunDimension.width, playerPos.y + adjustedmentPosition.y + gunDimension.height / 2, angleDirection);
 		
-		new BulletWithTrail(p.x, p.y, angleDirection);
+		new BulletWithTrail(p, angleDirection);
 		
 	}
 	

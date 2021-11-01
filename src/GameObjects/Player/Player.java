@@ -55,11 +55,10 @@ public abstract class Player extends GameObject{
 		
 	}
 	
-	public Player(int x, int y) {
+	public Player(PVector pos) {
 		
 		this();
-		
-		setPos(x, y);
+		this.pos = pos;
 		
 	}
 	
@@ -69,26 +68,7 @@ public abstract class Player extends GameObject{
 	}
 
 	public void setPos(PVector pos) {
-		this.pos.x = pos.x;
-		this.pos.y = pos.y;
-	}
-	
-	public void setPos(int x, int y) {
-		this.pos.x = x;
-		this.pos.y = y;
-	}
-	
-	public void setPos(float x, float y) {
-		this.pos.x = x;
-		this.pos.y = y;
-	}
-	
-	public float getX() {
-		return this.pos.x;
-	}
-	
-	public float getY() {
-		return this.pos.y;
+		this.pos = pos; 
 	}
 	
 	public int getHealth() {

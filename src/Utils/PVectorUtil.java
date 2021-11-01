@@ -12,7 +12,7 @@ public class PVectorUtil {
 		
 	}
 	
-	public static PVector addVectors(float x1, float y1, float x2, float y2) {
+	public static PVector addVectors(double x1, double y1, double x2, double y2) {
 		
 		return new PVector(x1 + x2, y1 + y2);
 		
@@ -28,7 +28,7 @@ public class PVectorUtil {
 		
 		PVector p2 = new PVector(p1.x, p1.y);
 		
-		float tmp = p2.x;
+		double tmp = p2.x;
 		p2.x = -p2.y;
 		p2.y = tmp;
 		
@@ -36,7 +36,7 @@ public class PVectorUtil {
 		
 	}
 
-	public static float dotProduct(PVector p1, PVector p2) {
+	public static double dotProduct(PVector p1, PVector p2) {
 		return p1.x * p2.x + p1.y * p2.y;
 	}
 	
@@ -57,7 +57,7 @@ public class PVectorUtil {
 		
 	}
 	
-	public static PVector rotatePoint(float cx, float cy, float x2, float y2, double angle) {
+	public static PVector rotatePoint(double cx, double cy, double x2, double y2, double angle) {
 		
 		float s = (float) Math.sin(angle);
 		float c = (float) Math.cos(angle);
@@ -67,8 +67,8 @@ public class PVectorUtil {
 		y2 -= cy;
 
 		// rotate point
-		float xnew = x2 * c - y2 * s;
-		float ynew = x2 * s + y2 * c;
+		double xnew = x2 * c - y2 * s;
+		double ynew = x2 * s + y2 * c;
 
 		// translate point back:
 		x2 = xnew + cx;

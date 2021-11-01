@@ -7,6 +7,7 @@ import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
+import Collision.PVector;
 import ParticleSystem.particleSystems.ParticleSystemBlackHole;
 import ParticleSystem.particleSystems.ParticleSystemExplosion;
 import ParticleSystem.particleSystems.ParticleSystemInterface;
@@ -24,7 +25,7 @@ public class Panel extends JPanel implements Runnable{
 		
 		this.setBackground(Color.decode("#202020"));
 		
-		sys = new ParticleSystemExplosion(TestParticleSystem.width / 2, TestParticleSystem.height / 2);
+		sys = new ParticleSystemExplosion(new PVector(TestParticleSystem.width / 2, TestParticleSystem.height / 2));
 		
 		new Thread(this).start();
 		
@@ -42,7 +43,7 @@ public class Panel extends JPanel implements Runnable{
 		sys.draw(g);
 		
 		if (sys.isDead())
-			sys = new ParticleSystemExplosion(TestParticleSystem.width / 2, TestParticleSystem.height / 2);
+			sys = new ParticleSystemExplosion(new PVector(TestParticleSystem.width / 2, TestParticleSystem.height / 2));
 		
 	}
 	

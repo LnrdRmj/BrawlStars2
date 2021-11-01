@@ -31,7 +31,7 @@ public class ShotGun extends Gun{
 					playerPos.x + adjustedmentPosition.x + gunDimension.width, playerPos.y + adjustedmentPosition.y + gunDimension.height / 2, 
 					angleDirection);
 			
-			new Bullet(p.x, p.y, angleDirection + i * shiftAngle);
+			new Bullet(p, angleDirection + i * shiftAngle);
 		
 		}
 		

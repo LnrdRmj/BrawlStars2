@@ -3,6 +3,7 @@ package ParticleSystem.particleSystems;
 import java.awt.Graphics;
 import java.util.Vector;
 
+import Collision.PVector;
 import ParticleSystem.Particles.Particle;
 import ParticleSystem.Particles.ParticleExplosion;
 
@@ -10,22 +11,20 @@ public class ParticleSystemExplosion extends ParticleSystemInterface {
 
 	private int nDead;
 	
-	private float x;
-	private float y;
+	private PVector pos;
 	
-	public ParticleSystemExplosion (float x, float y) {
+	public ParticleSystemExplosion (PVector pos) {
 		
 		super();
 		
 		numberParticles = 100;
 		particles = new Vector<Particle>(numberParticles);
 		
-		for(int i = 0; i < numberParticles; ++i) particles.add(new ParticleExplosion(x, y));
+		for(int i = 0; i < numberParticles; ++i) particles.add(new ParticleExplosion(pos));
 		
 		nDead = 0;
 		
-		this.x = x;
-		this.y = y;
+		this.pos = pos;
 		
 	}
 	
@@ -57,7 +56,7 @@ public class ParticleSystemExplosion extends ParticleSystemInterface {
 
 	public void reset() {
 		
-		for(int i = 0; i < numberParticles; ++i) particles.set(i, new ParticleExplosion(x, y));
+		for(int i = 0; i < numberParticles; ++i) particles.set(i, new ParticleExplosion(pos));
 		
 	}
 	

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+import Collision.PVector;
 import GameObjects.Player.MainPlayer;
 
 public class PlayerListenerThread implements Runnable{
@@ -42,7 +43,7 @@ public class PlayerListenerThread implements Runnable{
 				int x = Integer.parseInt(data[0]);
 				int y = Integer.parseInt(data[1]);
 				
-				player.setPos(x, y);
+				player.setPos(new PVector(x, y));
 				
 			} catch (IOException e) {
 				e.printStackTrace();

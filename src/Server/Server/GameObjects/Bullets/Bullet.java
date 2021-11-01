@@ -1,4 +1,4 @@
-package Server.Server.GameObjects;
+package Server.Server.GameObjects.Bullets;
 
 import java.awt.Dimension;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import Collision.PVector;
 import Graphic.Frame;
 import Server.HTTPMessage;
 import Server.Server.GameMaster;
+import Server.Server.GameObjects.ServerGameObject;
 import ServerData.BulletData;
 import Utils.HTTPMessages;
 import Utils.PVectorUtil;
@@ -30,33 +31,16 @@ public class Bullet extends ServerGameObject implements Serializable{
 	protected PVector bulletPos;
 	public int bulletSpeed = 4;
 	protected double angleDirection;
+	protected String bulletType;
+	
 	
 	public Bullet(PVector pos, double angleDirection, ObjectOutputStream client) {
 		
-		this(pos.x, pos.y, angleDirection, client);
-		
-	}
-	
-	public Bullet (float originX, float originY, double angleDirection, ObjectOutputStream client) {
-		
-		this((int)originX, (int)originY, angleDirection, client);
-		
-	}
-	
-	public Bullet(int originX, int originY, int mouseX, int mouseY, ObjectOutputStream client) {
-
-		this(originX, originY, Math.atan2((mouseY - originY), (mouseX - originX)), client);
-
-	}
-
-	public Bullet(int originX, int originY, double angleDirection, ObjectOutputStream client) {
-		
 		super(client);
 		
-		
-		bulletPos = new PVector(originX, originY);
+		this.bulletPos = pos;
 		this.angleDirection = angleDirection;
-
+		
 		hitBox = new HitBox(bulletDimension, bulletPos, angleDirection);
 		
 	}
@@ -65,20 +49,31 @@ public class Bullet extends ServerGameObject implements Serializable{
 		
 		super(client);
 		
-		isDead = bulletData.isDead();		
-		bulletPos = PVectorUtil.PVectorFromString(bulletData.getPos());
-		angleDirection = bulletData.getAngleDirection();
+		applyBulletData(bulletData);
 		
 		hitBox = new HitBox(bulletDimension, bulletPos, angleDirection);
 		
 	}
 
+	public void applyBulletData(BulletData bulletData) {
+		
+		isDead = bulletData.isDead();		
+		bulletPos = PVectorUtil.PVectorFromString(bulletData.getPos());
+		angleDirection = bulletData.getAngleDirection();
+		bulletType = bulletData.getBulletType();
+		
+	}
+	
 	public PVector getPos() {
 		return this.bulletPos;
 	}
 	
-	public double angleDirection() {
+	public double getAngleDirection() {
 		return this.angleDirection;
+	}
+	
+	public String getType() {
+		return this.bulletType;
 	}
 	
 	@Override

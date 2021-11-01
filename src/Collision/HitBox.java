@@ -154,14 +154,14 @@ public class HitBox implements Serializable{
 		
 		for(PVector perp : perpendicularVector) {
 			
-			float max1 = -Integer.MAX_VALUE, max2 = -Integer.MAX_VALUE;
-			float min1 =  Integer.MAX_VALUE, min2 =  Integer.MAX_VALUE;
+			double max1 = -Integer.MAX_VALUE, max2 = -Integer.MAX_VALUE;
+			double min1 =  Integer.MAX_VALUE, min2 =  Integer.MAX_VALUE;
 			
 			for (int i = 0; i < pointX.length; ++i) {
 				vertex.x = pointX[i];
 				vertex.y = pointY[i];
 
-				float res = PVectorUtil.dotProduct(perp, vertex);
+				double res = PVectorUtil.dotProduct(perp, vertex);
 
 				// Per trovare il max min
 				if 		(max1 < res) max1 = res;
@@ -173,7 +173,7 @@ public class HitBox implements Serializable{
 				vertex.x = objX[i];
 				vertex.y = objY[i];
 				
-				float res = PVectorUtil.dotProduct(perp, vertex);
+				double res = PVectorUtil.dotProduct(perp, vertex);
 
 				// Per trovare il max min
 				if 		(max2 < res) max2 = res;

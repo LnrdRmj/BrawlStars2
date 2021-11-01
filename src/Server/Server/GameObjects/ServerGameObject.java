@@ -37,5 +37,13 @@ public abstract class ServerGameObject {
 	public Integer getCode() {
 		return this.code;
 	}
+
+	public ObjectOutputStream getOut() {
+		return out;
+	}
+
+	public void setOut(ObjectOutputStream out) {
+		this.out = out;
+	}
 	
 }
