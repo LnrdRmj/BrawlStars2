@@ -1,7 +1,11 @@
 package Server.HTTPMessage;
 
+import java.io.Serializable;
+
+import GameObjects.Bullets.Bullet;
 import GameObjects.Player.MainPlayer;
 import Server.Server.PlayerServerThread;
+import ServerData.BulletData;
 import ServerData.HandShakeDataClientToServer;
 import ServerData.PlayerData;
 import Utils.HTTPMessages;
@@ -22,6 +26,10 @@ public class HTTPMessageFactory {
 	
 	public static HTTPMessage<HandShakeDataClientToServer> getHandhakeMessage(HandShakeDataClientToServer handshake){
 		return new HTTPMessage<>(HTTPMessages.HAND_SHAKE, handshake);
+	}
+
+	public static HTTPMessage<BulletData> getBulletShotMessage(Bullet bullet) {
+		return new HTTPMessage<>(HTTPMessages.BULLET_SHOT, new BulletData(bullet));
 	}
 	
 }

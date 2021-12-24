@@ -3,9 +3,7 @@ package GameObjects.Player;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,32 +11,23 @@ import java.util.Vector;
 
 import Animation.Animator;
 import Collision.PVector;
-import GameObjects.Enemy;
 import GameObjects.GameObject;
-import GameObjects.Bullets.NormalBullet;
 import GameObjects.Guns.Gun;
 import Graphic.Canvas;
-import Graphic.Frame;
 import Graphic.Game;
 import Graphic.Renderer;
-import Server.HTTPMessage.HTTPMessage;
 import Server.HTTPMessage.HTTPMessageFactory;
 import ServerData.BasicData;
-import ServerData.BulletData;
-import ServerData.HandShakeDataClientToServer;
-import ServerData.PlayerData;
 import Utils.Friction;
-import Utils.HTTPMessages;
 import Utils.KeyAction;
 import Utils.PVectorUtil;
 import Utils.StringUtils;
+import messages.MessageSender;
 
 import static Logger.Logger.*;
 
 public class MainPlayer extends Player implements KeyListener{
 
-	private static final long serialVersionUID = 1L;
-	
 	private PVector gunPos;
 	
 	private boolean w = false, a = false, s = false, d = false;
@@ -46,9 +35,6 @@ public class MainPlayer extends Player implements KeyListener{
 	private Gun gun;
 	private Vector<String> inputsPressed;
 	private Map<String, KeyAction> keyToAction;
-	
-	private Socket socket;
-	private ObjectOutputStream out;
 	
 	protected ArrayList<Runnable> onUpdate;
 	
@@ -90,22 +76,10 @@ public class MainPlayer extends Player implements KeyListener{
 		else if (velocity.y <= -MAX_VELOCITY)	velocity.y = -MAX_VELOCITY;
 		
 		applyFrictionToVelocity();
-		
-		if (outOfWindow()) {
 			
-//			stopPlayer();
-//			acc.x += - acc.x * .1;
-//			acc.y += - acc.y * .1;
+		pos.add(velocity);
+		gunPos.add(velocity);
 			
-		}
-		else {
-			
-			pos.add(velocity);
-			gunPos.add(velocity);
-//			if (out != null) out.println(pos.x + ";" + pos.y); E' fatto con gli observer
-			
-		}
-		
 		onUpdate.forEach(obs -> obs.run());
 		
 	}
@@ -119,9 +93,6 @@ public class MainPlayer extends Player implements KeyListener{
 	// KeyEvent handlers
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
-//		System.out.println(e.toString());
-//		System.out.println("Hai premuto " + e.getKeyChar());
 		
 		char keyChar = e.getKeyChar();
 		
@@ -271,21 +242,12 @@ public class MainPlayer extends Player implements KeyListener{
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	public void applyFrictionToVelocity() {
 		
 		this.velocity.add(Friction.calculateFriction(this.velocity));
-		
-	}
-	
-	private boolean outOfWindow() {
-		
-		PVector p = PVectorUtil.addVectors(pos, velocity);
-				
-		return p.x < 0 || p.x > Game.config.width - thick.width || p.y < 0 || p.y > Game.config.height - thick.height;
 		
 	}
 	
@@ -307,7 +269,7 @@ public class MainPlayer extends Player implements KeyListener{
 		
 	}
 	
-	private class AAction implements KeyAction{
+ 	private class AAction implements KeyAction{
 
 		private char key = 'a';
 		
@@ -337,33 +299,13 @@ public class MainPlayer extends Player implements KeyListener{
 
 	public void setOutStream(ObjectOutputStream out) {
 		
-		this.out = out;
-		
 		// Serve per scrivere al server ogni qualvolta che il player viene aggiornato
 		onUpdate.add( () -> {
-			
-			try {
-				
-				out.writeObject(HTTPMessageFactory.getNewEnemyMessage(this));
-				
-			} catch (IOException e) {
-				System.out.println(e.getMessage());	
-				e.printStackTrace();
-			}
-			
+			MessageSender.getInstance().sendMessage(HTTPMessageFactory.getNewEnemyMessage(this));
 		});
 		
 		gun.addOnShoot((bullet) -> {
-			
-			try {
-				
-				out.writeObject(new HTTPMessage<>(HTTPMessages.BULLET_SHOT, new BulletData(bullet)));
-				
-			} catch (IOException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
-			
+			MessageSender.getInstance().sendMessage(HTTPMessageFactory.getBulletShotMessage(bullet));
 		});
 			
 		
