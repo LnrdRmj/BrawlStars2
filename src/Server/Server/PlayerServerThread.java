@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 
 import Collision.PVector;
 import Server.HTTPMessage.HTTPMessage;
+import Server.HTTPMessage.HTTPMessageFactory;
 import Server.Server.GameObjectUtil.BulletUtil;
 import Server.Server.GameObjects.ServerGameObject;
 import Server.Server.GameObjects.Bullets.NormalBullet;
@@ -223,9 +224,7 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 	@Override
 	public HTTPMessage<?> getMessageForClient() {
 
-		PlayerData pd = new PlayerData(this);
-		
-		return new HTTPMessage<>(HTTPMessages.PLAYER_DATA, pd);
+		return HTTPMessageFactory.updatePlayerMessage(this);
 		
 	}
 

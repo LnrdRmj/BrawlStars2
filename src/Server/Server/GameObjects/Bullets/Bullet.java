@@ -9,6 +9,7 @@ import Collision.CollisionEngine;
 import Collision.HitBox;
 import Collision.PVector;
 import Server.HTTPMessage.HTTPMessage;
+import Server.HTTPMessage.HTTPMessageFactory;
 import Server.Server.GameMaster;
 import Server.Server.GameObjects.ServerGameObject;
 import ServerData.BulletData;
@@ -91,7 +92,7 @@ public abstract class Bullet extends ServerGameObject {
 
 	public HTTPMessage<?> getMessageForClient() {
 		
-		return new HTTPMessage<>(HTTPMessages.DRAW_BULLET, new BulletData(this));
+		return HTTPMessageFactory.updateBulletMessage(this);
 		
 	}
 

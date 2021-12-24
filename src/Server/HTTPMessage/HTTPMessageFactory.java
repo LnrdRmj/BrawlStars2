@@ -1,7 +1,5 @@
 package Server.HTTPMessage;
 
-import java.io.Serializable;
-
 import GameObjects.Bullets.Bullet;
 import GameObjects.Player.MainPlayer;
 import Server.Server.PlayerServerThread;
@@ -30,6 +28,14 @@ public class HTTPMessageFactory {
 
 	public static HTTPMessage<BulletData> getBulletShotMessage(Bullet bullet) {
 		return new HTTPMessage<>(HTTPMessages.BULLET_SHOT, new BulletData(bullet));
+	}
+
+	public static HTTPMessage<PlayerData> updatePlayerMessage(PlayerServerThread playerServerThread) {
+		return new HTTPMessage<>(HTTPMessages.PLAYER_DATA, new PlayerData(playerServerThread));
+	}
+
+	public static HTTPMessage<BulletData> updateBulletMessage(Server.Server.GameObjects.Bullets.Bullet bullet) {
+		return new HTTPMessage<>(HTTPMessages.DRAW_BULLET, new BulletData(bullet));
 	}
 	
 }
