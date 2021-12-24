@@ -25,6 +25,7 @@ import Server.RetryConnection;
 import Server.Client.ServerListener;
 import Server.HTTPMessage.HTTPEvent;
 import Server.HTTPMessage.HTTPMessage;
+import Server.HTTPMessage.HTTPMessageFactory;
 import ServerData.BulletData;
 import ServerData.HandShakeDataClientToServer;
 import ServerData.HandShakeDataServerToClient;
@@ -32,6 +33,7 @@ import ServerData.PlayerData;
 import Utils.HTTPMessages;
 import Utils.PVectorUtil;
 import messages.BrokerReceivedMessage;
+import messages.MessageSender;
 import messages.Subscriber;
 
 import static Logger.Logger.*;
@@ -107,8 +109,9 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 	public void setServer(Socket server) {
 		
 		this.server = server;
-		
 		createInOutStreams(server);
+		
+		MessageSender.init(out);
 		
 		handShake();
 		player.setOutStream(out);
@@ -149,7 +152,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		
 		try {
 			
-			out.writeObject(new HTTPMessage<>(HTTPMessages.HAND_SHAKE, handShake));
+			MessageSender.getInstance().sendMessage(HTTPMessageFactory.getHandhakeMessage(handShake));
 			
 			HTTPMessage<?> handShakeMessage = (HTTPMessage<?>)in.readObject();
 
