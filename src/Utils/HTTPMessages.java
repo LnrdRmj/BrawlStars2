@@ -8,6 +8,7 @@ public class HTTPMessages {
 	public static final String NEW_BULLET 		= "newBullet";
 	
 	// Server to client
+	public static final String NEW_ENEMY		= "newEnemy";
 	public static final String HAND_SHAKE		= "handShake";
 	public static final String TO_DRAW	 		= "toDraw";
 	public static final String DRAW_BULLET	 	= "drawBullet";

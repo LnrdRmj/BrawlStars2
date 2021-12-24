@@ -8,9 +8,11 @@ import java.util.Vector;
 import javax.lang.model.element.Element;
 
 import Server.Config;
-import Server.HTTPMessage;
+import Server.HTTPMessage.HTTPMessage;
+import Server.HTTPMessage.HTTPMessageFactory;
 import Server.Server.GameObjects.ServerGameObject;
 import ServerData.HandShakeDataServerToClient;
+import ServerData.PlayerData;
 import Utils.HTTPMessages;
 
 public class GameMaster implements Runnable{
@@ -41,23 +43,25 @@ public class GameMaster implements Runnable{
 		
 	}
 	
-	public void addPlayerThread(PlayerServerThread player) {
+	public void addPlayerThread(PlayerServerThread newPlayer) {
 		
-		player.addOnNewGameObject(el -> {
+		newPlayer.addOnNewGameObject(el -> {
 			
 			gameObjects.add(el);
 			
 		});
 
-		player.addOnDeadGameObject(el -> {
+		newPlayer.addOnDeadGameObject(el -> {
 			
 			gameObjects.remove(el);
 			
 		});
 
-		gameObjects.add(player);
+		gameObjects.add(newPlayer);
 		
-		this.playersToAdd.add(player);
+		sendMessageToAll(HTTPMessageFactory.getNewEnemyMessage(newPlayer));
+		
+		this.playersToAdd.add(newPlayer);
 		
 	}
 
@@ -94,7 +98,7 @@ public class GameMaster implements Runnable{
 					gameObjectsToRemove.add(player);
 					player.kill();
 					
-					sendMessageToAllBut(player, new HTTPMessage<Integer>(HTTPMessages.REMOVE_ENEMY, player.getCode()));
+					sendMessageToAllBut(player, HTTPMessageFactory.removeEnemyMessage(player));
 					
 				}
 					
@@ -159,6 +163,16 @@ public class GameMaster implements Runnable{
 				pl.write(message);
 				
 			}
+			
+		}
+		
+	}
+	
+	public void sendMessageToAll(HTTPMessage<?> message) {
+		
+		for(PlayerServerThread pl : players) {
+			
+			pl.write(message);
 			
 		}
 		

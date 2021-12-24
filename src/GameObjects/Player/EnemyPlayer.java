@@ -9,9 +9,29 @@ import Graphic.Renderer;
 import ServerData.BasicData;
 import ServerData.PlayerData;
 import Utils.PVectorUtil;
+import messages.Subscriber;
 
 public class EnemyPlayer extends Player{
 
+	private static Subscriber newEnemySub;
+	
+	static {
+		
+		// Questo è il sub che crea nemici
+		newEnemySub = (tipo, messaggio) -> {
+			
+			if (!(messaggio.getMessageBody() instanceof PlayerData)) return;
+			
+			PlayerData enemyData = (PlayerData) messaggio.getMessageBody();
+			
+			new EnemyPlayer(enemyData);
+			
+		};
+		
+	}
+	
+	private Subscriber enemyPlayerSub;
+	
 	public EnemyPlayer() { 
 		
 		super();
@@ -21,24 +41,36 @@ public class EnemyPlayer extends Player{
 		animator = new Animator(pos, "Sprites/character/7.png");
 		animator.setHeightMaintainRatio(height);
 		
+		initializeSubs();
+		
+		
 	}
 	
-//	public EnemyPlayer(PVector pos, int code) {
-//		
-//		this();
-//		
-//		this.code = code;
-//		super.setPos(pos);
-//		
-//	}
-	
+	private void initializeSubs() {
+
+		this.enemyPlayerSub = (tipo, messaggio) -> {
+			
+			if (!(messaggio.getMessageBody() instanceof PlayerData)) return;
+			
+			PlayerData enemyData = ((PlayerData)messaggio.getMessageBody()); 
+			
+			if (enemyData.getCode().equals(this.getCode())) {
+				
+				this.applyData(enemyData);
+				
+			}
+			
+		};
+		
+	}
+
 	public EnemyPlayer(PlayerData playerData) {
 		
 		this();
 		
 		this.code = playerData.getCode();
 		this.direction = playerData.getDirection();
-		this.pos = PVectorUtil.PVectorFromString(playerData.getPos());
+		this.pos = playerData.getPos();
 
 	}
 
@@ -64,7 +96,7 @@ public class EnemyPlayer extends Player{
 
 	public void applyData(PlayerData playerData) {
 		
-		this.setPos(PVectorUtil.PVectorFromString(playerData.getPos()));
+		this.setPos(playerData.getPos());
 		this.setDirection(playerData.getDirection());
 		
 	}

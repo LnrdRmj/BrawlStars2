@@ -21,7 +21,8 @@ import Graphic.Canvas;
 import Graphic.Frame;
 import Graphic.Game;
 import Graphic.Renderer;
-import Server.HTTPMessage;
+import Server.HTTPMessage.HTTPMessage;
+import Server.HTTPMessage.HTTPMessageFactory;
 import ServerData.BasicData;
 import ServerData.BulletData;
 import ServerData.HandShakeDataClientToServer;
@@ -343,7 +344,7 @@ public class MainPlayer extends Player implements KeyListener{
 			
 			try {
 				
-				out.writeObject(new HTTPMessage<>(HTTPMessages.PLAYER_DATA, new PlayerData(this)));
+				out.writeObject(HTTPMessageFactory.getNewEnemyMessage(this));
 				
 			} catch (IOException e) {
 				System.out.println(e.getMessage());	

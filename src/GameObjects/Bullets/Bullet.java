@@ -87,7 +87,7 @@ public abstract class Bullet extends GameObject {
 			
 			BulletData bulletData = (BulletData) data;
 			
-			this.bulletPos = PVectorUtil.PVectorFromString(bulletData.getPos());
+			this.bulletPos = PVectorUtil.pVectorFromString(bulletData.getPos());
 			this.angleDirection = bulletData.getAngleDirection();
 			
 		}

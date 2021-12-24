@@ -1,4 +1,4 @@
-package Server;
+package Server.HTTPMessage;
 
 import java.io.Serializable;
 

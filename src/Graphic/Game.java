@@ -21,16 +21,18 @@ import GameObjects.Bullets.NormalBullet;
 import GameObjects.Player.EnemyPlayer;
 import GameObjects.Player.MainPlayer;
 import Server.Config;
-import Server.HTTPEvent;
-import Server.HTTPMessage;
 import Server.RetryConnection;
 import Server.Client.ServerListener;
+import Server.HTTPMessage.HTTPEvent;
+import Server.HTTPMessage.HTTPMessage;
 import ServerData.BulletData;
 import ServerData.HandShakeDataClientToServer;
 import ServerData.HandShakeDataServerToClient;
 import ServerData.PlayerData;
 import Utils.HTTPMessages;
 import Utils.PVectorUtil;
+import messages.Broker;
+import messages.Subscriber;
 
 import static Logger.Logger.*;
 
@@ -51,6 +53,11 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 
 	private Map<Integer, EnemyPlayer> enemies;
 	private Map<Integer, GameObject> gameObjects;
+	
+	private Subscriber removeEnemySub;
+	private Subscriber drawBulletSub;
+	private Subscriber createdNewEnemySub;
+	private Subscriber enemyUpdateSub;
 	
 	public static Config config;
 
@@ -87,7 +94,14 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			e.printStackTrace();
 			
 		}
-
+		
+		initializeSubs();
+		
+		Broker.getInstance().registerSubscribe(HTTPMessages.REMOVE_ENEMY, removeEnemySub);
+		Broker.getInstance().registerSubscribe(HTTPMessages.DRAW_BULLET, drawBulletSub);
+		Broker.getInstance().registerSubscribe(HTTPMessages.NEW_ENEMY, createdNewEnemySub);
+		Broker.getInstance().registerSubscribe(HTTPMessages.PLAYER_DATA, enemyUpdateSub);
+		
 	}
 	
 	public void setServer(Socket server) {
@@ -243,22 +257,20 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 			
 			if (!(message.getMessageBody() instanceof PlayerData)) break;
 			
-			PlayerData playerData = ((PlayerData)message.getMessageBody()); 
-			
-			PVector pos = PVectorUtil.PVectorFromString(playerData.getPos());
+			PlayerData enemyData = ((PlayerData)message.getMessageBody()); 
 			
 			// Se si tratta di un nemico
-			if (! ( player.getCode().equals( playerData.getCode() ) ) ){
-
-				EnemyPlayer enemy = enemies.get(playerData.getCode());
+			if (! ( player.getCode().equals( enemyData.getCode() ) ) ){
+				
+				EnemyPlayer enemy = enemies.get(enemyData.getCode());
 				
 				if ( enemy == null ) {
-					enemy = new EnemyPlayer(playerData);
-					enemies.put(playerData.getCode(), enemy);
+					enemies.put(enemyData.getCode(), new EnemyPlayer(enemyData));
 				}
 				else {
-					enemy.applyData(playerData);
-					enemy.setPos(pos);
+					
+					enemy.applyData(enemyData);
+					
 				}
 			
 			}
@@ -316,4 +328,94 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		
 	}
 
+	private void initializeSubs() {
+		
+		// -----------------------------------------
+		// -----------------------------------------
+		removeEnemySub = (tipo, messaggio) -> {
+			
+			if ( !(messaggio.getMessageBody() instanceof Integer) ) return;
+			
+			Integer code = (Integer) messaggio.getMessageBody();
+			
+			Renderer.removeGameObjectToRender(enemies.get(code));
+			enemies.remove(code);
+			
+		};
+		
+		// -----------------------------------------
+		// -----------------------------------------
+		drawBulletSub = (tipo, messaggio) -> {
+			
+			if ( !( messaggio.getMessageBody() instanceof BulletData ) ) return;
+			
+			BulletData bulletData = (BulletData) messaggio.getMessageBody();
+			
+			if (bulletData.isDead()) {
+				
+				GameObject toDelete = gameObjects.get(bulletData.getCode());
+
+				if (toDelete != null) {
+					toDelete.kill();
+					Renderer.removeGameObjectToRender(toDelete);
+					gameObjects.remove(bulletData.getCode());
+				}
+				
+			}
+			else {
+				
+				Bullet bullet = (Bullet) gameObjects.get(bulletData.getCode());
+				
+				if (bullet == null) {
+					
+					bullet = new NormalBullet(bulletData);
+					gameObjects.put(bulletData.getCode(), bullet);
+					Renderer.addGameObjectToRender(bullet);
+					
+				}
+				else {
+					bullet.applyData(bulletData);
+				}
+				
+			}
+		};
+		
+		// -----------------------------------------
+		// -----------------------------------------
+		createdNewEnemySub = (tipo, messaggio) -> {
+			
+			// Creato un nuovo nemico dal server, gestiscilo
+			
+			System.out.println("Un nuovo nemico si avvicina");
+			System.out.println(messaggio.getMessageBody().toString());
+			
+			PlayerData enemyData = (PlayerData) messaggio.getMessageBody();
+			
+			enemies.put(enemyData.getCode(), new EnemyPlayer(enemyData));
+			
+		};
+		
+		// -----------------------------------------
+		// -----------------------------------------
+		enemyUpdateSub = (tipo, messaggio) -> {
+			
+			PlayerData enemyData = (PlayerData) messaggio.getMessageBody();
+			
+			if (! ( player.getCode().equals( enemyData.getCode() ) ) ){
+			
+				EnemyPlayer enemy = enemies.get(enemyData.getCode());
+				
+				if ( enemy == null ) {
+					enemies.put(enemyData.getCode(), new EnemyPlayer(enemyData));
+				}
+				else {
+					enemy.applyData(enemyData);
+				}
+			
+			}
+			
+		};
+		
+	}
+	
 }

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import Collision.PVector;
-import Server.HTTPMessage;
+import Server.HTTPMessage.HTTPMessage;
 import ServerData.BulletData;
 import Utils.HTTPMessages;
 import Utils.PVectorUtil;

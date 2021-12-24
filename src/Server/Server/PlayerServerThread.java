@@ -12,7 +12,7 @@ import java.util.Vector;
 import java.util.function.Consumer;
 
 import Collision.PVector;
-import Server.HTTPMessage;
+import Server.HTTPMessage.HTTPMessage;
 import Server.Server.GameObjectUtil.BulletUtil;
 import Server.Server.GameObjects.ServerGameObject;
 import Server.Server.GameObjects.Bullets.NormalBullet;
@@ -69,7 +69,7 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 			HandShakeDataClientToServer handShake = (HandShakeDataClientToServer) handShakeMessage.getMessageBody();
 			PlayerData playerData = handShake.getPlayerData();
 			
-			this.pos = PVectorUtil.PVectorFromString(playerData.getPos());
+			this.pos = playerData.getPos();
 			this.direction = playerData.getDirection();
 			
 			HandShakeDataServerToClient handShakeData = new HandShakeDataServerToClient();
@@ -107,7 +107,7 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 				if (!(cmd instanceof HTTPMessage)) continue;
 				
 				HTTPMessage<?> comand = (HTTPMessage<?>) cmd;
-
+				
 				switch(comand.getComand()) {
 				
 				case HTTPMessages.PLAYER_DATA:
@@ -116,7 +116,8 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 					
 					PlayerData pd = (PlayerData)comand.getMessageBody();
 					
-					pos = PVectorUtil.PVectorFromString(pd.getPos());
+//					pos = pd.getPos();
+					pos = PVectorUtil.pVectorFromString(pd.getPosString());
 					direction =  pd.getDirection();
 					
 					break;
@@ -127,7 +128,6 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 					
 					BulletData bulletData = (BulletData) comand.getMessageBody();
 					
-					logServer(bulletData);
 					
 					ServerGameObject newBullet = BulletUtil.getBullet(bulletData, out);
 //					ServerGameObject newBullet = new Bullet(bulletData, out);
@@ -198,7 +198,8 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 			out.writeObject(info);
 		} catch (IOException e) {
 			closed = true;
-			e.printStackTrace();
+			System.out.println("Il socket del player " + code + " è stato chiuso con errore");
+//			e.printStackTrace();
 		}
 		
 	}
@@ -225,6 +226,7 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 		PlayerData pd = new PlayerData(this);
 		
 		return new HTTPMessage<>(HTTPMessages.PLAYER_DATA, pd);
+		
 	}
 
 	public void kill() {

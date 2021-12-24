@@ -3,7 +3,7 @@ package Server.Server.GameObjects;
 import java.io.ObjectOutputStream;
 
 import Collision.HitBox;
-import Server.HTTPMessage;
+import Server.HTTPMessage.HTTPMessage;
 
 public abstract class ServerGameObject {
 

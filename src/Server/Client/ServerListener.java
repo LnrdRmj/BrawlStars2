@@ -5,14 +5,17 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import Graphic.Game;
-import Server.HTTPEvent;
-import Server.HTTPMessage;
+import Server.HTTPMessage.HTTPEvent;
+import Server.HTTPMessage.HTTPMessage;
+import messages.Publisher;
 
 public class ServerListener implements Runnable{
 
 	private HTTPEvent httpEvent;
 	private ObjectInputStream in;
 	private Thread thisThread;
+
+	private Publisher gameObjecMessagePublisher;
 	
 	public ServerListener(ObjectInputStream in, HTTPEvent httpEvent) {
 		
@@ -21,6 +24,8 @@ public class ServerListener implements Runnable{
 		
 		thisThread = new Thread(this);
 		thisThread.start();
+		
+		gameObjecMessagePublisher = new Publisher();
 		
 	}
 
@@ -33,7 +38,9 @@ public class ServerListener implements Runnable{
 				
 				HTTPMessage<?> s = (HTTPMessage<?>) in.readObject();
 				
-				httpEvent.onMessageReceived(s);
+				gameObjecMessagePublisher.publish(s.getComand(), s);
+				
+//				httpEvent.onMessageReceived(s);
 				
 			} catch (IOException e) {
 				System.out.println(e.getMessage());

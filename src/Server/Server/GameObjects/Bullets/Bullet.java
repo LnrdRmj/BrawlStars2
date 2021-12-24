@@ -8,7 +8,7 @@ import java.io.Serializable;
 import Collision.CollisionEngine;
 import Collision.HitBox;
 import Collision.PVector;
-import Server.HTTPMessage;
+import Server.HTTPMessage.HTTPMessage;
 import Server.Server.GameMaster;
 import Server.Server.GameObjects.ServerGameObject;
 import ServerData.BulletData;
@@ -43,7 +43,7 @@ public abstract class Bullet extends ServerGameObject {
 	public void applyBulletData(BulletData bulletData) {
 		
 		isDead = bulletData.isDead();		
-		bulletPos = PVectorUtil.PVectorFromString(bulletData.getPos());
+		bulletPos = PVectorUtil.pVectorFromString(bulletData.getPos());
 		angleDirection = bulletData.getAngleDirection();
 		bulletType = bulletData.getBulletType();
 		

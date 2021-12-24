@@ -5,10 +5,15 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import Utils.HTTPMessages;
+import messages.Publisher;
+
 public class ConnectionServer {
 
 	public static void main(String[] args) throws IOException {
 
+		Publisher newEnemyPublisher = new Publisher();
+		
 		// Questo è il server in sè per sè
 		try(ServerSocket serverSocket = new ServerSocket(7777)){
 			
@@ -17,8 +22,11 @@ public class ConnectionServer {
 			
 			while(true) {
 				
-				Socket newPlayer = serverSocket.accept();
-				gameMaster.addPlayerThread(new PlayerServerThread(newPlayer));
+				Socket newPlayerConnection = serverSocket.accept();
+				PlayerServerThread newPlayer = new PlayerServerThread(newPlayerConnection);
+				
+				gameMaster.addPlayerThread(newPlayer);
+				newEnemyPublisher.publish(HTTPMessages.NEW_ENEMY, newPlayer.getMessageForClient());
 				
 				System.out.println("Server - Si � connesso un nuovo player: " + gameMaster.numPlayers());
 				

@@ -69,6 +69,7 @@ public class Animator{
 		int width = cStep;
 		int height = rStep;
 		
+//		System.out.println(pos);
 		g.drawImage(framesImage.getSubimage(x, y, width, height), (int)pos.x, (int)pos.y, frameWidth, frameHeight, null);
 		
 	}
@@ -177,6 +178,12 @@ public class Animator{
 		}
 		
 		return -1;
+		
+	}
+
+	public void setPos(PVector pos) {
+
+		this.pos = pos;
 		
 	}
 	

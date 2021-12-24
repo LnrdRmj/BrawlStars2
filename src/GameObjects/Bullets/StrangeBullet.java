@@ -18,7 +18,7 @@ public class StrangeBullet extends Bullet {
 	
 	public StrangeBullet(BulletData bulletData) {
 		
-		this(PVectorUtil.PVectorFromString(bulletData.getPos()), bulletData.getAngleDirection());
+		this(PVectorUtil.pVectorFromString(bulletData.getPos()), bulletData.getAngleDirection());
 		
 		this.type = BulletType.STANGE_BULLET;
 		

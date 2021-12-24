@@ -22,7 +22,7 @@ public class NormalBullet extends Bullet {
 	
 	public NormalBullet(BulletData bulletData) {
 		
-		this(PVectorUtil.PVectorFromString(bulletData.getPos()), bulletData.getAngleDirection());
+		this(PVectorUtil.pVectorFromString(bulletData.getPos()), bulletData.getAngleDirection());
 		
 		this.code = bulletData.getCode();
 		this.type = BulletType.NORMAL_BULLET;

@@ -1,6 +1,6 @@
 package Tests;
 
-import Server.HTTPMessage;
+import Server.HTTPMessage.HTTPMessage;
 
 public class MainTest implements Runnable {
 

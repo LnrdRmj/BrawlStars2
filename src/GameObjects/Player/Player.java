@@ -63,12 +63,17 @@ public abstract class Player extends GameObject{
 	}
 	
 	// Getters e Setters inutili (unless...)
+	
 	public PVector getPos() {
 		return this.pos;
 	}
 
 	public void setPos(PVector pos) {
-		this.pos = pos; 
+		
+		this.pos = pos;
+		
+		this.animator.setPos(pos);
+		
 	}
 	
 	public int getHealth() {

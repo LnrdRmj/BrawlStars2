@@ -84,7 +84,7 @@ public class PVectorUtil {
 		
 	}
 	
-	public static PVector PVectorFromString(String pvector) {
+	public static PVector pVectorFromString(String pvector) {
 		
 		StringTokenizer str = new StringTokenizer(pvector, ";");
 		
