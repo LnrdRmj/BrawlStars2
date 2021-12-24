@@ -31,7 +31,7 @@ import ServerData.HandShakeDataServerToClient;
 import ServerData.PlayerData;
 import Utils.HTTPMessages;
 import Utils.PVectorUtil;
-import messages.Broker;
+import messages.BrokerReceivedMessage;
 import messages.Subscriber;
 
 import static Logger.Logger.*;
@@ -97,10 +97,10 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		
 		initializeSubs();
 		
-		Broker.getInstance().registerSubscribe(HTTPMessages.REMOVE_ENEMY, removeEnemySub);
-		Broker.getInstance().registerSubscribe(HTTPMessages.DRAW_BULLET, drawBulletSub);
-		Broker.getInstance().registerSubscribe(HTTPMessages.NEW_ENEMY, createdNewEnemySub);
-		Broker.getInstance().registerSubscribe(HTTPMessages.PLAYER_DATA, enemyUpdateSub);
+		BrokerReceivedMessage.getInstance().registerSubscribe(HTTPMessages.REMOVE_ENEMY, removeEnemySub);
+		BrokerReceivedMessage.getInstance().registerSubscribe(HTTPMessages.DRAW_BULLET, drawBulletSub);
+		BrokerReceivedMessage.getInstance().registerSubscribe(HTTPMessages.NEW_ENEMY, createdNewEnemySub);
+		BrokerReceivedMessage.getInstance().registerSubscribe(HTTPMessages.PLAYER_DATA, enemyUpdateSub);
 		
 	}
 	

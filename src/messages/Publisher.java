@@ -6,7 +6,7 @@ public class Publisher {
 
 	public void publish(String tipo, HTTPMessage<?> messaggio) {
 		
-		Broker.getInstance().sendMessage(tipo, messaggio);
+		BrokerReceivedMessage.getInstance().sendMessage(tipo, messaggio);
 		
 	}
 	
