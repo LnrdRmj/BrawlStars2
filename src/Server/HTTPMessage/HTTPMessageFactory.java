@@ -14,10 +14,6 @@ public class HTTPMessageFactory {
 		return new HTTPMessage<>(HTTPMessages.NEW_ENEMY, new PlayerData(newPlayer));
 	}
 
-	public static HTTPMessage<Integer> removeEnemyMessage(PlayerServerThread player) {
-		return new HTTPMessage<>(HTTPMessages.REMOVE_ENEMY, player.getCode());
-	}
-
 	public static HTTPMessage<PlayerData> getNewEnemyMessage(MainPlayer mainPlayer) {
 		return new HTTPMessage<>(HTTPMessages.PLAYER_DATA, new PlayerData(mainPlayer));
 	}
@@ -37,5 +33,9 @@ public class HTTPMessageFactory {
 	public static HTTPMessage<BulletData> updateBulletMessage(Server.Server.GameObjects.Bullets.Bullet bullet) {
 		return new HTTPMessage<>(HTTPMessages.DRAW_BULLET, new BulletData(bullet));
 	}
-	
+
+	public static HTTPMessage<PlayerData> getRemoveEnemyMessage(PlayerServerThread playerServerThread) {
+		return new HTTPMessage<>(HTTPMessages.REMOVE_ENEMY, new PlayerData(playerServerThread));
+	}
+
 }

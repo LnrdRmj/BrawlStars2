@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import Server.Config;
 
-public class HandShakeDataServerToClient implements Serializable{
+public class HandShakeDataServerToClient implements BasicData{
 
 	/**
 	 * 

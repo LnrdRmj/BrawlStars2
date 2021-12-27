@@ -22,10 +22,10 @@ public class ServerListener implements Runnable{
 		this.httpEvent = httpEvent;
 		this.in = in;
 		
+		gameObjecMessagePublisher = new Publisher();
+
 		thisThread = new Thread(this);
 		thisThread.start();
-		
-		gameObjecMessagePublisher = new Publisher();
 		
 	}
 
@@ -39,8 +39,6 @@ public class ServerListener implements Runnable{
 				HTTPMessage<?> s = (HTTPMessage<?>) in.readObject();
 				
 				gameObjecMessagePublisher.publish(s.getComand(), s);
-				
-//				httpEvent.onMessageReceived(s);
 				
 			} catch (IOException e) {
 				System.out.println(e.getMessage());

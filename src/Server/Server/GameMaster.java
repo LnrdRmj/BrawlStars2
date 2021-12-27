@@ -98,7 +98,7 @@ public class GameMaster implements Runnable{
 					gameObjectsToRemove.add(player);
 					player.kill();
 					
-					sendMessageToAllBut(player, HTTPMessageFactory.removeEnemyMessage(player));
+					sendMessageToAllBut(player, HTTPMessageFactory.getRemoveEnemyMessage(player));
 					
 				}
 					

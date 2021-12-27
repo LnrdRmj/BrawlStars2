@@ -2,7 +2,9 @@ package Server.HTTPMessage;
 
 import java.io.Serializable;
 
-public class HTTPMessage<T extends Serializable> implements Serializable{
+import ServerData.BasicData;
+
+public class HTTPMessage<T extends BasicData> implements Serializable{
 
 	/**
 	 * 

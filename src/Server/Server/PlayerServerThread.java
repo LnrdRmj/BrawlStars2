@@ -230,7 +230,7 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 
 	public void kill() {
 		
-		write(new HTTPMessage<>(HTTPMessages.REMOVE_ENEMY, this.code));
+		write(HTTPMessageFactory.getRemoveEnemyMessage(this));
 		
 	}
 

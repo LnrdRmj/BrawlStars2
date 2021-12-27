@@ -1,10 +1,6 @@
 package ServerData;
 
-import java.io.Serializable;
-
-import Collision.PVector;
-
-public class HandShakeDataClientToServer implements Serializable{
+public class HandShakeDataClientToServer implements BasicData{
 
 	/**
 	 * 

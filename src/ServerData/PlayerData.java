@@ -6,7 +6,7 @@ import Collision.PVector;
 import GameObjects.Player.Player;
 import Server.Server.PlayerServerThread;
 
-public class PlayerData implements BasicData, Serializable{
+public class PlayerData implements BasicData{
 
 	/**
 	 * 

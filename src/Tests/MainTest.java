@@ -6,9 +6,9 @@ public class MainTest implements Runnable {
 
 	public MainTest() {
 		
-		Object obj  = new HTTPMessage<String> ("ciao", "ciao2");
-
-		System.out.println(obj instanceof HTTPMessage);
+//		Object obj  = new HTTPMessage<String> ("ciao", "ciao2");
+//
+//		System.out.println(obj instanceof HTTPMessage);
 		
 	}
 
