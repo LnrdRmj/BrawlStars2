@@ -9,17 +9,15 @@ import Server.HTTPMessage.HTTPEvent;
 import Server.HTTPMessage.HTTPMessage;
 import messages.Publisher;
 
-public class ServerListener implements Runnable{
+public class SocketListener implements Runnable{
 
-	private HTTPEvent httpEvent;
 	private ObjectInputStream in;
 	private Thread thisThread;
 
 	private Publisher gameObjecMessagePublisher;
 	
-	public ServerListener(ObjectInputStream in, HTTPEvent httpEvent) {
+	public SocketListener(ObjectInputStream in) {
 		
-		this.httpEvent = httpEvent;
 		this.in = in;
 		
 		gameObjecMessagePublisher = new Publisher();

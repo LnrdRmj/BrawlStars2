@@ -12,6 +12,7 @@ import java.util.Vector;
 import java.util.function.Consumer;
 
 import Collision.PVector;
+import Server.Client.SocketListener;
 import Server.HTTPMessage.HTTPMessage;
 import Server.HTTPMessage.HTTPMessageFactory;
 import Server.Server.GameObjectUtil.BulletUtil;
@@ -23,6 +24,9 @@ import ServerData.HandShakeDataServerToClient;
 import ServerData.PlayerData;
 import Utils.HTTPMessages;
 import Utils.PVectorUtil;
+import messages.Broker;
+import messages.BrokerReceivedMessage;
+import messages.Subscriber;
 
 import static Logger.Logger.*;
 
@@ -51,6 +55,9 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 	private List<Consumer<? super ServerGameObject>> onDeadGameObject;
 	
 	private String direction;
+	
+	private Subscriber bulletShotSub;
+	private Subscriber playerUpdateSub;
 	
 	public PlayerServerThread(Socket newPlayer) throws IOException {
 
@@ -87,81 +94,108 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 		}
 		
 		this.player = newPlayer;
+		
+		new SocketListener(in);
 
 		onNewGameObject = new Vector<>();
 		onDeadGameObject = new Vector<>();
 
-		thisThread = new Thread(this);
-		thisThread.start();
+		initializeSubs();
+		
+		BrokerReceivedMessage.getInstance().registerSubscribe(HTTPMessages.PLAYER_DATA, playerUpdateSub);
+		BrokerReceivedMessage.getInstance().registerSubscribe(HTTPMessages.BULLET_SHOT, bulletShotSub);
+		
+//		thisThread = new Thread(this);
+//		thisThread.start();
 		
 	}
 
 	@Override
 	public void run() {
 
-		while (true) {
-
-			try {
-
-				Object cmd = in.readObject();
-				
-				if (!(cmd instanceof HTTPMessage)) continue;
-				
-				HTTPMessage<?> comand = (HTTPMessage<?>) cmd;
-				
-				switch(comand.getComand()) {
-				
-				case HTTPMessages.PLAYER_DATA:
-					
-					if (!(comand.getMessageBody() instanceof PlayerData)) break;
-					
-					PlayerData pd = (PlayerData)comand.getMessageBody();
-					
-//					pos = pd.getPos();
-					pos = PVectorUtil.pVectorFromString(pd.getPosString());
-					direction =  pd.getDirection();
-					
-					break;
-					
-				case HTTPMessages.BULLET_SHOT:
-					
-					if (!(comand.getMessageBody() instanceof BulletData)) break;
-					
-					BulletData bulletData = (BulletData) comand.getMessageBody();
-					
-					
-					ServerGameObject newBullet = BulletUtil.getBullet(bulletData, out);
-//					ServerGameObject newBullet = new Bullet(bulletData, out);
-					
-					onNewGameObject.forEach(el -> el.accept(newBullet));
-					
-					break;
-					
-				}
-				
-			} catch (SocketException | EOFException e) {
-				close();
-				break;
-			} catch (IOException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-				break;
-			} catch (ClassNotFoundException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-				break;
-			}
-
-		}
+//		while (true) {
+//
+//			try {
+//
+//				Object cmd = in.readObject();
+//				
+//				if (!(cmd instanceof HTTPMessage)) continue;
+//				
+//				HTTPMessage<?> comand = (HTTPMessage<?>) cmd;
+//				
+//				switch(comand.getComand()) {
+//				
+//				case HTTPMessages.PLAYER_DATA:
+//					
+//					if (!(comand.getMessageBody() instanceof PlayerData)) break;
+//					
+//					PlayerData pd = (PlayerData)comand.getMessageBody();
+//					
+////					pos = pd.getPos();
+//					pos = PVectorUtil.pVectorFromString(pd.getPosString());
+//					direction =  pd.getDirection();
+//					
+//					break;
+//					
+//				case HTTPMessages.BULLET_SHOT:
+//					
+//					if (!(comand.getMessageBody() instanceof BulletData)) break;
+//					
+//					BulletData bulletData = (BulletData) comand.getMessageBody();
+//					
+//					ServerGameObject newBullet = BulletUtil.getBullet(bulletData, out);
+////					ServerGameObject newBullet = new Bullet(bulletData, out);
+//					
+//					onNewGameObject.forEach(el -> el.accept(newBullet));
+//					
+//					break;
+//					
+//				}
+//				
+//			} catch (SocketException | EOFException e) {
+//				close();
+//				break;
+//			} catch (IOException e) {
+//				System.out.println(e.getMessage());
+//				e.printStackTrace();
+//				break;
+//			} catch (ClassNotFoundException e) {
+//				System.out.println(e.getMessage());
+//				e.printStackTrace();
+//				break;
+//			}
+//
+//		}
 
 	}
 
 	public void update() {
 		
-		
-		
 	}
 
+	public void initializeSubs() {
+		
+		bulletShotSub = (type, message) -> {
+			
+			BulletData bulletData = (BulletData) message.getMessageBody();
+			
+			ServerGameObject newBullet = BulletUtil.getBullet(bulletData, out);
+//			ServerGameObject newBullet = new Bullet(bulletData, out);
+			
+			onNewGameObject.forEach(el -> el.accept(newBullet));
+			
+		};
+		
+		playerUpdateSub = (type, message) -> {
+			PlayerData pd = (PlayerData)message.getMessageBody();
+			
+//			pos = pd.getPos();
+			pos = PVectorUtil.pVectorFromString(pd.getPosString());
+			direction =  pd.getDirection();
+		};
+		
+	}
+	
 	public void close() {
 
 		try {

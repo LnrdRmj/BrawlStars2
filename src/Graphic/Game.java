@@ -22,7 +22,7 @@ import GameObjects.Player.EnemyPlayer;
 import GameObjects.Player.MainPlayer;
 import Server.Config;
 import Server.RetryConnection;
-import Server.Client.ServerListener;
+import Server.Client.SocketListener;
 import Server.HTTPMessage.HTTPEvent;
 import Server.HTTPMessage.HTTPMessage;
 import Server.HTTPMessage.HTTPMessageFactory;
@@ -38,7 +38,7 @@ import messages.Subscriber;
 
 import static Logger.Logger.*;
 
-public class Game implements Runnable, KeyListener, HTTPEvent{
+public class Game implements Runnable, KeyListener{
 
 	/**
 	 * 
@@ -115,7 +115,7 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 		
 		handShake();
 		player.setOutStream(out);
-		new ServerListener(in, this);
+		new SocketListener(in);
 			
 	}
 	
@@ -245,89 +245,6 @@ public class Game implements Runnable, KeyListener, HTTPEvent{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
-	}
-
-	// Chiamato da ServerListener
-	@Override
-	public void onMessageReceived(HTTPMessage<?> message) {
-		
-		//System.out.println("Client - ho ricevuto qualcosa dal server: " + message);
-		
-//		switch(message.getComand()) {
-//		
-//		case HTTPMessages.PLAYER_DATA: 
-//			
-//			if (!(message.getMessageBody() instanceof PlayerData)) break;
-//			
-//			PlayerData enemyData = ((PlayerData)message.getMessageBody()); 
-//			
-//			// Se si tratta di un nemico
-//			if (! ( player.getCode().equals( enemyData.getCode() ) ) ){
-//				
-//				EnemyPlayer enemy = enemies.get(enemyData.getCode());
-//				
-//				if ( enemy == null ) {
-//					enemies.put(enemyData.getCode(), new EnemyPlayer(enemyData));
-//				}
-//				else {
-//					
-//					enemy.applyData(enemyData);
-//					
-//				}
-//			
-//			}
-//			
-//			break;
-//			
-//		case HTTPMessages.DRAW_BULLET:
-//			
-//			if (!(message.getMessageBody() instanceof BulletData)) break;
-//			
-//			BulletData bulletData = (BulletData) message.getMessageBody();
-//			
-//			if (bulletData.isDead()) {
-//				
-//				GameObject toDelete = gameObjects.get(bulletData.getCode());
-//
-//				if (toDelete != null) {
-//					toDelete.kill();
-//					Renderer.removeGameObjectToRender(toDelete);
-//					gameObjects.remove(bulletData.getCode());
-//				}
-//				
-//			}
-//			else {
-//				
-//				Bullet bullet = (Bullet) gameObjects.get(bulletData.getCode());
-//				
-//				if (bullet == null) {
-//					
-//					bullet = new NormalBullet(bulletData);
-//					gameObjects.put(bulletData.getCode(), bullet);
-//					Renderer.addGameObjectToRender(bullet);
-//					
-//				}
-//				else {
-//					bullet.applyData(bulletData);
-//				}
-//				
-//			}
-//			
-//			break;
-//		
-//		case HTTPMessages.REMOVE_ENEMY:
-//
-//			if (!(message.getMessageBody() instanceof Integer)) break;
-//			
-//			Integer code = (Integer) message.getMessageBody();
-//			
-//			Renderer.removeGameObjectToRender(enemies.get(code));
-//			enemies.remove(code);
-//			
-//			break;
-//			
-//		}
 		
 	}
 

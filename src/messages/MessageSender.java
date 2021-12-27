@@ -17,6 +17,8 @@ public class MessageSender {
 	
 	public void sendMessage(HTTPMessage<? extends Serializable> messageToSend) {
 		
+		System.out.println(messageToSend.getComand());
+		
 		try {
 			out.writeObject(messageToSend);
 		} catch (IOException e) {

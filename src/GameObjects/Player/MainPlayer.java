@@ -301,7 +301,7 @@ public class MainPlayer extends Player implements KeyListener{
 		
 		// Serve per scrivere al server ogni qualvolta che il player viene aggiornato
 		onUpdate.add( () -> {
-			MessageSender.getInstance().sendMessage(HTTPMessageFactory.getNewEnemyMessage(this));
+			MessageSender.getInstance().sendMessage(HTTPMessageFactory.updatePlayerMessage(this));
 		});
 		
 		gun.addOnShoot((bullet) -> {
