@@ -190,6 +190,9 @@ public class PlayerServerThread extends ServerGameObject implements Runnable {
 			PlayerData pd = (PlayerData)message.getMessageBody();
 			
 //			pos = pd.getPos();
+			
+			if (!pd.getCode().equals(this.getCode())) return;
+			
 			pos = PVectorUtil.pVectorFromString(pd.getPosString());
 			direction =  pd.getDirection();
 		};

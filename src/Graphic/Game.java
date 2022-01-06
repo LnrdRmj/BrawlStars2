@@ -325,6 +325,9 @@ public class Game implements Runnable, KeyListener{
 			
 				EnemyPlayer enemy = enemies.get(enemyData.getCode());
 				
+				System.out.println(enemyData.getPos());
+				System.out.println(enemyData.getCode());
+				
 				if ( enemy == null ) {
 					enemies.put(enemyData.getCode(), new EnemyPlayer(enemyData));
 				}
